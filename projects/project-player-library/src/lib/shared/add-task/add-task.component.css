@@ -1,0 +1,94 @@
+.items_header h4 {
+    font-weight: bold;
+    padding-left: 3px;
+    margin: 5px 0;
+  }
+
+  .item_content {
+    font-size: large;
+    color: grey;
+    padding-left: 26px;
+    padding-top: 0;
+  }
+
+  .item_content h5{
+    margin: 2px 0;
+
+  }
+  .item_content a {
+    color: grey;
+    font-weight: normal;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+  .item_content a  {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      font-weight: bold;
+  }
+  .item_content a .a_name{
+      font-size: small;
+
+  }
+  .item_content a span mat-icon{
+      padding-left: 2px ;
+      width: fit-content;
+      color: grey;
+      font-size: 12px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+  }
+  .items-card {
+      max-width: 100%;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 5px 5px 4px rgba(133, 119, 119, 0.555);
+      cursor: pointer;
+      display: flex;
+    }
+
+  .items_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .items_header span{
+    width: 90%;
+    display: flex;
+    align-items: center;
+  }
+  .items_header div{
+    width: 10%;
+    display: flex;
+    justify-content: flex-end;
+
+  }
+
+  .btn_menu {
+    margin-left: 20px;
+
+    width: 250px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.575);
+  }
+
+  .menu button{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .btn_menu_div{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .btn_menu_div .material-symbols-outlined{
+    display: flex;
+    align-items: center;
+  }
+  .complete-task{
+    min-width: 20px;
+  }

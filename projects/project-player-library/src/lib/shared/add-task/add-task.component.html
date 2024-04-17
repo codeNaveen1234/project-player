@@ -1,0 +1,65 @@
+<mat-card class="items-card">
+    <div>
+        <div class="items_header" >
+            <span (click)="movetodetailstask(task._id)">
+                        <span class="complete-task" *ngIf="task.status !== 'completed'"></span>
+                        <mat-icon *ngIf="task.status === 'completed'"  style="color: green;" fontIcon="check_circle"></mat-icon>
+                <h4 >
+                    {{task.name}}
+                </h4>
+            </span>
+            <div>
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon color="primary">more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu" class="menu">
+
+                    <button class="btn_menu" mat-menu-item style="padding: 0;" *ngIf="!submittedimprovement">
+                        <div class="btn_menu_div">
+
+                            <span>Edit</span>
+                            <span class="material-symbols-outlined" >
+                                <mat-icon aria-hidden="false"  aria-label="Example  edit icon" fontIcon="edit"></mat-icon>
+                                </span>
+                        </div>
+                    </button>
+
+                    <button class="btn_menu" mat-menu-item style="padding: 0;">
+                        <div class="btn_menu_div">
+
+                            <span>Share</span>
+                            <span id="icons" class="material-symbols-outlined">
+                                <mat-icon aria-hidden="false"  aria-label="Example   ios_share icon" fontIcon="ios_share"></mat-icon>
+                                </span>
+                        </div>
+                    </button>
+
+                    <button (click)="openDialog('0ms', '0ms')"  class="btn_menu" mat-menu-item style="padding: 0;" *ngIf="!submittedimprovement">
+                        <div class="btn_menu_div">
+
+                            <span>Delete</span>
+                            <span class="material-symbols-outlined">
+                                <mat-icon aria-hidden="false"  aria-label="Example delete icon" fontIcon="delete"></mat-icon>
+                                </span>
+                        </div>
+                    </button>
+
+                  </mat-menu>
+            </div>
+            </div>
+            <div (click)="movetodetailstask(task._id)">
+
+                <mat-card-content class="item_content" >
+                    <h5>
+                        {{task.status}}
+                    </h5>
+                    <h5>End date: {{ task.endDate || '_' }}</h5>
+                    <a routerLink="taskdetail" ><span class="a_name">
+                        View task details
+                    </span> <span class="material-symbols-outlined" id="a_icon">
+                        <mat-icon aria-hidden="false"  aria-label="Example arrow_forward_ios icon" fontIcon="arrow_forward_ios"></mat-icon>
+                        </span></a>
+                </mat-card-content>
+            </div>
+    </div>
+</mat-card>

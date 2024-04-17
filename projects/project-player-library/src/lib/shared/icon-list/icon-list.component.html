@@ -1,0 +1,48 @@
+<div class="icons-everything">
+    <div class="icons" *ngIf="!submittedimprovement">
+        <div>
+            <span class="material-symbols-outlined" (click)="downloadproject()">
+                <mat-icon aria-hidden="false" color="primary" fontIcon="{{ downloaded ? 'check_circle' : 'cloud_download' }}" [style.color]="downloaded ? 'green' : ''"></mat-icon>
+            </span>
+        </div>
+       <div *ngIf="!downloaded"><h1>Download</h1></div>
+       <div *ngIf="downloaded">
+        <h1>Downloaded</h1>
+    </div>
+    </div>
+    <div class="icons">
+        <div>
+            <span class="material-symbols-outlined" (click)="openDialog('0','0')">
+             <mat-icon aria-hidden="false" color="primary" aria-label="Example   ios_share icon" fontIcon="ios_share"></mat-icon>
+             </span>
+        </div>
+        <div><h1>Share</h1></div>
+     </div>
+     <div class="icons"  *ngIf="!submittedimprovement">
+        <div>
+            <span class="material-symbols-outlined">
+             <mat-icon aria-hidden="false" color="primary" aria-label="Example edit icon" fontIcon="edit"></mat-icon>
+             </span>
+        </div>
+        <div><h1>Edit</h1></div>
+     </div>
+     <div class="icons">
+        <div>
+            <span class="material-symbols-outlined" (click)="movetofiles()">
+             <mat-icon aria-hidden="false" color="primary" aria-label="Example folder_open icon" fontIcon="folder_open"></mat-icon>
+             </span>
+        </div>
+        <div><h1>Files</h1></div>
+     </div>
+     <div class="icons"  *ngIf="!submittedimprovement">
+        <div>
+            <span class="material-symbols-outlined" (click)="Syncproject()">
+             <mat-icon aria-hidden="false" color="primary" aria-label="Example sync icon" fontIcon="sync" [style.color]="synced ? 'green' : ''"></mat-icon>
+             </span>
+        </div>
+        <div *ngIf="!synced"><h1>Sync</h1></div>
+        <div *ngIf="synced">
+         <h1>Synced</h1>
+     </div>
+     </div>
+</div>

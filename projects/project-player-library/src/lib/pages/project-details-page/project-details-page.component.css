@@ -1,0 +1,16 @@
+    .project-details{
+max-width: 100%;
+border-radius: 10px;
+padding: 20px;
+margin: 8px;
+box-shadow: rgba(133, 119, 119, 0.555) 5px 5px 4px;
+}
+.project-details p{
+    margin: 0;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.project-details p span{
+    color: grey;
+    font-weight: bold;
+}

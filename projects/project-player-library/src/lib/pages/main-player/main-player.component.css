@@ -1,0 +1,13 @@
+.inner-outlet {
+    max-width: 700px;
+    min-height: 100vh;
+    padding: 10px ;
+    margin: 0 auto;
+    background-color: rgba(175, 175, 175, 0.692);
+}
+.outer-outlet{
+margin: 0;
+padding:0 ;
+width: 100vw;
+background-color: #fff;
+    }

@@ -1,0 +1,30 @@
+<mat-tab-group dynamicHeight>
+    <mat-tab label="Images" >
+        <div *ngIf="imageattachments.length === 0">
+            <h5>No images found for this projects</h5>
+        </div>
+        <div *ngIf="imageattachments.length > 0"  class="image-tasklist">
+            <div>
+                <h4>Project level evidence</h4>
+                <div class="line"></div>
+                @for (item of imageattachments; track $index) {
+                }
+            </div>
+            <div>
+                <h4>Task level evidence</h4>
+                <div class="line"></div>
+                @for (item of imageattachments; track $index) {
+                }
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="Videos">
+
+    </mat-tab>
+    <mat-tab label="Files" >
+
+    </mat-tab>
+    <mat-tab label="Links">
+
+    </mat-tab>
+  </mat-tab-group>

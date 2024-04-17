@@ -1,1 +1,63 @@
-<p>Project details-page</p>
+<mat-card class="details-card">
+    <span class="details-card-header">
+        <h4>{{projectDetails.title}}</h4>
+    </span>
+    <mat-card-content>
+        <lib-icon-list [submittedimprovement]="submitted"></lib-icon-list>
+        <mat-card class="statusbar">
+            <mat-card-content  *ngIf="!submitted">
+                <h4>Your Progress</h4>
+                <p>{{completedcount}}/{{projectDetails.tasks.length}} tasks completed</p>
+                <mat-progress-bar class="progressbar"   mode="determinate" [value]="progressValue"></mat-progress-bar>
+            </mat-card-content>
+            <mat-card-content class="aftersubmission"  *ngIf="submitted">
+                <span class="material-symbols-outlined">
+                    <mat-icon aria-hidden="false"  aria-label="Example verified icon" fontIcon="verified"></mat-icon>
+
+                    </span>
+                <h4>Congratulations! You have successfully submitted this improvement project.</h4>
+            </mat-card-content>
+        </mat-card>
+        <div *ngIf="progressValue === 100 && !submitted" class="progress-alert">
+            <h4>To finish submission, click on Submit button below. <span> <mat-icon  fontIcon="arrow_circle_down"></mat-icon> </span>
+            </h4>
+
+        </div>
+    </mat-card-content>
+    <mat-card-actions *ngIf="!submitted" class="btns">
+        <button  mat-flat-button [disabled]="progressValue < 100" (click)="submitimprovement()"   color="accent">Submit Improvement</button>
+
+      </mat-card-actions>
+</mat-card>
+
+<mat-tab-group dynamicHeight>
+    <mat-tab label="Project Details" >
+      <div class="tab-label-container">
+        <div class="">
+          <lib-project-details-page [projectdetais]="projectDetails"></lib-project-details-page>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Task Details">
+      <div class="tab-label-container">
+        <div class="task-details">
+            <div class="no-tasks" *ngIf="projectDetails.tasks.length === 0">
+                <p>Please create and complete the tasks to submit the project, You can do that by clicking on the Add your own task button below.</p>
+            </div>
+          @for (item of projectDetails.tasks; track $index) {
+            <div class="taskcard" *ngIf="projectDetails.tasks.length !== 0">
+              <lib-add-task [task]="item" [submittedimprovement]="submitted" ></lib-add-task>
+            </div>
+          }
+          <mat-card class="add-task" (click)="navigatetonewtask()">
+            <div class="add-task-div">
+                <mat-icon color="primary" fontIcon="add_circle"></mat-icon>
+                <p>Add your own task.</p>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </mat-tab>
+</mat-tab-group>
+

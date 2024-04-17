@@ -1,0 +1,6 @@
+<mat-card class="project-details">
+    <p *ngIf="projectdetais.description" >Objective: <span>{{projectdetais.description}}</span></p>
+    <p *ngIf="projectdetais.categories.length > 0" >Category: <span *ngFor="let item of projectdetais.categories">{{item.name}}</span></p>
+    <p *ngIf="projectdetais.recommended" >Recommended for: <span></span></p>
+    <p *ngIf="projectdetais.duration" >Duration: <span></span></p>
+  </mat-card>
