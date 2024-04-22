@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DailogBoxComponent } from '../../shared/dailog-box/dailog-box.component';
 import { Router } from '@angular/router';
+import { DailogPopupComponent } from '../../shared/dialog-popup/dailog-popup.component';
 
 @Component({
   selector: 'lib-details-page',
@@ -9,9 +9,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./details-page.component.css'],
 })
 export class DetailsPageComponent implements OnInit {
-  completedcount: number = 0;
+  completedCount: number = 0;
   progressValue: number = 0;
-
+  projectActions = [
+    {
+      label:"Download",
+      icon:"cloud_download",
+    },
+    {
+      label:"Share",
+      icon:"ios_share",
+    },
+    {
+      label:"Files",
+      icon:"folder_open",
+    },
+    {
+      label:"Sync",
+      icon:"sync",
+    },
+  ]
   submitted: boolean = false;
   projectDetails = {
     title: 'Project 37',
@@ -84,24 +101,69 @@ export class DetailsPageComponent implements OnInit {
     ) {
       projectDetails.tasks.forEach((task: any) => {
         if (task.status === 'completed') {
-          this.completedcount++;
+          this.completedCount++;
         }
       });
     }
 
-    return this.completedcount;
+    return this.completedCount;
   }
   calculateProgress(): void {
     if (this.projectDetails.tasks.length > 0) {
       this.progressValue =
-        (this.completedcount / this.projectDetails.tasks.length) * 100;
+        (this.completedCount / this.projectDetails.tasks.length) * 100;
     }
   }
-  submitimprovement() {
+  submitImprovement() {
     this.submitted = true;
   }
 
-  navigatetonewtask(){}
+  navigateToNewTask() {}
 
-
+  iconListAction(event: any) {
+    if(event.label === "Download"){
+      this.changeIcons("Download","Downloaded","check_circle")
+    }
+    else if(event.label === "Sync"){
+      this.changeIcons("Sync","Synced","sync");
+    }
+    else if(event.label === "Files"){
+      this.moveToFiles();
+    }
+    else if(event.label === "Share"){
+      this.openDialog('0','0')
+    }
+  }
+  changeIcons(iconname:string,iconlabel:string,icon:string){
+    let item = this.projectActions.find(element => element.label === iconname)
+       if(item){
+         item.label = iconlabel;
+          item.icon = icon;
+       }
+  }
+   moveToFiles() {
+    this.router.navigate(['/files'], { skipLocationChange: true });
+  }
+   openDialog(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): void {
+    const modelref = this.dialog.open(DailogPopupComponent, {
+      width: '400px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+    modelref.componentInstance.dialogBox = {
+      title: 'We need to sync your data to generate a shareable file ?',
+      Yes: `Sync and share`,
+      No: `Don't sync`,
+    };
+    modelref.afterClosed().subscribe((res: boolean) => {
+      if (res) {
+        console.log('you have selected sync and share respectively');
+      } else {
+        console.log(`you have selected Don't sync.`);
+      }
+    });
+  }
 }

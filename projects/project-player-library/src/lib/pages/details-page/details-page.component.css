@@ -11,24 +11,24 @@
 .details-card-header h4{
     margin: 5px 0 15px 0;
 }
-.statusbar {
+.status-bar {
   background-color: rgba(236, 236, 13, 0.356);
   margin: 0;
 }
-.statusbar mat-progress-bar {
+.status-bar mat-progress-bar {
   height: 10px;
   border-radius: 5px;
 }
 
-.statusbar mat-card-content h4 {
+.status-bar mat-card-content h4 {
   font-size: small;
   margin: 5px 0;
 }
-.statusbar mat-card-content p {
+.status-bar mat-card-content p {
   font-size: small;
   margin: 5px 0;
 }
-.progressbar {
+.progress-bar {
   height: 10px;
   border-radius: 5px;
 }
@@ -36,21 +36,21 @@
   width: 100%;
   border-radius: 20px;
 }
-.aftersubmission {
+.after-submission {
     background-color: rgba(0, 128, 0, 0.199);
     color: green;
   display: flex;
   align-items: center;
   border-radius: 5px;
 }
-.aftersubmission h4{
+.after-submission h3{
     margin: 0;
     padding-left: 5px;
 }
-.aftersubmission mat-icon{
+.after-submission mat-icon{
     color: green;
 }
-.taskcard {
+.task-card {
     width: 100%;
   margin-bottom: 10px;
 }
@@ -110,3 +110,6 @@
     margin: 10px 0 10px 16px;
     color: rgb(99, 98, 98);
   }
+
+
+

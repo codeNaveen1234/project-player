@@ -1,18 +1,16 @@
 import { Component, Input, input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DailogBoxComponent } from '../dailog-box/dailog-box.component';
 import { Router } from '@angular/router';
+import { DailogPopupComponent } from '../dialog-popup/dailog-popup.component';
 
 @Component({
-  selector: 'lib-add-task',
-  // standalone: true,
-  // imports: [],
-  templateUrl: './add-task.component.html',
-  styleUrl: './add-task.component.css',
+  selector: 'lib-task-card',
+  templateUrl: './task-card.component.html',
+  styleUrl: './task-card.component.css',
 })
-export class AddTaskComponent {
+export class TaskCardComponent {
   @Input() task: any;
-  @Input() submittedimprovement: any;
+  @Input() submittedImprovement: any;
 
   constructor(private dialog: MatDialog, private router: Router) {}
 
@@ -20,16 +18,16 @@ export class AddTaskComponent {
     enterAnimationDuration: string,
     exitAnimationDuration: string
   ): void {
-    const modelref = this.dialog.open(DailogBoxComponent, {
+    const modelref = this.dialog.open(DailogPopupComponent, {
       width: '300px',
       enterAnimationDuration,
       exitAnimationDuration,
     });
-    modelref.componentInstance.dialogbox ={
-      title:'Are you sure you want to delete the task?',
-      Yes:'Yes',
-      No:'No'
-    }
+    modelref.componentInstance.dialogBox = {
+      title: 'Are you sure you want to delete the task?',
+      Yes: 'Yes',
+      No: 'No',
+    };
     modelref.afterClosed().subscribe((res: boolean) => {
       if (res) {
         console.log('The task was deleted.');
@@ -38,11 +36,11 @@ export class AddTaskComponent {
       }
     });
   }
-  movetodetailstask(data: any) {
-    console.log(this.submittedimprovement);
+  moveToDetailsTask(data: any) {
+    console.log(this.submittedImprovement);
     console.log(data);
-    if (!this.submittedimprovement) {
-      this.router.navigate([`/taskdetail/${data}`], {
+    if (!this.submittedImprovement) {
+      this.router.navigate([`/task-details/${data}`], {
         skipLocationChange: true,
       });
     }

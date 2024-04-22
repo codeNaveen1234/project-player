@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule,ReactiveFormsModule,} from '@angular/forms';
 import { ProjectPlayerLibraryComponent } from './project-player-library.component';
 import { MainPlayerComponent } from './pages/main-player/main-player.component';
 import { DetailsPageComponent } from './pages/details-page/details-page.component';
@@ -12,17 +13,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
-import { AddTaskComponent } from './shared/add-task/add-task.component';
-import { DailogBoxComponent } from './shared/dailog-box/dailog-box.component';
-import { FilesPageComponent } from './pages/files-page/files-page.component';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { TaskCardComponent } from './shared/task-card/task-card.component';
+import { DailogPopupComponent } from './shared/dialog-popup/dailog-popup.component';
+import { AttachmentListingPageComponent } from './pages/attachment-listing-page/attachment-listing-page.component';
 import { TaskdetailspageComponent } from './pages/task-details-page/task-details-page.component';
 import { IconListComponent } from './shared/icon-list/icon-list.component';
 import { ProjectDetailsPageComponent } from './pages/project-details-page/project-details-page.component';
+import { SubtaskCardComponent } from './shared/subtask-card/subtask-card.component';
 
 const routes: Routes = [
   { path: 'details', component: DetailsPageComponent },
-  { path: 'files', component: FilesPageComponent },
-  { path: 'taskdetail/:id', component: TaskdetailspageComponent },
+  { path: 'files', component: AttachmentListingPageComponent },
+  { path: 'task-details/:id', component: TaskdetailspageComponent },
 ];
 
 @NgModule({
@@ -30,12 +34,13 @@ const routes: Routes = [
     ProjectPlayerLibraryComponent,
     MainPlayerComponent,
     DetailsPageComponent,
-    AddTaskComponent,
+    TaskCardComponent,
     IconListComponent,
     TaskdetailspageComponent,
     ProjectDetailsPageComponent,
-    FilesPageComponent,
-    DailogBoxComponent,
+    AttachmentListingPageComponent,
+    SubtaskCardComponent,
+    DailogPopupComponent,
   ],
   imports: [
     CommonModule,
@@ -47,6 +52,10 @@ const routes: Routes = [
     MatTabsModule,
     MatMenuModule,
     MatDialogModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

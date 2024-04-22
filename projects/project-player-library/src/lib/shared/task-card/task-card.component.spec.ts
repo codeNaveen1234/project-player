@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DailogBoxComponent } from './dailog-box.component';
+import { TaskCardComponent } from './task-card.component';
 
-describe('DailogBoxComponent', () => {
-  let component: DailogBoxComponent;
-  let fixture: ComponentFixture<DailogBoxComponent>;
+describe('TaskCardComponent', () => {
+  let component: TaskCardComponent;
+  let fixture: ComponentFixture<TaskCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DailogBoxComponent],
+      imports: [TaskCardComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DailogBoxComponent);
+    fixture = TestBed.createComponent(TaskCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

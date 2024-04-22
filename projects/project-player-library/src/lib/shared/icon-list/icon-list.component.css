@@ -1,8 +1,8 @@
-.icons-everything {
-    display: flex;
-  }
-  .icons-everything h1 {
-    font-size: x-small;
+.icons-everything{
+  display: flex;
+}
+.icons-everything h1 {
+    font-size: small;
     font-weight: normal;
   }
   .icons-everything .icons {

@@ -1,6 +1,6 @@
 <mat-dialog-content>
 <div class="dialog-header">
-    <h4>{{dialogbox.title}}</h4>
+    <h4>{{dialogBox.title}}</h4>
     <button mat-button class="close-icon" [mat-dialog-close]="false">
         <mat-icon fontIcon="close"></mat-icon>
     </button>
@@ -8,7 +8,7 @@
     </mat-dialog-content>
     <mat-dialog-actions>
         <div class="buttons">
-            <button (click)="cancel()" mat-flat-button color="primary">{{dialogbox.No}}</button>
-            <button (click)="confirmDeletion()"  mat-flat-button color="primary" cdkFocusInitial>{{dialogbox.Yes}}</button>
+            <button [mat-dialog-close]="false" mat-flat-button color="primary">{{dialogBox.No}}</button>
+            <button [mat-dialog-close]="true"  mat-flat-button color="primary" cdkFocusInitial>{{dialogBox.Yes}}</button>
         </div>
     </mat-dialog-actions>
