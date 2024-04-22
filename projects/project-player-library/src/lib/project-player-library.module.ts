@@ -22,12 +22,19 @@ import { TaskdetailspageComponent } from './pages/task-details-page/task-details
 import { IconListComponent } from './shared/icon-list/icon-list.component';
 import { ProjectDetailsPageComponent } from './pages/project-details-page/project-details-page.component';
 import { SubtaskCardComponent } from './shared/subtask-card/subtask-card.component';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
   { path: 'details', component: DetailsPageComponent },
   { path: 'files', component: AttachmentListingPageComponent },
   { path: 'task-details/:id', component: TaskdetailspageComponent },
 ];
+
+export function translateHttpLoaderFactory (httpClient: HttpClient){
+  return new TranslateHttpLoader(httpClient);
+}
 
 @NgModule({
   declarations: [
@@ -57,7 +64,24 @@ const routes: Routes = [
     MatInputModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader:{
+        provide : TranslateLoader,
+        useFactory: translateHttpLoaderFactory,
+        deps : [HttpClient],
+      },
+    })
   ],
   exports: [RouterModule],
 })
-export class ProjectPlayerLibraryModule {}
+export class ProjectPlayerLibraryModule {
+  constructor(private translate: TranslateService){
+    this.setLanguage()
+  }
+
+  setLanguage(){
+    this.translate.setTranslation('en',require('./assets/i18n/en.json'))
+    this.translate.setDefaultLang('en')
+  }
+}
