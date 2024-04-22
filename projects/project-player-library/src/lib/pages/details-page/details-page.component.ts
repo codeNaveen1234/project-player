@@ -13,20 +13,24 @@ export class DetailsPageComponent implements OnInit {
   progressValue: number = 0;
   projectActions = [
     {
-      label:"Download",
-      icon:"cloud_download",
+      label:"DOWNLOAD",
+      icon1:"cloud_download",
+      emitdata:false
     },
     {
-      label:"Share",
-      icon:"ios_share",
+      label:"SHARE",
+      icon1:"ios_share",
+      emitdata:false
     },
     {
-      label:"Files",
-      icon:"folder_open",
+      label:"FILES",
+      icon1:"folder_open",
+      emitdata:false
     },
     {
-      label:"Sync",
-      icon:"sync",
+      label:"SYNC",
+      icon1:"sync",
+      emitdata:false
     },
   ]
   submitted: boolean = false;
@@ -121,16 +125,18 @@ export class DetailsPageComponent implements OnInit {
   navigateToNewTask() {}
 
   iconListAction(event: any) {
-    if(event.label === "Download"){
-      this.changeIcons("Download","Downloaded","check_circle")
+    if(event.label === "DOWNLOAD"){
+      this.changeIcons("DOWNLOAD","DOWNLOADED","check_circle")
+      event.emitdata = true;
     }
-    else if(event.label === "Sync"){
-      this.changeIcons("Sync","Synced","sync");
+    else if(event.label === "SYNC"){
+      this.changeIcons("SYNC","SYNCED","sync");
+      event.emitdata = true;
     }
-    else if(event.label === "Files"){
+    else if(event.label === "FILES"){
       this.moveToFiles();
     }
-    else if(event.label === "Share"){
+    else if(event.label === "SHARE"){
       this.openDialog('0','0')
     }
   }
@@ -138,7 +144,7 @@ export class DetailsPageComponent implements OnInit {
     let item = this.projectActions.find(element => element.label === iconname)
        if(item){
          item.label = iconlabel;
-          item.icon = icon;
+          item.icon1 = icon;
        }
   }
    moveToFiles() {
@@ -154,9 +160,9 @@ export class DetailsPageComponent implements OnInit {
       exitAnimationDuration,
     });
     modelref.componentInstance.dialogBox = {
-      title: 'We need to sync your data to generate a shareable file ?',
-      Yes: `Sync and share`,
-      No: `Don't sync`,
+      title: "SHAREABLE_FILE",
+      Yes: "SYNC_AND_SHARE",
+      No: "DONT_SYNC",
     };
     modelref.afterClosed().subscribe((res: boolean) => {
       if (res) {

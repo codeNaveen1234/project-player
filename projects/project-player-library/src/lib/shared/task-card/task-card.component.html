@@ -17,7 +17,7 @@
                     <button class="btn-menu" mat-menu-item style="padding: 0;" *ngIf="!submittedImprovement">
                         <div class="btn-menu-div">
 
-                            <span>Edit</span>
+                            <span>{{"EDIT"|translate}}</span>
                             <span class="material-symbols-outlined" >
                                 <mat-icon aria-hidden="false"  aria-label="Example  edit icon" fontIcon="edit"></mat-icon>
                                 </span>
@@ -27,7 +27,7 @@
                     <button class="btn-menu" mat-menu-item style="padding: 0;">
                         <div class="btn-menu-div">
 
-                            <span>Share</span>
+                            <span>{{"SHARE"|translate}}</span>
                             <span id="icons" class="material-symbols-outlined">
                                 <mat-icon aria-hidden="false"  aria-label="Example   ios_share icon" fontIcon="ios_share"></mat-icon>
                                 </span>
@@ -37,7 +37,7 @@
                     <button (click)="openDialog('0ms', '0ms')"  class="btn-menu" mat-menu-item style="padding: 0;" *ngIf="!submittedImprovement">
                         <div class="btn-menu-div">
 
-                            <span>Delete</span>
+                            <span>{{"DELETE"|translate}}</span>
                             <span class="material-symbols-outlined">
                                 <mat-icon aria-hidden="false"  aria-label="Example delete icon" fontIcon="delete"></mat-icon>
                                 </span>
@@ -53,9 +53,9 @@
                     <h5>
                         {{task.status}}
                     </h5>
-                    <h5>End date: {{ task.endDate || '_' }}</h5>
+                    <h5>{{"END_DATE"|translate}}: {{ task.endDate || '_' }}</h5>
                     <a  ><span class="a-name">
-                        View task details
+                        {{"VIEW_TASK_DETAILS"|translate}}
                     </span> <span class="material-symbols-outlined" id="a-icon">
                         <mat-icon aria-hidden="false"  aria-label="Example arrow_forward_ios icon" fontIcon="arrow_forward_ios"></mat-icon>
                         </span></a>

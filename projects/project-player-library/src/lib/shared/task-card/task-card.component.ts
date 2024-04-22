@@ -24,9 +24,9 @@ export class TaskCardComponent {
       exitAnimationDuration,
     });
     modelref.componentInstance.dialogBox = {
-      title: 'Are you sure you want to delete the task?',
-      Yes: 'Yes',
-      No: 'No',
+      title: "CONFIRMATION_DELETE",
+      Yes: 'YES',
+      No: 'NO',
     };
     modelref.afterClosed().subscribe((res: boolean) => {
       if (res) {
