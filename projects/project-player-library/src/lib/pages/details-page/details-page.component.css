@@ -21,18 +21,18 @@
 }
 
 .status-bar mat-card-content h4 {
-  font-size: small;
+  font-size: 0.9rem;
   margin: 5px 0;
 }
 .status-bar mat-card-content p {
-  font-size: small;
+  font-size: 0.8rem;
   margin: 5px 0;
 }
 .progress-bar {
   height: 10px;
   border-radius: 5px;
 }
-.btns button {
+.buttons button {
   width: 100%;
   border-radius: 20px;
 }

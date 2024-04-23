@@ -7,7 +7,7 @@
     "DOWNLOADED":"Downloaded",
     "SYNCED":"Synced",
     "PROGRESS":"Your progress",
-    "TASK_COMPLETED":"task completed",
+    "TASK_COMPLETED":"tasks completed",
     "PROGRESS_COMPLETE":"Congratulations! You have successfully submitted this improvement project.",
     "PROGRESS_ALERT":"To finish submission, click on Submit button below.",
     "PROJECT_DETAILS":"Project  Details",
@@ -27,5 +27,20 @@
     "NO":"No",
     "SHAREABLE_FILE":"We need to sync your data to generate a shareable file ?",
     "SYNC_AND_SHARE":"Sync and share",
-    "DONT_SYNC":"Don't sync"
+    "DONT_SYNC":"Don't sync",
+    "STATUS":"Status",
+    "SUBTASKS":"Subtasks",
+    "ADD_SUBTASKS":"Add subtask",
+    "ADD_FILES":"Add files",
+    "ADD_SUBTASK_NAME":"Add subtask name",
+    "DELETE_SUB_TASK":"Are you sure you want to delete your subtask ?",
+    "EDIT_TASK":"Edit Task",
+    "CANCEL":"cancel",
+    "SAVE":"save",
+    "IMAGES":"Images",
+    "VIDEOS": "Videos",
+    "LINKS": "Links",
+    "LEVEL_EVIDENCE":"{{ variable }}  Level Evidence",
+    "NO_FILES":"No {{fileType}} found for this projects"
+
 }

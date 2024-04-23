@@ -1,3 +1,4 @@
+import { LowerCasePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
@@ -11,6 +12,7 @@ export class IconListComponent {
   @Output() newItemEvent = new EventEmitter<string>();
   constructor() {}
   actionsEmit(item:any){
-    this.newItemEvent.emit(item);
+    let data = item.label;
+    this.newItemEvent.emit(data+" emitted");
   }
 }

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule,ReactiveFormsModule,} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProjectPlayerLibraryComponent } from './project-player-library.component';
 import { MainPlayerComponent } from './pages/main-player/main-player.component';
 import { DetailsPageComponent } from './pages/details-page/details-page.component';
@@ -13,26 +13,31 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { TaskCardComponent } from './shared/task-card/task-card.component';
 import { DailogPopupComponent } from './shared/dialog-popup/dailog-popup.component';
 import { AttachmentListingPageComponent } from './pages/attachment-listing-page/attachment-listing-page.component';
-import { TaskdetailspageComponent } from './pages/task-details-page/task-details-page.component';
+import { TaskDetailsPageComponent } from './pages/task-details-page/task-details-page.component';
 import { IconListComponent } from './shared/icon-list/icon-list.component';
-import { ProjectDetailsPageComponent } from './pages/project-details-page/project-details-page.component';
+import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
 import { SubtaskCardComponent } from './shared/subtask-card/subtask-card.component';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { EditTaskCardComponent } from './shared/edit-task-card/edit-task-card.component';
 
 const routes: Routes = [
   { path: 'details', component: DetailsPageComponent },
   { path: 'files', component: AttachmentListingPageComponent },
-  { path: 'task-details/:id', component: TaskdetailspageComponent },
+  { path: 'task-details/:id', component: TaskDetailsPageComponent },
 ];
 
-export function translateHttpLoaderFactory (httpClient: HttpClient){
+export function translateHttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }
 
@@ -43,10 +48,11 @@ export function translateHttpLoaderFactory (httpClient: HttpClient){
     DetailsPageComponent,
     TaskCardComponent,
     IconListComponent,
-    TaskdetailspageComponent,
-    ProjectDetailsPageComponent,
+    TaskDetailsPageComponent,
+    ProjectDetailsComponent,
     AttachmentListingPageComponent,
     SubtaskCardComponent,
+    EditTaskCardComponent,
     DailogPopupComponent,
   ],
   imports: [
@@ -66,22 +72,22 @@ export function translateHttpLoaderFactory (httpClient: HttpClient){
     RouterModule.forChild(routes),
     HttpClientModule,
     TranslateModule.forRoot({
-      loader:{
-        provide : TranslateLoader,
+      loader: {
+        provide: TranslateLoader,
         useFactory: translateHttpLoaderFactory,
-        deps : [HttpClient],
+        deps: [HttpClient],
       },
-    })
+    }),
   ],
   exports: [RouterModule],
 })
 export class ProjectPlayerLibraryModule {
-  constructor(private translate: TranslateService){
-    this.setLanguage()
+  constructor(private translate: TranslateService) {
+    this.setLanguage();
   }
 
-  setLanguage(){
-    this.translate.setTranslation('en',require('./assets/i18n/en.json'))
-    this.translate.setDefaultLang('en')
+  setLanguage() {
+    this.translate.setTranslation('en', require('./assets/i18n/en.json'));
+    this.translate.setDefaultLang('en');
   }
 }

@@ -1,11 +1,11 @@
-.icons-everything{
+.icons-list{
   display: flex;
 }
-.icons-everything h1 {
-    font-size: small;
+.icons-list h1 {
+    font-size: 0.8rem;
     font-weight: normal;
   }
-  .icons-everything .icons {
+  .icons-list .icons {
     padding: 10px;
     display: flex;
     flex-direction: column;

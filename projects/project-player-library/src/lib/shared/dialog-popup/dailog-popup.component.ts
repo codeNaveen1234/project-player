@@ -7,15 +7,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrl: './dailog-popup.component.css'
 })
 export class DailogPopupComponent {
-dialogBox: {
-  title: string,
-  No: string,
-  Yes: string,
-} = {
-  title: '',
-  No: '',
-  Yes: '',
-};
+dialogBox!: {
+  title: string;
+  No: string;
+  Yes: string;
+}  ;
 
 
 constructor(

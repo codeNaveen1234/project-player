@@ -13,18 +13,23 @@
                     <mat-icon color="primary">more_vert</mat-icon>
                   </button>
                   <mat-menu #menu="matMenu" class="menu">
-
-                    <button class="btn-menu" mat-menu-item style="padding: 0;" *ngIf="!submittedImprovement">
-                        <div class="btn-menu-div">
-
-                            <span>{{"EDIT"|translate}}</span>
-                            <span class="material-symbols-outlined" >
-                                <mat-icon aria-hidden="false"  aria-label="Example  edit icon" fontIcon="edit"></mat-icon>
+                    @for (item of actionsList; track $index) {
+                        <button class="btn-menu"
+                                (click)="item.name === 'DELETE' ? openDialog('0ms', '0ms') : null"
+                                mat-menu-item
+                                style="padding: 0;"
+                                *ngIf="!submittedImprovement || (item.name !== 'DELETE' && item.name !== 'EDIT')">
+                            <div class="btn-menu-div">
+                                <span>{{item.name | translate}}</span>
+                                <span class="material-symbols-outlined">
+                                    <mat-icon aria-hidden="false" aria-label="Example edit icon" [fontIcon]="item.icon"></mat-icon>
                                 </span>
-                        </div>
-                    </button>
+                            </div>
+                        </button>
+                    }
 
-                    <button class="btn-menu" mat-menu-item style="padding: 0;">
+
+                    <!-- <button class="btn-menu" mat-menu-item style="padding: 0;">
                         <div class="btn-menu-div">
 
                             <span>{{"SHARE"|translate}}</span>
@@ -42,7 +47,7 @@
                                 <mat-icon aria-hidden="false"  aria-label="Example delete icon" fontIcon="delete"></mat-icon>
                                 </span>
                         </div>
-                    </button>
+                    </button> -->
 
                   </mat-menu>
             </div>

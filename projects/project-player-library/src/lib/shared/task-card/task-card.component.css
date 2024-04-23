@@ -3,16 +3,21 @@
     padding-left: 3px;
     margin: 5px 0;
   }
-
+.items-header span span{
+  width: 4%;
+}
+.items-header span mat-icon{
+  width: 4%;
+}
   .item-content {
-    font-size: large;
+    font-size: 1.1rem;
     color: grey;
     padding-left: 26px;
     padding-top: 0;
   }
 
   .item-content h5{
-    margin: 2px 0;
+    margin: 7px 0;
 
   }
   .item-content a {
@@ -29,11 +34,11 @@
       font-weight: bold;
   }
   .item-content a .a-name{
-      font-size: small;
+      font-size: 0.8rem;
 
   }
   .item-content a span mat-icon{
-      padding-left: 2px ;
+      /* padding-left: 2px ; */
       width: fit-content;
       color: grey;
       font-size: 12px;

@@ -11,6 +11,8 @@ import { DailogPopupComponent } from '../dialog-popup/dailog-popup.component';
 export class TaskCardComponent {
   @Input() task: any;
   @Input() submittedImprovement: any;
+  @Input() actionsList:any;
+  
 
   constructor(private dialog: MatDialog, private router: Router) {}
 

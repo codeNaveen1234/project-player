@@ -1,9 +1,9 @@
-<div class="icons-everything">
+<div class="icons-list">
     @for (item of items; track $index) {
-        <div class="icons" *ngIf="!submittedImprovement || !['sync', 'cloud_download','check_circle'].includes(item.icon1)">
+        <div class="icons" *ngIf="!submittedImprovement || !['sync', 'cloud_download','check_circle'].includes(item.icon)">
             <div>
                 <span class="material-symbols-outlined" (click)="actionsEmit(item)">
-                    <mat-icon [ngStyle]="{ color: item.emitdata  ? 'green' : null }" color="primary" [fontIcon]="item.icon1"></mat-icon>
+                    <mat-icon [ngStyle]="{ color: item.action  ? 'green' : null }" color="primary" [fontIcon]="item.icon"></mat-icon>
                 </span>
             </div>
             <div>
