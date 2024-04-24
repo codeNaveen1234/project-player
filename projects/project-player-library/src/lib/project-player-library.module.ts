@@ -14,6 +14,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TaskCardComponent } from './shared/task-card/task-card.component';
 import { DailogPopupComponent } from './shared/dialog-popup/dailog-popup.component';
@@ -65,6 +66,7 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     MatTabsModule,
     MatMenuModule,
     MatDialogModule,
+    MatSelectModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,

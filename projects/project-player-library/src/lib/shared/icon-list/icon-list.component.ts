@@ -12,7 +12,6 @@ export class IconListComponent {
   @Output() newItemEvent = new EventEmitter<string>();
   constructor() {}
   actionsEmit(item:any){
-    let data = item.label;
-    this.newItemEvent.emit(data+" emitted");
+    this.newItemEvent.emit(item);
   }
 }

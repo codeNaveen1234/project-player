@@ -49,7 +49,7 @@
             </div>
           @for (item of projectDetails.tasks; track $index) {
             <div class="task-card" *ngIf="projectDetails.tasks.length !== 0">
-              <lib-task-card [actionsList]="actionsList" [task]="item" [submittedImprovement]="submitted" ></lib-task-card>
+              <lib-task-card [actionsList]="actionsList" [task]="item" [submittedImprovement]="submitted" (newItemEvent)="taskCardAction($event)"></lib-task-card>
             </div>
           }
           <mat-card class="add-task" (click)="navigateToNewTask()">

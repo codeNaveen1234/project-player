@@ -10,7 +10,7 @@
     "TASK_COMPLETED":"tasks completed",
     "PROGRESS_COMPLETE":"Congratulations! You have successfully submitted this improvement project.",
     "PROGRESS_ALERT":"To finish submission, click on Submit button below.",
-    "PROJECT_DETAILS":"Project  Details",
+    "PROJECT_DETAILS":"Project  details",
     "TASK_DETAILS":"Task details",
     "OBJECTIVE":"Objective",
     "CATEGORIES":"Category",
@@ -40,7 +40,7 @@
     "IMAGES":"Images",
     "VIDEOS": "Videos",
     "LINKS": "Links",
-    "LEVEL_EVIDENCE":"{{ variable }}  Level Evidence",
+    "LEVEL_EVIDENCE":"{{ type }}  Level Evidence",
     "NO_FILES":"No {{fileType}} found for this projects"
 
 }

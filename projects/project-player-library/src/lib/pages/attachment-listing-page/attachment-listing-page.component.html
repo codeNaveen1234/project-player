@@ -1,19 +1,19 @@
 <mat-tab-group dynamicHeight>
     <mat-tab [label]="'IMAGES' | translate" >
-        <div *ngIf="imageattachments.length === 0">
+        <div *ngIf="imageAttachments.length === 0">
             <h5>{{"NO_FILES"|translate:{fileType:'Image'} }}</h5>
         </div>
-        <div *ngIf="imageattachments.length > 0"  class="image-tasklist">
+        <div *ngIf="imageAttachments.length > 0"  class="image-tasklist">
             <div>
                 <h4>{{"LEVEL_EVIDENCE" | translate:{variable:'Project'} }} </h4>
                 <div class="line"></div>
-                @for (item of imageattachments; track $index) {
+                @for (item of imageAttachments; track $index) {
                 }
             </div>
             <div>
                 <h4>{{"LEVEL_EVIDENCE" | translate:{variable:'Task'} }} </h4>
                 <div class="line"></div>
-                @for (item of imageattachments; track $index) {
+                @for (item of imageAttachments; track $index) {
                 }
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DailogPopupComponent } from '../dialog-popup/dailog-popup.component';
@@ -12,35 +12,26 @@ export class TaskCardComponent {
   @Input() task: any;
   @Input() submittedImprovement: any;
   @Input() actionsList:any;
-  
+  @Output() newItemEvent = new EventEmitter<any>();
+
 
   constructor(private dialog: MatDialog, private router: Router) {}
 
-  openDialog(
-    enterAnimationDuration: string,
-    exitAnimationDuration: string
-  ): void {
-    const modelref = this.dialog.open(DailogPopupComponent, {
-      width: '300px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-    });
-    modelref.componentInstance.dialogBox = {
-      title: "CONFIRMATION_DELETE",
-      Yes: 'YES',
-      No: 'NO',
-    };
-    modelref.afterClosed().subscribe((res: boolean) => {
-      if (res) {
-        console.log('The task was deleted.');
-      } else {
-        console.log('The deletion was canceled.');
-      }
-    });
+  actionsEmit(item:any,id:any){
+    if(item.action === "edit"){
+      item.action = "edited"
+    }
+    else if(item.action === "share"){
+      item.action = "shared"
+    }
+    else {
+      item.action = "deleted"
+    }
+    const data = { item: item, id: id };
+    this.newItemEvent.emit(data);
   }
+
   moveToDetailsTask(data: any) {
-    console.log(this.submittedImprovement);
-    console.log(data);
     if (!this.submittedImprovement) {
       this.router.navigate([`/task-details/${data}`], {
         skipLocationChange: true,

@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   styleUrl: './attachment-listing-page.component.css'
 })
 export class AttachmentListingPageComponent {
-  imageattachments=[];
-  videosattachments=[];
+  imageAttachments=[];
+  videosAttachments=[];
 }

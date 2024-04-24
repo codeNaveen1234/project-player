@@ -15,7 +15,7 @@
                   <mat-menu #menu="matMenu" class="menu">
                     @for (item of actionsList; track $index) {
                         <button class="btn-menu"
-                                (click)="item.name === 'DELETE' ? openDialog('0ms', '0ms') : null"
+                                (click)="actionsEmit(item,task._id)"
                                 mat-menu-item
                                 style="padding: 0;"
                                 *ngIf="!submittedImprovement || (item.name !== 'DELETE' && item.name !== 'EDIT')">
@@ -27,28 +27,6 @@
                             </div>
                         </button>
                     }
-
-
-                    <!-- <button class="btn-menu" mat-menu-item style="padding: 0;">
-                        <div class="btn-menu-div">
-
-                            <span>{{"SHARE"|translate}}</span>
-                            <span id="icons" class="material-symbols-outlined">
-                                <mat-icon aria-hidden="false"  aria-label="Example   ios_share icon" fontIcon="ios_share"></mat-icon>
-                                </span>
-                        </div>
-                    </button>
-
-                    <button (click)="openDialog('0ms', '0ms')"  class="btn-menu" mat-menu-item style="padding: 0;" *ngIf="!submittedImprovement">
-                        <div class="btn-menu-div">
-
-                            <span>{{"DELETE"|translate}}</span>
-                            <span class="material-symbols-outlined">
-                                <mat-icon aria-hidden="false"  aria-label="Example delete icon" fontIcon="delete"></mat-icon>
-                                </span>
-                        </div>
-                    </button> -->
-
                   </mat-menu>
             </div>
             </div>
