@@ -1,0 +1,14 @@
+<div class="icons-list">
+    @for (item of items; track $index) {
+        <div class="icons" *ngIf="!submittedImprovement || !['sync', 'cloud_download','check_circle'].includes(item.icon)">
+            <div>
+                <span class="material-symbols-outlined" (click)="actionsEmit(item)">
+                    <mat-icon [ngStyle]="{ 'color': (item.action === 'downloaded' || item.action === 'synced') ? 'green' : null }" color="primary" [fontIcon]="item.icon"></mat-icon>
+                </span>
+            </div>
+            <div>
+                <h1>{{item.label | translate}}</h1>
+            </div>
+        </div>
+    }
+</div>

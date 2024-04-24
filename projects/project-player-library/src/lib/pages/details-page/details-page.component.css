@@ -1,0 +1,115 @@
+.details-card {
+  max-width: 100%;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0 8px 10px 8px;
+  box-shadow: rgba(133, 119, 119, 0.555) 5px 5px 4px;
+}
+.details-card-header {
+  padding: 0 16px;
+}
+.details-card-header h4{
+    margin: 5px 0 15px 0;
+}
+.status-bar {
+  background-color: rgba(236, 236, 13, 0.356);
+  margin: 0;
+}
+.status-bar mat-progress-bar {
+  height: 10px;
+  border-radius: 5px;
+}
+
+.status-bar mat-card-content h4 {
+  font-size: 0.9rem;
+  margin: 5px 0;
+}
+.status-bar mat-card-content p {
+  font-size: 0.8rem;
+  margin: 5px 0;
+}
+.progress-bar {
+  height: 10px;
+  border-radius: 5px;
+}
+.buttons button {
+  width: 100%;
+  border-radius: 20px;
+}
+.after-submission {
+    background-color: rgba(0, 128, 0, 0.199);
+    color: green;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+}
+.after-submission h3{
+    margin: 0;
+    padding-left: 5px;
+}
+.after-submission mat-icon{
+    color: green;
+}
+.task-card {
+    width: 100%;
+  margin-bottom: 10px;
+}
+.task-details {
+  margin: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.task-details p{
+    color: blue;
+}
+.no-tasks{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.no-tasks p{
+    width: 90%;
+    text-align: center;
+}
+.progress-alert h4{
+    color: red;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+.progress-alert mat-icon{
+    color: red;
+}
+.progress-alert{
+    margin:  10px 0;
+}
+
+::ng-deep mat-tab-header.mat-mdc-tab-header {
+  background-color: white;
+  margin: 0 8px;
+  border-radius: 5px;
+  box-shadow: rgba(133, 119, 119, 0.555) 5px 5px 4px;
+}
+
+::ng-deep div[aria-selected="true"] {
+  border-bottom: 5px solid blue;
+}
+  .add-task{
+    width: 95%;
+    border-radius: 10px;
+    padding: 10px 0 10px 20px;
+    box-shadow: rgba(133, 119, 119, 0.555) 5px 5px 4px;
+    background-color: rgba(0, 0, 255, 0.171);
+  }
+  .add-task-div{
+    display: flex;
+    align-items: center;
+  }
+  .add-task-div p{
+    margin: 10px 0 10px 16px;
+    color: rgb(99, 98, 98);
+  }
+
+
+

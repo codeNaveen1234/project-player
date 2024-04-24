@@ -1,0 +1,14 @@
+<mat-dialog-content>
+<div class="dialog-header">
+    <h4>{{dialogBox.title |translate }}</h4>
+    <button mat-button class="close-icon" [mat-dialog-close]="false">
+        <mat-icon fontIcon="close"></mat-icon>
+    </button>
+</div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <div class="buttons">
+            <button [mat-dialog-close]="false" mat-flat-button color="primary">{{dialogBox.No |translate}}</button>
+            <button [mat-dialog-close]="true"  mat-flat-button color="primary" cdkFocusInitial>{{dialogBox.Yes | translate}}</button>
+        </div>
+    </mat-dialog-actions>

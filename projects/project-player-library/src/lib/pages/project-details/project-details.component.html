@@ -1,0 +1,6 @@
+<mat-card class="project-details">
+    <p *ngIf="projectDetails.description" >{{"OBJECTIVE" | translate}}: <span>{{projectDetails.description}}</span></p>
+    <p *ngIf="projectDetails.categories.length > 0" >{{"CATEGORIES" | translate}}: <span *ngFor="let item of projectDetails.categories">{{item.label}}</span></p>
+    <p *ngIf="projectDetails.recommended" >{{"RECOMMENDED_FOR" | translate}}: <span>{{projectDetails.recommended}}</span></p>
+    <p *ngIf="projectDetails.duration" >{{"DURATION" | translate}}: <span>{{projectDetails.duration}}</span></p>
+  </mat-card>

@@ -1,1 +1,68 @@
-<p>Project details-page</p>
+<mat-card class="details-card">
+    <span class="details-card-header">
+        <h4>{{projectDetails.title}}</h4>
+    </span>
+    <mat-card-content>
+      <div style="display: flex;">
+          <lib-icon-list [items]="projectActions" [submittedImprovement]="submitted" (newItemEvent)="iconListAction($event)"></lib-icon-list>
+      </div>
+        <mat-card class="status-bar">
+            <mat-card-content  *ngIf="!submitted">
+                <h4>{{"PROGRESS" | translate}}</h4>
+                <p>{{completedCount}}/{{projectDetails.tasks.length}} {{"TASK_COMPLETED" | translate}}</p>
+                <mat-progress-bar class="progress-bar"   mode="determinate" [value]="progressValue"></mat-progress-bar>
+            </mat-card-content>
+            <mat-card-content class="after-submission"  *ngIf="submitted">
+                <span class="material-symbols-outlined">
+                    <mat-icon aria-hidden="false"  aria-label="Example verified icon" fontIcon="verified"></mat-icon>
+
+                    </span>
+                <h3>{{"PROGRESS_COMPLETE" | translate}}</h3>
+            </mat-card-content>
+        </mat-card>
+        <div *ngIf="progressValue === 100 && !submitted" class="progress-alert">
+            <h4>{{"PROGRESS_ALERT"| translate}} <span> <mat-icon  fontIcon="arrow_circle_down"></mat-icon> </span>
+            </h4>
+
+        </div>
+    </mat-card-content>
+    <mat-card-actions *ngIf="!submitted" class="buttons">
+        <button  mat-flat-button [disabled]="progressValue < 100" (click)="submitImprovement()"   color="accent">{{ "SUBMIT_IMPROVEMENT" | translate}}</button>
+
+      </mat-card-actions>
+</mat-card>
+
+<mat-tab-group dynamicHeight>
+    <mat-tab [label]="'PROJECT_DETAILS' | translate" >
+      <div class="tab-label-container">
+        <div class="">
+          <lib-project-details [projectDetails]="projectDetails"></lib-project-details>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab [label]="'TASK_DETAILS' | translate">
+      <div class="tab-label-container">
+        <div class="task-details">
+            <div class="no-tasks" *ngIf="projectDetails.tasks.length === 0">
+                <p>{{"NO_TASKS"|translate}}</p>
+            </div>
+          @for (item of projectDetails.tasks; track $index) {
+            <div class="task-card" *ngIf="projectDetails.tasks.length !== 0">
+              <lib-task-card [actionsList]="actionsList" [task]="item" [submittedImprovement]="submitted" (newItemEvent)="taskCardAction($event)"></lib-task-card>
+            </div>
+          }
+          <mat-card class="add-task" (click)="navigateToNewTask()">
+            <div class="add-task-div">
+                <mat-icon color="primary" fontIcon="add_circle"></mat-icon>
+                <p>{{"ADD_YOUR_OWN_TASK"|translate}}</p>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </mat-tab>
+</mat-tab-group>
+
+
+
+
