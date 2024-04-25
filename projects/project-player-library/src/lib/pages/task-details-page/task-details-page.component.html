@@ -1,1 +1,50 @@
-<p>taskdetails-page works!</p>
+<div class="task-details">
+    <div class="task-header" (click)="editTask()">
+        <h4>{{task.name}}</h4>
+        <span><mat-icon color="primary"  fontIcon="edit"></mat-icon></span>
+    </div>
+    <div class="task-date">
+        <span >
+            <mat-icon (click)="openDatePickerForTask()" color="primary" fontIcon="date_range"></mat-icon>
+            </span>
+        <div></div>
+    </div>
+    <div class="task-status">
+        <h3>{{"STATUS"|translate}}</h3>
+        <div>
+            <mat-form-field>
+                <mat-select [(value)]="task.status" name="taskStatus" [disabled]="task.children.length > 0">
+                  @for (item of taskOptions; track $index) {
+                    <mat-option [value]="item.value">{{item.viewValue}}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+        </div>
+    </div>
+    <div class="task-subtasks">
+        <h3>{{"SUBTASKS"|translate}}</h3>
+        <div class="subtask-input">
+            <mat-icon fontIcon="subdirectory_arrow_right"></mat-icon>
+            <div class="subtask-input-field">
+
+                    <mat-form-field class="example-full-width">
+                        <input #subTask type="text" matInput [formControl]="textFormControl"
+                                [placeholder]="'ADD_SUBTASK_NAME'|translate">
+                    </mat-form-field>
+                    <button [disabled]="subTask.value === ''" mat-flat-button color="primary" (click)="addSubTask(subTask.value)" >{{"ADD_SUBTASKS"|translate}}</button>
+
+            </div>
+        </div>
+    </div>
+    <div>
+        @for (item of task.children; track $index) {
+            <div>
+                <lib-subtask-card [subTask]="item" (updateSubTaskStatusEvent)="updateTaskStatus($event)" (deleteSubTaskEvent)="deleteSubTask($event)"></lib-subtask-card>
+            </div>
+        }
+    </div>
+    <div class="add-files-button" [ngClass]="{'add-files-button-sub': task.children.length === 0}">
+        <button mat-flat-button color="primary">{{ 'ADD_FILES' | translate }}</button>
+    </div>
+
+</div>

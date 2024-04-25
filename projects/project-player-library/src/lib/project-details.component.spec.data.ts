@@ -190,7 +190,7 @@ export const projectDetailsData = {
                     "updatedAt": "2023-06-22T14:31:50.142Z",
                     "createdAt": "2023-06-21T11:01:55.912Z",
                     "parentId": "6492d8a3ff4204000909dcc6",
-                    "status": "notStarted",
+                    "status": "NOTstarted",
                     "referenceId": "6492d8a3ff4204000909dcc9",
                     "isImportedFromLibrary": false,
                     "syncedAt": "2023-06-22T14:31:50.142Z"
@@ -207,7 +207,7 @@ export const projectDetailsData = {
             "sequenceNumber": "2",
             "updatedAt": "2023-06-22T14:31:50.142Z",
             "createdAt": "2023-06-21T11:01:55.908Z",
-            "status": "notStarted",
+            "status": "NOTstarted",
             "referenceId": "6492d8a3ff4204000909dcc6",
             "isImportedFromLibrary": false,
             "syncedAt": "2023-06-22T14:31:50.142Z",

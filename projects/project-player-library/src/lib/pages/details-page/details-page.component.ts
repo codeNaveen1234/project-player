@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DailogPopupComponent } from '../../shared/dialog-popup/dailog-popup.component';
-import { projectDetailsData } from './project-details.component.spec.data';
+import { projectDetailsData } from '../../project-details.component.spec.data';
 
 @Component({
   selector: 'lib-details-page',
@@ -12,46 +12,46 @@ import { projectDetailsData } from './project-details.component.spec.data';
 export class DetailsPageComponent implements OnInit {
   completedCount: number = 0;
   progressValue: number = 0;
-  actionsList=[
+  actionsList = [
     {
-      name: "EDIT",
-      icon:"edit",
-      action:"edit"
+      name: 'EDIT',
+      icon: 'edit',
+      action: 'edit',
     },
     {
-      name: "SHARE",
-      icon:"ios_share",
-      action:"share"
+      name: 'SHARE',
+      icon: 'ios_share',
+      action: 'share',
     },
     {
-      name: "DELETE",
-      icon:"delete",
-      action:"delete"
+      name: 'DELETE',
+      icon: 'delete',
+      action: 'delete',
     },
   ];
 
   projectActions = [
     {
-      label:"DOWNLOAD",
-      icon:"cloud_download",
-      action:"download"
+      label: 'DOWNLOAD',
+      icon: 'cloud_download',
+      action: 'download',
     },
     {
-      label:"SHARE",
-      icon:"ios_share",
-      action:"share"
+      label: 'SHARE',
+      icon: 'ios_share',
+      action: 'share',
     },
     {
-      label:"FILES",
-      icon:"folder_open",
-      action:"file"
+      label: 'FILES',
+      icon: 'folder_open',
+      action: 'file',
     },
     {
-      label:"SYNC",
-      icon:"sync",
-      action:"sync"
+      label: 'SYNC',
+      icon: 'sync',
+      action: 'sync',
     },
-  ]
+  ];
   submitted: boolean = false;
   projectDetails = projectDetailsData;
   constructor(private dialog: MatDialog, private router: Router) {}
@@ -88,15 +88,13 @@ export class DetailsPageComponent implements OnInit {
 
   navigateToNewTask() {}
 
-  taskCardAction(event:any){
-    if(event.item.action == "edited"){
+  taskCardAction(event: any) {
+    if (event.item.action == 'edited') {
       this.moveToTaskDetails(event.id);
-    }
-    else if(event.item.action == "deleted"){
-     this.openDialogForDelete('0','0',event.id);
-    }
-    else {
-      console.log("shared");
+    } else if (event.item.action == 'deleted') {
+      this.openDialogForDelete('0', '0', event.id);
+    } else {
+      console.log('shared');
     }
   }
 
@@ -110,31 +108,30 @@ export class DetailsPageComponent implements OnInit {
 
   iconListAction(event: any) {
     console.log(event);
-    if(event.action === "download"){
-      this.changeIcons("DOWNLOAD","DOWNLOADED","check_circle")
-    }
-    else if(event.action === "sync"){
-      this.changeIcons("SYNC","SYNCED","sync");
-    }
-    else if(event.action === "file"){
+    if (event.action === 'download') {
+      this.changeIcons('DOWNLOAD', 'DOWNLOADED', 'check_circle');
+    } else if (event.action === 'sync') {
+      this.changeIcons('SYNC', 'SYNCED', 'sync');
+    } else if (event.action === 'file') {
       this.moveToFiles();
-    }
-    else if(event.action === "share"){
-      this.openDialog('0','0')
+    } else if (event.action === 'share') {
+      this.openDialog('0', '0');
     }
   }
-  changeIcons(iconname:string,iconlabel:string,icon:string){
-    let item = this.projectActions.find(element => element.label === iconname)
-       if(item){
-         item.label = iconlabel;
-          item.icon = icon;
-          item.action = item.action + 'ed';
-       }
+  changeIcons(iconname: string, iconlabel: string, icon: string) {
+    let item = this.projectActions.find(
+      (element) => element.label === iconname
+    );
+    if (item) {
+      item.label = iconlabel;
+      item.icon = icon;
+      item.action = item.action + 'ed';
+    }
   }
-   moveToFiles() {
+  moveToFiles() {
     this.router.navigate(['/files'], { skipLocationChange: true });
   }
-   openDialog(
+  openDialog(
     enterAnimationDuration: string,
     exitAnimationDuration: string
   ): void {
@@ -144,9 +141,9 @@ export class DetailsPageComponent implements OnInit {
       exitAnimationDuration,
     });
     modelref.componentInstance.dialogBox = {
-      title: "SHAREABLE_FILE",
-      Yes: "SYNC_AND_SHARE",
-      No: "DONT_SYNC",
+      title: 'SHAREABLE_FILE',
+      Yes: 'SYNC_AND_SHARE',
+      No: 'DONT_SYNC',
     };
     modelref.afterClosed().subscribe((res: boolean) => {
       if (res) {
@@ -160,7 +157,7 @@ export class DetailsPageComponent implements OnInit {
   openDialogForDelete(
     enterAnimationDuration: string,
     exitAnimationDuration: string,
-    id:any
+    id: any
   ): void {
     const modelref = this.dialog.open(DailogPopupComponent, {
       width: '300px',
@@ -168,14 +165,16 @@ export class DetailsPageComponent implements OnInit {
       exitAnimationDuration,
     });
     modelref.componentInstance.dialogBox = {
-      title: "CONFIRMATION_DELETE",
+      title: 'CONFIRMATION_DELETE',
       Yes: 'YES',
       No: 'NO',
     };
     modelref.afterClosed().subscribe((res: boolean) => {
       if (res) {
         console.log('The task was deleted.');
-        this.projectDetails.tasks = this.projectDetails.tasks.filter(task => task._id !== id);
+        this.projectDetails.tasks = this.projectDetails.tasks.filter(
+          (task) => task._id !== id
+        );
       } else {
         console.log('The deletion was canceled.');
       }

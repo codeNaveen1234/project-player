@@ -1,0 +1,22 @@
+<mat-dialog-content>
+    <div class="dialog-header">
+        <h4>{{ editType |translate }}</h4>
+        <button mat-button class="close-icon" [mat-dialog-close]="false">
+            <mat-icon fontIcon="close"></mat-icon>
+        </button>
+    </div>
+    <div class="dialog-content">
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+                <input #subTask type="text" matInput [formControl]="inputFormControl"
+                        [(ngModel)]="title">
+            </mat-form-field>
+        </form>
+    </div>
+        </mat-dialog-content>
+        <mat-dialog-actions>
+            <div class="buttons">
+                <button (click)="updateName(false)" mat-flat-button color="primary">{{"CANCEL" |translate}}</button>
+                <button (click)="updateName(true)"  mat-flat-button color="primary" cdkFocusInitial>{{"SAVE" | translate}}</button>
+            </div>
+        </mat-dialog-actions>
