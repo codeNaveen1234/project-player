@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { DailogPopupComponent } from '../../shared/dialog-popup/dailog-popup.component';
 import { projectDetailsData } from './project-details.component.spec.data';
+import { RoutingService } from '../../services/routing/routing.service';
+import { actions } from '../../constants/actionConstants';
 
 @Component({
   selector: 'lib-details-page',
@@ -30,35 +31,15 @@ export class DetailsPageComponent implements OnInit {
     },
   ];
 
-  projectActions = [
-    {
-      label:"DOWNLOAD",
-      icon:"cloud_download",
-      action:"download"
-    },
-    {
-      label:"SHARE",
-      icon:"ios_share",
-      action:"share"
-    },
-    {
-      label:"FILES",
-      icon:"folder_open",
-      action:"file"
-    },
-    {
-      label:"SYNC",
-      icon:"sync",
-      action:"sync"
-    },
-  ]
+  projectActions = []
   submitted: boolean = false;
-  projectDetails = projectDetailsData;
-  constructor(private dialog: MatDialog, private router: Router) {}
+  projectDetails:any = projectDetailsData;
+  constructor(private dialog: MatDialog, private routerService: RoutingService) {}
 
   ngOnInit(): void {
     this.countCompletedTasks(this.projectDetails);
     this.calculateProgress();
+    this.setActionsList()
   }
 
   countCompletedTasks(projectDetails: any): number {
@@ -102,37 +83,37 @@ export class DetailsPageComponent implements OnInit {
 
   moveToTaskDetails(data: any) {
     if (!this.submitted) {
-      this.router.navigate([`/task-details/${data}`], {
-        skipLocationChange: true,
-      });
+      this.routerService.navigate(`/task-details/${data}`)
     }
   }
 
   iconListAction(event: any) {
-    console.log(event);
-    if(event.action === "download"){
-      this.changeIcons("DOWNLOAD","DOWNLOADED","check_circle")
-    }
-    else if(event.action === "sync"){
-      this.changeIcons("SYNC","SYNCED","sync");
-    }
-    else if(event.action === "file"){
-      this.moveToFiles();
-    }
-    else if(event.action === "share"){
-      this.openDialog('0','0')
+    switch (event.action) {
+      case "download":
+        this.projectDetails.downloaded = true
+        this.setActionsList()
+        break;
+
+      case "share":
+        this.openDialog('0','0')
+        break;
+
+      case "files":
+        this.moveToFiles()
+        break;
+
+      case "sync":
+        this.projectDetails.isEdit = false
+        this.setActionsList()
+        break;
+    
+      default:
+        break;
     }
   }
-  changeIcons(iconname:string,iconlabel:string,icon:string){
-    let item = this.projectActions.find(element => element.label === iconname)
-       if(item){
-         item.label = iconlabel;
-          item.icon = icon;
-          item.action = item.action + 'ed';
-       }
-  }
+
    moveToFiles() {
-    this.router.navigate(['/files'], { skipLocationChange: true });
+    this.routerService.navigate('/files');
   }
    openDialog(
     enterAnimationDuration: string,
@@ -175,10 +156,21 @@ export class DetailsPageComponent implements OnInit {
     modelref.afterClosed().subscribe((res: boolean) => {
       if (res) {
         console.log('The task was deleted.');
-        this.projectDetails.tasks = this.projectDetails.tasks.filter(task => task._id !== id);
+        this.projectDetails.tasks = this.projectDetails.tasks.filter((task:any) => task._id !== id);
       } else {
         console.log('The deletion was canceled.');
       }
     });
+  }
+
+  setActionsList(){
+    let options:any = actions.PROJECT_ACTIONS
+    if(this.projectDetails.downloaded){
+      options[0] = actions.DOWNLOADED_ACTION
+    }
+    if(!this.projectDetails.isEdit){
+      options[options.length-1] = actions.SYNCED_ACTION
+    }
+    this.projectActions = options
   }
 }

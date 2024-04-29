@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { RoutingService } from '../../services/routing/routing.service';
 
 @Component({
   selector: 'lib-main-player',
@@ -8,14 +8,14 @@ import { Router } from '@angular/router';
 })
 export class MainPlayerComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private routerService: RoutingService) { }
 
   ngOnInit(): void {
     this.navigate()
   }
 
   navigate(){
-    this.router.navigate(['/details'],{skipLocationChange:true})
+    this.routerService.navigate('/details')
   }
 
 }
