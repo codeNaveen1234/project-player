@@ -15,15 +15,15 @@ export class SubtaskCardComponent {
 
 subTaskOptions = [
   {
-    viewValue : "Not Started",
-    value:"NOTstarted"
+    label : "Not Started",
+    value:"notStarted"
   },
   {
-    viewValue : "In Progress",
+    label : "In Progress",
     value:"inProgress"
   },
   {
-    viewValue : "Completed",
+    label : "Completed",
     value:"completed"
   },
 ]
@@ -71,7 +71,7 @@ openEditSubTaskName(
   });
   modelref.componentInstance.title = subTaskName;
   modelref.componentInstance.editType=editType;
-  modelref.componentInstance.editname.subscribe((res)=>{
+  modelref.componentInstance.editName.subscribe((res)=>{
     this.subTask.name = res;
   })
   modelref.afterClosed().subscribe((res: boolean) => {

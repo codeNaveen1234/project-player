@@ -10,7 +10,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class EditTaskCardComponent {
   title:string='';
   editType:string='';
-  @Output() editname:EventEmitter<string>= new EventEmitter<string>();
+  @Output() editName:EventEmitter<string>= new EventEmitter<string>();
   constructor(
     public dialogRef: MatDialogRef<EditTaskCardComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -18,7 +18,7 @@ export class EditTaskCardComponent {
   inputFormControl = new FormControl('');
   updateName(data:boolean){
     if(data){
-      this.editname.emit(this.title);
+      this.editName.emit(this.title);
       this.dialogRef.close(true);
     }
     else{

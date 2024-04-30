@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { DailogPopupComponent } from '../../shared/dialog-popup/dailog-popup.component';
 import { EditTaskCardComponent } from '../../shared/edit-task-card/edit-task-card.component';
-import { projectDetailsData } from '../../project-details.component.spec.data';
+import { projectDetailsData } from '../details-page/project-details.component.spec.data';
 
 @Component({
   selector: 'lib-taskdetails-page',
@@ -19,15 +18,15 @@ export class TaskDetailsPageComponent implements OnInit {
   task: any = {};
   taskOptions = [
     {
-      viewValue: 'Not Started',
-      value: 'NOTstarted',
+      label: 'Not Started',
+      value: 'notStarted',
     },
     {
-      viewValue: 'In Progress',
+      label: 'In Progress',
       value: 'inProgress',
     },
     {
-      viewValue: 'Completed',
+      label: 'Completed',
       value: 'completed',
     },
   ];
@@ -47,7 +46,7 @@ export class TaskDetailsPageComponent implements OnInit {
   }
   addSubTask(data: any) {
     console.log(data);
-    this.task.children.push({ name: data, status: 'NOTstarted' });
+    this.task.children.push({ name: data, status: 'notStarted' });
     this.updateTaskStatus();
     this.textFormControl.reset();
   }
@@ -68,7 +67,7 @@ export class TaskDetailsPageComponent implements OnInit {
     });
     modelref.componentInstance.title = taskName;
     modelref.componentInstance.editType=editType;
-    modelref.componentInstance.editname.subscribe((res) => {
+    modelref.componentInstance.editName.subscribe((res) => {
       this.task.name = res;
     });
     modelref.afterClosed().subscribe((res: boolean) => {
@@ -97,13 +96,13 @@ export class TaskDetailsPageComponent implements OnInit {
   updateTaskStatus(event?: any) {
     if(this.task.children.length > 0){
       const allNotStarted = this.task.children.every(
-        (child: any) => child.status === 'NOTstarted'
+        (child: any) => child.status === 'notStarted'
       );
       const allCompleted = this.task.children.every(
         (child: any) => child.status === 'completed'
       );
       if (allNotStarted) {
-        this.task.status = 'NOTstarted';
+        this.task.status = 'notStarted';
       } else if (allCompleted) {
         this.task.status = 'completed';
       } else {

@@ -15,7 +15,7 @@
             <mat-form-field>
                 <mat-select [(value)]="task.status" name="taskStatus" [disabled]="task.children.length > 0">
                   @for (item of taskOptions; track $index) {
-                    <mat-option [value]="item.value">{{item.viewValue}}</mat-option>
+                    <mat-option [value]="item.value">{{item.label}}</mat-option>
                   }
                 </mat-select>
               </mat-form-field>
@@ -31,7 +31,7 @@
                         <input #subTask type="text" matInput [formControl]="textFormControl"
                                 [placeholder]="'ADD_SUBTASK_NAME'|translate">
                     </mat-form-field>
-                    <button [disabled]="subTask.value === ''" mat-flat-button color="primary" (click)="addSubTask(subTask.value)" >{{"ADD_SUBTASKS"|translate}}</button>
+                    <button [disabled]="!subTask.value" mat-flat-button color="primary" (click)="addSubTask(subTask.value)" >{{"ADD_SUBTASKS"|translate}}</button>
 
             </div>
         </div>
