@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DailogPopupComponent } from '../../shared/dialog-popup/dailog-popup.component';
-import { projectDetailsData } from '../../project-details.component.spec.data';
+// import { projectDetailsData } from '../../project-details.component.spec.data';
+import { projectDetailsData } from './project-details.component.spec.data';
 import { RoutingService } from '../../services/routing/routing.service';
 import { actions } from '../../constants/actionConstants';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'lib-details-page',
@@ -13,50 +15,29 @@ import { actions } from '../../constants/actionConstants';
 export class DetailsPageComponent implements OnInit {
   completedCount: number = 0;
   progressValue: number = 0;
-  actionsList = [
+  showAllTasks: boolean = false;
+  actionsList=[
     {
-      name: 'EDIT',
-      icon: 'edit',
-      action: 'edit',
+      name: "EDIT",
+      icon: "edit",
+      action: "edit",
     },
     {
-      name: 'SHARE',
-      icon: 'ios_share',
-      action: 'share',
+      name: "SHARE",
+      icon: "ios_share",
+      action: "share",
     },
     {
-      name: 'DELETE',
-      icon: 'delete',
-      action: 'delete',
+      name: "DELETE",
+      icon: "delete",
+      action: "delete",
     },
   ];
 
-  // projectActions = [
-  //   {
-  //     label: 'DOWNLOAD',
-  //     icon: 'cloud_download',
-  //     action: 'download',
-  //   },
-  //   {
-  //     label: 'SHARE',
-  //     icon: 'ios_share',
-  //     action: 'share',
-  //   },
-  //   {
-  //     label: 'FILES',
-  //     icon: 'folder_open',
-  //     action: 'file',
-  //   },
-  //   {
-  //     label: 'SYNC',
-  //     icon: 'sync',
-  //     action: 'sync',
-  //   },
-  // ];
   projectActions = []
   submitted: boolean = false;
   projectDetails:any = projectDetailsData;
-  constructor(private dialog: MatDialog, private routerService: RoutingService) {}
+  constructor(private dialog: MatDialog, private routerService: RoutingService,private toasterservice:ToastService) {}
 
   ngOnInit(): void {
     this.countCompletedTasks(this.projectDetails);
@@ -71,7 +52,7 @@ export class DetailsPageComponent implements OnInit {
       projectDetails.tasks.length > 0
     ) {
       projectDetails.tasks.forEach((task: any) => {
-        if (task.status === 'completed') {
+        if (task.status === "completed") {
           this.completedCount++;
         }
       });
@@ -92,12 +73,12 @@ export class DetailsPageComponent implements OnInit {
   navigateToNewTask() {}
 
   taskCardAction(event: any) {
-    if (event.item.action == 'edited') {
+    if (event.item.action == "edited") {
       this.moveToTaskDetails(event.id);
-    } else if (event.item.action == 'deleted') {
+    } else if (event.item.action == "deleted") {
       this.openDialogForDelete('0', '0', event.id);
     } else {
-      console.log('shared');
+      console.log("shared");
     }
   }
 
@@ -112,6 +93,7 @@ export class DetailsPageComponent implements OnInit {
       case "download":
         this.projectDetails.downloaded = true
         this.setActionsList()
+        this.toasterservice.showToast("success",2000,"top","right")
         break;
 
       case "share":
@@ -132,7 +114,7 @@ export class DetailsPageComponent implements OnInit {
     }
   }
 
-   moveToFiles() {
+  moveToFiles() {
     this.routerService.navigate('/files');
   }
   openDialog(
@@ -140,18 +122,18 @@ export class DetailsPageComponent implements OnInit {
     exitAnimationDuration: string
   ): void {
     const modelref = this.dialog.open(DailogPopupComponent, {
-      width: '400px',
+      width: "400px",
       enterAnimationDuration,
       exitAnimationDuration,
     });
     modelref.componentInstance.dialogBox = {
-      title: 'SHAREABLE_FILE',
-      Yes: 'SYNC_AND_SHARE',
-      No: 'DONT_SYNC',
+      title: "SHAREABLE_FILE",
+      Yes: "SYNC_AND_SHARE",
+      No: "DONT_SYNC",
     };
     modelref.afterClosed().subscribe((res: boolean) => {
       if (res) {
-        console.log('you have selected sync and share respectively');
+        console.log("you have selected sync and share respectively");
       } else {
         console.log(`you have selected Don't sync.`);
       }
@@ -164,21 +146,21 @@ export class DetailsPageComponent implements OnInit {
     id: any
   ): void {
     const modelref = this.dialog.open(DailogPopupComponent, {
-      width: '300px',
+      width: "300px",
       enterAnimationDuration,
       exitAnimationDuration,
     });
     modelref.componentInstance.dialogBox = {
-      title: 'CONFIRMATION_DELETE',
-      Yes: 'YES',
-      No: 'NO',
+      title: "CONFIRMATION_DELETE",
+      Yes: "YES",
+      No: "NO",
     };
     modelref.afterClosed().subscribe((res: boolean) => {
       if (res) {
-        console.log('The task was deleted.');
+        console.log("The task was deleted.");
         this.projectDetails.tasks = this.projectDetails.tasks.filter((task:any) => task._id !== id);
       } else {
-        console.log('The deletion was canceled.');
+        console.log("The deletion was canceled.");
       }
     });
   }
@@ -193,4 +175,5 @@ export class DetailsPageComponent implements OnInit {
     }
     this.projectActions = options
   }
+
 }
