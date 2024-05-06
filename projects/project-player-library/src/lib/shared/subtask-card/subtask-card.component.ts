@@ -3,7 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { DailogPopupComponent } from '../dialog-popup/dailog-popup.component';
 import { EditTaskCardComponent } from '../edit-task-card/edit-task-card.component';
 import { actions } from '../../constants/actionConstants';
-
+interface TaskOption {
+  value: any;
+  label: string;
+}
 @Component({
   selector: 'lib-subtask-card',
   templateUrl: './subtask-card.component.html',
@@ -13,7 +16,7 @@ export class SubtaskCardComponent {
 @Input() subTask: any;
 @Output() deleteSubTaskEvent = new EventEmitter<string>();
 @Output()  updateSubTaskStatusEvent = new EventEmitter<any>();
-subTaskOptions = [];
+subTaskOptions:TaskOption[] = [];
 ngOnInit(): void {
   this.setOptionList();
 }

@@ -6,6 +6,10 @@ import { EditTaskCardComponent } from '../../shared/edit-task-card/edit-task-car
 import { projectDetailsData } from '../details-page/project-details.component.spec.data';
 import { actions } from '../../constants/actionConstants';
 
+interface TaskOption {
+  value: any;
+  label: string;
+}
 @Component({
   selector: 'lib-taskdetails-page',
   templateUrl: './task-details-page.component.html',
@@ -17,7 +21,7 @@ export class TaskDetailsPageComponent implements OnInit {
   selectedValue!: string;
   textFormControl = new FormControl('');
   task: any = {};
-  taskOptions = [];
+  taskOptions : TaskOption[] =[];
 
   ngOnInit(): void {
     this.setOptionList();
