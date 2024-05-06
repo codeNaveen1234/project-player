@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DailogPopupComponent } from '../dialog-popup/dailog-popup.component';
 import { EditTaskCardComponent } from '../edit-task-card/edit-task-card.component';
+import { actions } from '../../constants/actionConstants';
 
 @Component({
   selector: 'lib-subtask-card',
@@ -12,21 +13,10 @@ export class SubtaskCardComponent {
 @Input() subTask: any;
 @Output() deleteSubTaskEvent = new EventEmitter<string>();
 @Output()  updateSubTaskStatusEvent = new EventEmitter<any>();
-
-subTaskOptions = [
-  {
-    label : "Not Started",
-    value:"notStarted"
-  },
-  {
-    label : "In Progress",
-    value:"inProgress"
-  },
-  {
-    label : "Completed",
-    value:"completed"
-  },
-]
+subTaskOptions = [];
+ngOnInit(): void {
+  this.setOptionList();
+}
 constructor(private dialog:MatDialog){}
 openDatePickerForSubTask(){
 }
@@ -84,5 +74,9 @@ openEditSubTaskName(
 }
 updateSubTaskStatus(data:any){
   this.updateSubTaskStatusEvent.emit(data);
+}
+setOptionList(){
+  let options:any = actions.SUBTASK_OPTIONS;
+  this.subTaskOptions = options;
 }
 }

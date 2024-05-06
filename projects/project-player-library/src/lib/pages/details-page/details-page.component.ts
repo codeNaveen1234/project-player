@@ -15,28 +15,11 @@ export class DetailsPageComponent implements OnInit {
   completedCount: number = 0;
   progressValue: number = 0;
   showAllTasks: boolean = false;
-  actionsList=[
-    {
-      name:"EDIT",
-      icon:"edit",
-      action:"edit"
-    },
-    {
-      name:"SHARE",
-      icon:"ios_share",
-      action:"share"
-    },
-    {
-      name:"DELETE",
-      icon:"delete",
-      action:"delete"
-    },
-  ];
-
+  actionsList = [];
   projectActions = []
   submitted: boolean = false;
   projectDetails:any = projectDetailsData;
-  constructor(private dialog: MatDialog, private routerService: RoutingService,private toasterservice:ToastService) {}
+  constructor(private dialog: MatDialog, private routerService: RoutingService,private toasterService:ToastService) {}
 
   ngOnInit(): void {
     this.countCompletedTasks(this.projectDetails);
@@ -94,7 +77,7 @@ export class DetailsPageComponent implements OnInit {
       case "download":
         this.projectDetails.downloaded = true
         this.setActionsList()
-        this.toasterservice.showToast("success",2000,"top","right")
+        this.toasterService.showToast("success",2000,"top","right")
         break;
 
       case "share":
@@ -167,14 +150,16 @@ export class DetailsPageComponent implements OnInit {
   }
 
   setActionsList(){
-    let options:any = actions.PROJECT_ACTIONS
+    let options:any = actions.PROJECT_ACTIONS;
+    let optionList:any = actions.ACTION_LIST;
     if(this.projectDetails.downloaded){
       options[0] = actions.DOWNLOADED_ACTION
     }
     if(!this.projectDetails.isEdit){
       options[options.length-1] = actions.SYNCED_ACTION
     }
-    this.projectActions = options
+    this.projectActions = options;
+    this.actionsList = optionList;
   }
 
 }

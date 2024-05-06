@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { EditTaskCardComponent } from '../../shared/edit-task-card/edit-task-card.component';
 import { projectDetailsData } from '../details-page/project-details.component.spec.data';
+import { actions } from '../../constants/actionConstants';
 
 @Component({
   selector: 'lib-taskdetails-page',
@@ -16,22 +17,10 @@ export class TaskDetailsPageComponent implements OnInit {
   selectedValue!: string;
   textFormControl = new FormControl('');
   task: any = {};
-  taskOptions = [
-    {
-      label: 'Not Started',
-      value: 'notStarted',
-    },
-    {
-      label: 'In Progress',
-      value: 'inProgress',
-    },
-    {
-      label: 'Completed',
-      value: 'completed',
-    },
-  ];
+  taskOptions = [];
 
   ngOnInit(): void {
+    this.setOptionList();
     this.route.paramMap.subscribe((params: any) => {
       const id = params.get('id');
       console.log(id);
@@ -109,5 +98,9 @@ export class TaskDetailsPageComponent implements OnInit {
         this.task.status = 'inProgress';
       }
     }
+  }
+  setOptionList(){
+    let options:any = actions.TASK_OPTIONS;
+    this.taskOptions = options;
   }
 }
