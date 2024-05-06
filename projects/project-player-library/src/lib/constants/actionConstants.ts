@@ -37,7 +37,7 @@ export const actions = {
         action: "downloaded",
         color: "green"
     },
-        SUBTASK_OPTIONS: [
+        TASK_STATUS: [
     {
         label : "Not Started",
         value:"notStarted"
@@ -50,20 +50,6 @@ export const actions = {
         label : "Completed",
         value:"completed"
     },
-    ],
-        TASK_OPTIONS : [
-    {
-            label: 'Not Started',
-            value: 'notStarted',
-        },
-        {
-            label: 'In Progress',
-            value: 'inProgress',
-        },
-        {
-            label: 'Completed',
-            value: 'completed',
-        },
     ],
         ACTION_LIST : [
     {

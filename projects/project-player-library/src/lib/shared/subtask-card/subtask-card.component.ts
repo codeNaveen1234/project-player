@@ -76,7 +76,7 @@ updateSubTaskStatus(data:any){
   this.updateSubTaskStatusEvent.emit(data);
 }
 setOptionList(){
-  let options:any = actions.SUBTASK_OPTIONS;
+  let options:any = actions.TASK_STATUS;
   this.subTaskOptions = options;
 }
 }

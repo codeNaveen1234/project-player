@@ -100,7 +100,7 @@ export class TaskDetailsPageComponent implements OnInit {
     }
   }
   setOptionList(){
-    let options:any = actions.TASK_OPTIONS;
+    let options:any = actions.TASK_STATUS;
     this.taskOptions = options;
   }
 }
