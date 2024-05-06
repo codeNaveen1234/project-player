@@ -51,7 +51,7 @@ export class DetailsPageComponent implements OnInit {
       projectDetails.tasks.length > 0
     ) {
       projectDetails.tasks.forEach((task: any) => {
-        if (task.status === "completed") {
+        if (task.status === 'completed') {
           this.completedCount++;
         }
       });
@@ -71,12 +71,14 @@ export class DetailsPageComponent implements OnInit {
 
   navigateToNewTask() {}
 
-  taskCardAction(event: any) {
-    if (event.item.action == "edited") {
+  taskCardAction(event:any){
+    if(event.item.action == "edited"){
       this.moveToTaskDetails(event.id);
-    } else if (event.item.action == "deleted") {
-      this.openDialogForDelete('0', '0', event.id);
-    } else {
+    }
+    else if (event.item.action == "deleted"){
+      this.openDialogForDelete('0','0',event.id);
+    }
+    else {
       console.log("shared");
     }
   }
@@ -113,15 +115,15 @@ export class DetailsPageComponent implements OnInit {
     }
   }
 
-  moveToFiles() {
+    moveToFiles() {
     this.routerService.navigate('/files');
   }
-  openDialog(
+    openDialog(
     enterAnimationDuration: string,
     exitAnimationDuration: string
   ): void {
     const modelref = this.dialog.open(DailogPopupComponent, {
-      width: "400px",
+      width: '400px',
       enterAnimationDuration,
       exitAnimationDuration,
     });
@@ -132,7 +134,7 @@ export class DetailsPageComponent implements OnInit {
     };
     modelref.afterClosed().subscribe((res: boolean) => {
       if (res) {
-        console.log("you have selected sync and share respectively");
+        console.log('you have selected sync and share respectively');
       } else {
         console.log(`you have selected Don't sync.`);
       }
@@ -142,24 +144,24 @@ export class DetailsPageComponent implements OnInit {
   openDialogForDelete(
     enterAnimationDuration: string,
     exitAnimationDuration: string,
-    id: any
+    id:any
   ): void {
     const modelref = this.dialog.open(DailogPopupComponent, {
-      width: "300px",
+      width: '300px',
       enterAnimationDuration,
       exitAnimationDuration,
     });
     modelref.componentInstance.dialogBox = {
       title: "CONFIRMATION_DELETE",
-      Yes: "YES",
-      No: "NO",
+      Yes: 'YES',
+      No: 'NO',
     };
     modelref.afterClosed().subscribe((res: boolean) => {
       if (res) {
-        console.log("The task was deleted.");
+        console.log('The task was deleted.');
         this.projectDetails.tasks = this.projectDetails.tasks.filter((task:any) => task._id !== id);
       } else {
-        console.log("The deletion was canceled.");
+        console.log('The deletion was canceled.');
       }
     });
   }
