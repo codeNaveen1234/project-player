@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DailogPopupComponent } from '../../shared/dialog-popup/dailog-popup.component';
-// import { projectDetailsData } from '../../project-details.component.spec.data';
 import { projectDetailsData } from './project-details.component.spec.data';
 import { RoutingService } from '../../services/routing/routing.service';
 import { actions } from '../../constants/actionConstants';
@@ -18,19 +17,19 @@ export class DetailsPageComponent implements OnInit {
   showAllTasks: boolean = false;
   actionsList=[
     {
-      name: "EDIT",
-      icon: "edit",
-      action: "edit",
+      name:"EDIT",
+      icon:"edit",
+      action:"edit"
     },
     {
-      name: "SHARE",
-      icon: "ios_share",
-      action: "share",
+      name:"SHARE",
+      icon:"ios_share",
+      action:"share"
     },
     {
-      name: "DELETE",
-      icon: "delete",
-      action: "delete",
+      name:"DELETE",
+      icon:"delete",
+      action:"delete"
     },
   ];
 
