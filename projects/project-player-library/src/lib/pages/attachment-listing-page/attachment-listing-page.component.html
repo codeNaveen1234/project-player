@@ -1,30 +1,99 @@
 <mat-tab-group dynamicHeight>
     <mat-tab [label]="'IMAGES' | translate" >
-        <div *ngIf="imageAttachments.length === 0">
-            <h5>{{"NO_FILES"|translate:{fileType:'Image'} }}</h5>
+
+        <div class="p-4" *ngIf="!isImages.project && !isImages.task">
+                <div>{{ "NO_FILES" | translate:{ fileType: 'Image' } }}</div>
         </div>
-        <div *ngIf="imageAttachments.length > 0"  class="image-tasklist">
-            <div>
-                <h4>{{"LEVEL_EVIDENCE" | translate:{variable:'Project'} }} </h4>
-                <div class="line"></div>
-                @for (item of imageAttachments; track $index) {
-                }
+        <div class="image-tasklist p-4" >
+            <div class="flex items-center"   *ngIf="isImages.project">
+                <div class="w-auto mr-3" >{{"LEVEL_EVIDENCE" | translate:{type:'Project'} }}</div>
+                <span class="h-[4px]  flex-grow bg-yellow-400"></span>
             </div>
-            <div>
-                <h4>{{"LEVEL_EVIDENCE" | translate:{variable:'Task'} }} </h4>
-                <div class="line"></div>
-                @for (item of imageAttachments; track $index) {
+            <div *ngIf="isImages.project">
+                    <lib-attachment-card [details]="attachments.project" [attachmentsType]="'image/jpeg'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+            </div>
+            <div class="flex items-center" *ngIf="isImages.task" >
+                <div class="w-auto mr-3">{{"LEVEL_EVIDENCE" | translate:{type:'Task'} }} </div>
+                <span class="h-[4px]  flex-grow bg-yellow-400"></span>
+            </div>
+            <div *ngIf="isImages.task">
+                @for (item of attachments.tasks; track $index) {
+                    <lib-attachment-card [details]="item"  [attachmentsType]="'image/jpeg'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
                 }
             </div>
         </div>
     </mat-tab>
     <mat-tab [label]="'VIDEOS' | translate">
+        <div class="p-4"  *ngIf="!isVideos.project && !isVideos.task" >
+            <div>{{"NO_FILES"|translate:{fileType:'Videos'} }}</div>
+        </div>
 
+         <div class="image-tasklist p-4" >
+            <div class="flex items-center"   *ngIf="isVideos.project">
+                <div class="w-auto mr-3" >{{"LEVEL_EVIDENCE" | translate:{type:'Project'} }}</div>
+                <span class="h-[4px]  flex-grow bg-yellow-400"></span>
+            </div>
+            <div *ngIf="isVideos.project">
+                    <lib-attachment-card [details]="attachments.project" [attachmentsType]="'video/mp4'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+            </div>
+            <div class="flex items-center" *ngIf="isVideos.task" >
+                <div class="w-auto mr-3">{{"LEVEL_EVIDENCE" | translate:{type:'Task'} }} </div>
+                <span class="h-[4px]  flex-grow bg-yellow-400"></span>
+            </div>
+            <div *ngIf="isVideos.task">
+                @for (item of attachments.tasks; track $index) {
+                    <lib-attachment-card [details]="item"  [attachmentsType]="'video/mp4'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+                }
+            </div>
+        </div>
     </mat-tab>
     <mat-tab [label]="'FILES' | translate" >
+        <div class="p-4"  *ngIf="!isFiles.project && !isFiles.task" >
+            <div>{{"NO_FILES"|translate:{fileType:'Files'} }}</div>
+        </div>
+
+        <div class="image-tasklist p-4" >
+            <div class="flex items-center"   *ngIf="isFiles.project">
+                <div class="w-auto mr-3" >{{"LEVEL_EVIDENCE" | translate:{type:'Project'} }}</div>
+                <span class="h-[4px]  flex-grow bg-yellow-400"></span>
+            </div>
+            <div *ngIf="isFiles.project">
+                    <lib-attachment-card [details]="attachments.project" [attachmentsType]="'application/pdf'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+            </div>
+            <div class="flex items-center" *ngIf="isFiles.task" >
+                <div class="w-auto mr-3">{{"LEVEL_EVIDENCE" | translate:{type:'Task'} }} </div>
+                <span class="h-[4px]  flex-grow bg-yellow-400"></span>
+            </div>
+            <div *ngIf="isFiles.task">
+                @for (item of attachments.tasks; track $index) {
+                    <lib-attachment-card [details]="item"  [attachmentsType]="'application/pdf'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+                }
+            </div>
+        </div>
 
     </mat-tab>
     <mat-tab [label]="'LINKS' | translate">
+        <div class="p-4"  *ngIf="!isLinks.project && !isLinks.task" >
+            <div>{{"NO_FILES"|translate:{fileType:'Links'} }}</div>
+        </div>
 
+        <div class="image-tasklist p-4" >
+            <div class="flex items-center"   *ngIf="isLinks.project">
+                <div class="w-auto mr-3" >{{"LEVEL_EVIDENCE" | translate:{type:'Project'} }}</div>
+                <span class="h-[4px]  flex-grow bg-yellow-400"></span>
+            </div>
+            <div *ngIf="isLinks.project">
+                    <lib-attachment-card [details]="attachments.project" [attachmentsType]="'link'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+            </div>
+            <div class="flex items-center" *ngIf="isLinks.task" >
+                <div class="w-auto mr-3">{{"LEVEL_EVIDENCE" | translate:{type:'Task'} }} </div>
+                <span class="h-[4px]  flex-grow bg-yellow-400"></span>
+            </div>
+            <div *ngIf="isLinks.task">
+                @for (item of attachments.tasks; track $index) {
+                    <lib-attachment-card [details]="item"  [attachmentsType]="'link'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+                }
+            </div>
+        </div>
     </mat-tab>
   </mat-tab-group>

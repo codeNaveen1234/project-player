@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -31,6 +32,8 @@ import {
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { EditTaskCardComponent } from './shared/edit-task-card/edit-task-card.component';
+import { AttachmentCardComponent } from './shared/attachment-card/attachment-card.component';
+import { AttachmentShowCardComponent } from './shared/attachment-show-card/attachment-show-card.component';
 
 const routes: Routes = [
   { path: 'details', component: DetailsPageComponent },
@@ -52,6 +55,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     TaskDetailsPageComponent,
     ProjectDetailsComponent,
     AttachmentListingPageComponent,
+    AttachmentCardComponent,
+    AttachmentShowCardComponent,
     SubtaskCardComponent,
     EditTaskCardComponent,
     DailogPopupComponent,
@@ -67,6 +72,7 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     MatMenuModule,
     MatDialogModule,
     MatSelectModule,
+    MatSnackBarModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
