@@ -4,10 +4,10 @@
     margin: 5px 0;
   }
 .items-header span span{
-  width: 4%;
+  width: 22px;
 }
 .items-header span mat-icon{
-  width: 4%;
+  width: 22px;
 }
   .item-content {
     font-size: 1.1rem;

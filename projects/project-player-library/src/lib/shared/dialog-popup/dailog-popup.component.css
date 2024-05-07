@@ -30,7 +30,6 @@ mat-dialog-content h4{
 .dialog-header button{
   padding: 0;
 }
-::ng-deep .mdc-button{
-  min-width: 0;
-
+::ng-deep .mdc-button {
+  min-width: 0 !important;
 }

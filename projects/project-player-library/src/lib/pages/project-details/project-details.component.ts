@@ -7,4 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class ProjectDetailsComponent {
 @Input()projectDetails: any = {};
+getCategoryLabels(): string {
+  return this.projectDetails.categories.map((item: { label: any; }) => item.label).join(', ');
+}
 }

@@ -36,5 +36,36 @@ export const actions = {
         icon: "check_circle",
         action: "downloaded",
         color: "green"
-    }
+    },
+        TASK_STATUS: [
+    {
+        label : "Not Started",
+        value:"notStarted"
+    },
+    {
+        label : "In Progress",
+        value:"inProgress"
+    },
+    {
+        label : "Completed",
+        value:"completed"
+    },
+    ],
+        ACTION_LIST : [
+    {
+        name:"EDIT",
+        icon:"edit",
+        action:"edit"
+    },
+    {
+        name:"SHARE",
+        icon:"ios_share",
+        action:"share"
+    },
+    {
+        name:"DELETE",
+        icon:"delete",
+        action:"delete"
+    },
+    ]
 }
