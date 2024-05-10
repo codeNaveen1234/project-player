@@ -1,7 +1,11 @@
+<div class="flex p-3  items-center gap-x-2 text-">
+    <mat-icon class="cursor-pointer" color="primary" fontIcon="arrow_back" (click)="moveToHomePage()"></mat-icon>
+    <span class="text-blue-600">{{"ATTACHMENT_FILES" | translate}}</span>
+</div>
 <mat-tab-group dynamicHeight>
     <mat-tab [label]="'IMAGES' | translate" >
 
-        <div class="p-4" *ngIf="!isImages.project && !isImages.task">
+        <div class="p-4 w-full text-center" *ngIf="!isImages.project && !isImages.task">
                 <div>{{ "NO_FILES" | translate:{ fileType: 'Image' } }}</div>
         </div>
         <div class="image-tasklist p-4" >
@@ -24,7 +28,7 @@
         </div>
     </mat-tab>
     <mat-tab [label]="'VIDEOS' | translate">
-        <div class="p-4"  *ngIf="!isVideos.project && !isVideos.task" >
+        <div class="p-4 w-full text-center"  *ngIf="!isVideos.project && !isVideos.task" >
             <div>{{"NO_FILES"|translate:{fileType:'Videos'} }}</div>
         </div>
 
@@ -48,7 +52,7 @@
         </div>
     </mat-tab>
     <mat-tab [label]="'FILES' | translate" >
-        <div class="p-4"  *ngIf="!isFiles.project && !isFiles.task" >
+        <div class="p-4 w-full text-center"  *ngIf="!isFiles.project && !isFiles.task" >
             <div>{{"NO_FILES"|translate:{fileType:'Files'} }}</div>
         </div>
 
@@ -73,7 +77,7 @@
 
     </mat-tab>
     <mat-tab [label]="'LINKS' | translate">
-        <div class="p-4"  *ngIf="!isLinks.project && !isLinks.task" >
+        <div class="p-4 w-full text-center"  *ngIf="!isLinks.project && !isLinks.task" >
             <div>{{"NO_FILES"|translate:{fileType:'Links'} }}</div>
         </div>
 

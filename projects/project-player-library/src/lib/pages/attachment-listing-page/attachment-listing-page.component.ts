@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DailogPopupComponent } from '../../shared/dialog-popup/dailog-popup.component';
 import { projectDetailsData } from '../details-page/project-details.component.spec.data';
+import { RoutingService } from '../../services/routing/routing.service';
 
 @Component({
   selector: 'lib-attachment-listing-page',
@@ -9,7 +10,7 @@ import { projectDetailsData } from '../details-page/project-details.component.sp
   styleUrl: './attachment-listing-page.component.css'
 })
 export class AttachmentListingPageComponent {
-  constructor(private dialog: MatDialog){}
+  constructor(private dialog: MatDialog,private routerService:RoutingService){}
   projectData:any = projectDetailsData;
   isImages:any;
   isVideos:any;
@@ -117,5 +118,7 @@ export class AttachmentListingPageComponent {
       });
       this.getAttachments(this.projectData);
   }
-
+  moveToHomePage(){
+    this.routerService.navigate('/details');
+  }
 }

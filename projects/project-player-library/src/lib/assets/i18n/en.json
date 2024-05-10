@@ -42,6 +42,10 @@
     "VIDEOS": "Videos",
     "LINKS": "Links",
     "LEVEL_EVIDENCE":"{{ type }}  Level Evidence",
-    "NO_FILES":"No {{fileType}} found for this projects"
-
+    "NO_FILES":"No {{fileType}} found for this project",
+    "DELETE_ATTACHMENT":"Are you sure you want to delete this attachment ?",
+    "REMOVE":"Remove",
+    "CERTIFICATE":"CERTIFICATE",
+    "ATTACHMENT_FILES":"Attachment Files",
+    "START_IMPROVEMENT":"Start Improvement"
 }
