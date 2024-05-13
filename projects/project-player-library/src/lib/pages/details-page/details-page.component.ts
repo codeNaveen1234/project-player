@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DailogPopupComponent } from '../../shared/dialog-popup/dailog-popup.component';
-import { projectDetailsData } from './project-details.component.spec.data';
 import { RoutingService } from '../../services/routing/routing.service';
 import { actions } from '../../constants/actionConstants';
+import { DbService } from '../../services/db/db.service';
+import { ActivatedRoute } from '@angular/router';
 import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
@@ -18,13 +19,25 @@ export class DetailsPageComponent implements OnInit {
   actionsList = [];
   projectActions = []
   submitted: boolean = false;
-  projectDetails:any = projectDetailsData;
-  constructor(private dialog: MatDialog, private routerService: RoutingService,private toasterService:ToastService) {}
+  projectDetails:any;
+  constructor(private dialog: MatDialog, private routerService: RoutingService, private db: DbService, private activatedRoute: ActivatedRoute,
+    private toasterService:ToastService
+  ) {
+    activatedRoute.params.subscribe(param=>{
+      this.getData(param['id'])
+    })
+  }
 
   ngOnInit(): void {
-    this.countCompletedTasks(this.projectDetails);
-    this.calculateProgress();
-    this.setActionsList()
+  }
+
+  getData(id:any){
+    this.db.getData(id).then(data=>{
+      this.projectDetails = data.data
+      this.countCompletedTasks(this.projectDetails);
+      this.calculateProgress();
+      this.setActionsList()
+    })
   }
 
   countCompletedTasks(projectDetails: any): number {
@@ -52,23 +65,32 @@ export class DetailsPageComponent implements OnInit {
     this.submitted = true;
   }
 
-  navigateToNewTask() {}
+  navigateToNewTask() {
+    this.routerService.navigate('/add-task',this.projectDetails._id)
+  }
 
   taskCardAction(event:any){
-    if(event.item.action == "edited"){
-      this.moveToTaskDetails(event.id);
-    }
-    else if (event.item.action == "deleted"){
-      this.openDialogForDelete('0','0',event.id);
-    }
-    else {
-      console.log("shared");
+    switch (event.action) {
+      case 'edit':
+        this.moveToTaskDetails(event.id);
+        break;
+
+      case 'share':
+        this.openDialog()
+        break;
+
+      case 'delete':
+        this.openDialogForDelete(event.id);
+        break;
+    
+      default:
+        break;
     }
   }
 
   moveToTaskDetails(data: any) {
     if (!this.submitted) {
-      this.routerService.navigate(`/task-details/${data}`)
+      this.routerService.navigate(`/task-details/${data}`,this.projectDetails._id)
     }
   }
 
@@ -77,11 +99,11 @@ export class DetailsPageComponent implements OnInit {
       case "download":
         this.projectDetails.downloaded = true
         this.setActionsList()
-        this.toasterService.showToast("success",2000,"top","right")
+        this.toasterService.showToast("PROJECT_DOWNLOADING_SUCCESS")
         break;
 
       case "share":
-        this.openDialog('0','0')
+        this.openDialog()
         break;
 
       case "files":
@@ -101,14 +123,9 @@ export class DetailsPageComponent implements OnInit {
     moveToFiles() {
     this.routerService.navigate('/files');
   }
-    openDialog(
-    enterAnimationDuration: string,
-    exitAnimationDuration: string
-  ): void {
+    openDialog(): void {
     const modelref = this.dialog.open(DailogPopupComponent, {
       width: '400px',
-      enterAnimationDuration,
-      exitAnimationDuration,
     });
     modelref.componentInstance.dialogBox = {
       title: "SHAREABLE_FILE",
@@ -124,15 +141,9 @@ export class DetailsPageComponent implements OnInit {
     });
   }
 
-  openDialogForDelete(
-    enterAnimationDuration: string,
-    exitAnimationDuration: string,
-    id:any
-  ): void {
+  openDialogForDelete(id:any): void {
     const modelref = this.dialog.open(DailogPopupComponent, {
-      width: '300px',
-      enterAnimationDuration,
-      exitAnimationDuration,
+      width: '300px'
     });
     modelref.componentInstance.dialogBox = {
       title: "CONFIRMATION_DELETE",

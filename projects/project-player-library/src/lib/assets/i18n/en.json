@@ -47,5 +47,21 @@
     "REMOVE":"Remove",
     "CERTIFICATE":"CERTIFICATE",
     "ATTACHMENT_FILES":"Attachment Files",
-    "START_IMPROVEMENT":"Start Improvement"
+    "START_IMPROVEMENT":"Start Improvement",
+    "ADD_NEW_TASK":"Add New Task",
+    "ADD_TASK":"Add task",
+    "ACCEPT_POLICY_ERROR_MSG":"Evidence not uploaded please click on attach and accept the content policy terms",
+    "ATTACH_FILES":"Attach files",
+    "UPLOAD_EVIDENCES":"Upload Evidences",
+    "TERMS_AND_CONDITIONS_MSG_1":"I confirm that the content submitted by me comply with the terms and policies of Sunbird, including Sunbird's",
+    "TERMS_AND_CONDITIONS_MSG_2":"I have made sure that I do not violate other's copyright, privacy or third party rights.",
+    "CONTENT_POLICY":"Content Policy",
+    "UPLOAD":"Upload",
+    "DO_NOT_UPLOAD":"Do not upload",
+    "ATTACHED_SUCCESSFULLY":"Attached Successfully",
+    "NOT_STARTED":"Not Started",
+    "IN_PROGRESS":"In Progress",
+    "COMPLETED":"Completed",
+    "TASK_DESCRIPTION":"Task description",
+    "PROJECT_DOWNLOADING_SUCCESS":"You have downloaded the project successfully!"
 }

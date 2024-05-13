@@ -34,11 +34,15 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { EditTaskCardComponent } from './shared/edit-task-card/edit-task-card.component';
 import { AttachmentCardComponent } from './shared/attachment-card/attachment-card.component';
 import { AttachmentShowCardComponent } from './shared/attachment-show-card/attachment-show-card.component';
+import { AddTaskPageComponent } from './pages/add-task-page/add-task-page.component';
+import { PrivacyPolicyPopupComponent } from './shared/privacy-policy-popup/privacy-policy-popup.component';
+import { MatCheckboxModule } from '@angular/material/checkbox'
 
 const routes: Routes = [
-  { path: 'details', component: DetailsPageComponent },
+  { path: 'details/:id', component: DetailsPageComponent },
   { path: 'files', component: AttachmentListingPageComponent },
-  { path: 'task-details/:id', component: TaskDetailsPageComponent },
+  { path: 'task-details/:taskId/:id', component: TaskDetailsPageComponent },
+  { path: 'add-task/:id', component: AddTaskPageComponent },
 ];
 
 export function translateHttpLoaderFactory(httpClient: HttpClient) {
@@ -60,6 +64,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     SubtaskCardComponent,
     EditTaskCardComponent,
     DailogPopupComponent,
+    AddTaskPageComponent,
+    PrivacyPolicyPopupComponent
   ],
   imports: [
     CommonModule,
@@ -86,6 +92,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
         deps: [HttpClient],
       },
     }),
+    MatSnackBarModule,
+    MatCheckboxModule
   ],
   exports: [RouterModule],
 })

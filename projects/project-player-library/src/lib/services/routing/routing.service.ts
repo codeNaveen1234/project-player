@@ -8,7 +8,12 @@ export class RoutingService {
 
   constructor(private router: Router) { }
 
-  navigate(path:any){
-    this.router.navigate([path],{skipLocationChange:true})
+  navigate(path:any,params?:any){
+    if(params){
+      this.router.navigate([path,params],{skipLocationChange:true})
+    }else{
+      this.router.navigate([path],{skipLocationChange:true})
+    }
+    
   }
 }
