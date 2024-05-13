@@ -5,6 +5,7 @@ import { RoutingService } from '../../services/routing/routing.service';
 import { actions } from '../../constants/actionConstants';
 import { DbService } from '../../services/db/db.service';
 import { ActivatedRoute } from '@angular/router';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'lib-details-page',
@@ -14,28 +15,14 @@ import { ActivatedRoute } from '@angular/router';
 export class DetailsPageComponent implements OnInit {
   completedCount: number = 0;
   progressValue: number = 0;
-  actionsList=[
-    {
-      name: "EDIT",
-      icon:"edit",
-      action:"edit"
-    },
-    {
-      name: "SHARE",
-      icon:"ios_share",
-      action:"share"
-    },
-    {
-      name: "DELETE",
-      icon:"delete",
-      action:"delete"
-    },
-  ];
-
+  showAllTasks: boolean = false;
+  actionsList = [];
   projectActions = []
   submitted: boolean = false;
   projectDetails:any;
-  constructor(private dialog: MatDialog, private routerService: RoutingService, private db: DbService, private activatedRoute: ActivatedRoute) {
+  constructor(private dialog: MatDialog, private routerService: RoutingService, private db: DbService, private activatedRoute: ActivatedRoute,
+    private toasterService:ToastService
+  ) {
     activatedRoute.params.subscribe(param=>{
       this.getData(param['id'])
     })
@@ -86,8 +73,8 @@ export class DetailsPageComponent implements OnInit {
     if(event.item.action == "edited"){
       this.moveToTaskDetails(event.id);
     }
-    else if(event.item.action == "deleted"){
-     this.openDialogForDelete('0','0',event.id);
+    else if (event.item.action == "deleted"){
+      this.openDialogForDelete('0','0',event.id);
     }
     else {
       console.log("shared");
@@ -105,6 +92,7 @@ export class DetailsPageComponent implements OnInit {
       case "download":
         this.projectDetails.downloaded = true
         this.setActionsList()
+        this.toasterService.showToast("success",2000,"top","right")
         break;
 
       case "share":
@@ -119,16 +107,16 @@ export class DetailsPageComponent implements OnInit {
         this.projectDetails.isEdit = false
         this.setActionsList()
         break;
-    
+
       default:
         break;
     }
   }
 
-   moveToFiles() {
+    moveToFiles() {
     this.routerService.navigate('/files');
   }
-   openDialog(
+    openDialog(
     enterAnimationDuration: string,
     exitAnimationDuration: string
   ): void {
@@ -177,13 +165,16 @@ export class DetailsPageComponent implements OnInit {
   }
 
   setActionsList(){
-    let options:any = actions.PROJECT_ACTIONS
+    let options:any = actions.PROJECT_ACTIONS;
+    let optionList:any = actions.ACTION_LIST;
     if(this.projectDetails.downloaded){
       options[0] = actions.DOWNLOADED_ACTION
     }
     if(!this.projectDetails.isEdit){
       options[options.length-1] = actions.SYNCED_ACTION
     }
-    this.projectActions = options
+    this.projectActions = options;
+    this.actionsList = optionList;
   }
+
 }

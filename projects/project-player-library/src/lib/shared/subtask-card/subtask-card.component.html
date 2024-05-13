@@ -1,0 +1,23 @@
+<mat-card>
+    <div class="sub-task-header">
+        <div (click)="editSubTask()">
+            <span class="circle"><mat-icon color="primary" fontIcon="radio_button_unchecked"></mat-icon></span>
+            <h4>{{subTask.name}}</h4>
+        </div>
+        <span class="delete-icon"><mat-icon (click)="openDialog('0','0')" fontIcon="delete"></mat-icon></span>
+    </div>
+    <div class="sub-task-body">
+        <div class="sub-task-date" (click)="openDatePickerForSubTask()">
+            <span><mat-icon color="primary" fontIcon="date_range"></mat-icon></span>
+        </div>
+        <div>
+            <mat-form-field>
+                <mat-select [(value)]="subTask.status" (valueChange)="updateSubTaskStatus(subTask)" name="taskStatus">
+                  @for (item of subTaskOptions; track $index) {
+                    <mat-option [value]="item.value">{{item.label}}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+        </div>
+    </div>
+</mat-card>

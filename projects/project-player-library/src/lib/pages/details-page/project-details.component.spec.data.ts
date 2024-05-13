@@ -234,6 +234,86 @@ export const projectDetailsData = {
                 }
             ],
             "isEdit": true
+        },
+          {
+            "_id": "428a4215-79a4-446b-9f85-681cee1391db",
+            "createdBy": "9bb884fc-8a56-4727-9522-25a7d5b8ea06",
+            "updatedBy": "9bb884fc-8a56-4727-9522-25a7d5b8ea06",
+            "isDeleted": false,
+            "isDeletable": true,
+            "taskSequence": [
+                "Task2-1687345314917-subtask-4"
+            ],
+            "children": [
+                {
+                    "_id": "7c68206f-e2c0-4c54-93ce-7714a23a5b22",
+                    "createdBy": "9bb884fc-8a56-4727-9522-25a7d5b8ea06",
+                    "updatedBy": "9bb884fc-8a56-4727-9522-25a7d5b8ea06",
+                    "isDeleted": false,
+                    "isDeletable": true,
+                    "taskSequence": [],
+                    "children": [],
+                    "visibleIf": [
+                        {
+                            "operator": "===",
+                            "_id": "428a4215-79a4-446b-9f85-681cee1391db",
+                            "value": "started"
+                        }
+                    ],
+                    "hasSubTasks": false,
+                    "learningResources": [],
+                    "deleted": false,
+                    "type": "simple",
+                    "name": "Identify the areas of improvement in the school to work on",
+                    "externalId": "Task2-1687345314917-subtask-4",
+                    "description": "",
+                    "updatedAt": "2023-06-22T14:31:50.142Z",
+                    "createdAt": "2023-06-21T11:01:55.912Z",
+                    "parentId": "6492d8a3ff4204000909dcc6",
+                    "status": "notStarted",
+                    "referenceId": "6492d8a3ff4204000909dcc9",
+                    "isImportedFromLibrary": false,
+                    "syncedAt": "2023-06-22T14:31:50.142Z"
+                }
+            ],
+            "visibleIf": [],
+            "hasSubTasks": true,
+            "learningResources": [],
+            "deleted": false,
+            "type": "simple",
+            "name": "Analyse the findings from the needs assessment",
+            "externalId": "Task2-1687345314917",
+            "description": "",
+            "sequenceNumber": "2",
+            "updatedAt": "2023-06-22T14:31:50.142Z",
+            "createdAt": "2023-06-21T11:01:55.908Z",
+            "status": "notStarted",
+            "referenceId": "6492d8a3ff4204000909dcc6",
+            "isImportedFromLibrary": false,
+            "syncedAt": "2023-06-22T14:31:50.142Z",
+            "attachments": [
+                {
+                    "name": "1713859717051.jpg",
+                    "type": "image/jpeg",
+                    "isUploaded": false,
+                    "url": "",
+                    "localUrl": "http://localhost/_app_file_/storage/emulated/0/Android/data/org.sunbird.app.staging/files/1713859717051.jpg"
+                },
+                {
+                    "name": "trtt.com",
+                    "type": "link",
+                    "isUploaded": false,
+                    "url": ""
+                },
+                {
+                    "name": "1713859723511.pdf",
+                    "type": "application/pdf",
+                    "isUploaded": false,
+                    "url": "",
+                    "localUrl": "http://localhost/_app_file_/storage/emulated/0/Android/data/org.sunbird.app.staging/files/1713859723511.pdf"
+                }
+            ],
+            "isEdit": true
         }
     ],
     "learningResources": [],

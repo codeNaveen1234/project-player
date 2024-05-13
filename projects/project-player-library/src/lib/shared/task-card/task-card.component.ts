@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { RoutingService } from '../../services/routing/routing.service';
 
 @Component({
