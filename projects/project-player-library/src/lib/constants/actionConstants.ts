@@ -36,5 +36,22 @@ export const actions = {
         icon: "check_circle",
         action: "downloaded",
         color: "green"
-    }
+    },
+    FILE_UPLOAD_OPTIONS : [
+        {
+            label: "IMAGES",
+            icon: "photo_library",
+            accept: "image/*"
+          },
+          {
+            label: "VIDEOS",
+            icon: "videocam",
+            accept: "video/*"
+          },
+          {
+            label: "FILES",
+            icon: "picture_as_pdf",
+            accept: "application/pdf"
+          }
+    ]
 }

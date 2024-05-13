@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DailogPopupComponent } from '../../shared/dialog-popup/dailog-popup.component';
-import { projectDetailsData } from './project-details.component.spec.data';
 import { RoutingService } from '../../services/routing/routing.service';
 import { actions } from '../../constants/actionConstants';
+import { DbService } from '../../services/db/db.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'lib-details-page',
@@ -33,13 +34,23 @@ export class DetailsPageComponent implements OnInit {
 
   projectActions = []
   submitted: boolean = false;
-  projectDetails:any = projectDetailsData;
-  constructor(private dialog: MatDialog, private routerService: RoutingService) {}
+  projectDetails:any;
+  constructor(private dialog: MatDialog, private routerService: RoutingService, private db: DbService, private activatedRoute: ActivatedRoute) {
+    activatedRoute.params.subscribe(param=>{
+      this.getData(param['id'])
+    })
+  }
 
   ngOnInit(): void {
-    this.countCompletedTasks(this.projectDetails);
-    this.calculateProgress();
-    this.setActionsList()
+  }
+
+  getData(id:any){
+    this.db.getData(id).then(data=>{
+      this.projectDetails = data.data
+      this.countCompletedTasks(this.projectDetails);
+      this.calculateProgress();
+      this.setActionsList()
+    })
   }
 
   countCompletedTasks(projectDetails: any): number {
@@ -67,7 +78,9 @@ export class DetailsPageComponent implements OnInit {
     this.submitted = true;
   }
 
-  navigateToNewTask() {}
+  navigateToNewTask() {
+    this.routerService.navigate('/add-task',this.projectDetails._id)
+  }
 
   taskCardAction(event:any){
     if(event.item.action == "edited"){

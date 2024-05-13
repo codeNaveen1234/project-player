@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, Output, input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { DailogPopupComponent } from '../dialog-popup/dailog-popup.component';
+import { RoutingService } from '../../services/routing/routing.service';
 
 @Component({
   selector: 'lib-task-card',
@@ -15,7 +14,7 @@ export class TaskCardComponent {
   @Output() newItemEvent = new EventEmitter<any>();
 
 
-  constructor(private dialog: MatDialog, private router: Router) {}
+  constructor(private routerService: RoutingService) {}
 
   actionsEmit(item:any,id:any){
     if(item.action === "edit"){
@@ -33,9 +32,7 @@ export class TaskCardComponent {
 
   moveToDetailsTask(data: any) {
     if (!this.submittedImprovement) {
-      this.router.navigate([`/task-details/${data}`], {
-        skipLocationChange: true,
-      });
+      this.routerService.navigate(`/task-details/${data}`);
     }
   }
 }
