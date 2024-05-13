@@ -36,7 +36,7 @@
                     <h5>
                         {{task.status}}
                     </h5>
-                    <h5>{{"END_DATE"|translate}}: {{ task.endDate || '_' }}</h5>
+                    <h5>{{"END_DATE"|translate}}: {{ (task.endDate) ? (task.endDate | date : 'MMM dd, YYYY') : '_' }}</h5>
                     <a  ><span class="a-name">
                         {{"VIEW_TASK_DETAILS"|translate}}
                     </span> <span class="material-symbols-outlined" id="a-icon">

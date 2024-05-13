@@ -37,35 +37,52 @@ export const actions = {
         action: "downloaded",
         color: "green"
     },
-        TASK_STATUS: [
-    {
-        label : "Not Started",
-        value:"notStarted"
-    },
-    {
-        label : "In Progress",
-        value:"inProgress"
-    },
-    {
-        label : "Completed",
-        value:"completed"
-    },
+    FILE_UPLOAD_OPTIONS : [
+        {
+            label: "IMAGES",
+            icon: "photo_library",
+            accept: "image/*"
+          },
+          {
+            label: "VIDEOS",
+            icon: "videocam",
+            accept: "video/*"
+          },
+          {
+            label: "FILES",
+            icon: "picture_as_pdf",
+            accept: "application/pdf"
+          }
     ],
-        ACTION_LIST : [
-    {
-        name:"EDIT",
-        icon:"edit",
-        action:"edit"
-    },
-    {
-        name:"SHARE",
-        icon:"ios_share",
-        action:"share"
-    },
-    {
-        name:"DELETE",
-        icon:"delete",
-        action:"delete"
-    },
+    TASK_STATUS: [
+        {
+            label : "NOT_STARTED",
+            value:"notStarted"
+        },
+        {
+            label : "IN_PROGRESS",
+            value:"inProgress"
+        },
+        {
+            label : "COMPLETED",
+            value:"completed"
+        },
+    ],
+    ACTION_LIST : [
+        {
+            name:"EDIT",
+            icon:"edit",
+            action:"edit"
+        },
+        {
+            name:"SHARE",
+            icon:"ios_share",
+            action:"share"
+        },
+        {
+            name:"DELETE",
+            icon:"delete",
+            action:"delete"
+        },
     ]
 }

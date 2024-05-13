@@ -1,7 +1,4 @@
-import { Component, EventEmitter, Input, Output, input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-// import { Router } from '@angular/router';
-import { DailogPopupComponent } from '../dialog-popup/dailog-popup.component';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RoutingService } from '../../services/routing/routing.service';
 
 @Component({
@@ -16,19 +13,10 @@ export class TaskCardComponent {
   @Output() newItemEvent = new EventEmitter<any>();
 
 
-  constructor(private dialog: MatDialog, private routerService: RoutingService) {}
+  constructor(private routerService: RoutingService) {}
 
   actionsEmit(item:any,id:any){
-    if(item.action === "edit"){
-      item.action = "edited"
-    }
-    else if(item.action === "share"){
-      item.action = "shared"
-    }
-    else {
-      item.action = "deleted"
-    }
-    const data = { item: item, id: id };
+    const data = { action: item.action, id: id };
     this.newItemEvent.emit(data);
   }
 

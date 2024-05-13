@@ -3,8 +3,9 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { EditTaskCardComponent } from '../../shared/edit-task-card/edit-task-card.component';
-import { projectDetailsData } from '../details-page/project-details.component.spec.data';
 import { actions } from '../../constants/actionConstants';
+import { RoutingService } from '../../services/routing/routing.service';
+import { DbService } from '../../services/db/db.service';
 
 interface TaskOption {
   value: any;
@@ -16,25 +17,35 @@ interface TaskOption {
   styleUrl: './task-details-page.component.css',
 })
 export class TaskDetailsPageComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private dialog: MatDialog) {}
+  constructor(private route: ActivatedRoute, private dialog: MatDialog, private routingService: RoutingService,
+    private db: DbService) {}
   taskId: any;
   selectedValue!: string;
   textFormControl = new FormControl('');
   task: any = {};
   taskOptions : TaskOption[] =[];
+  projectId: any
+  projectDetails:any
 
   ngOnInit(): void {
     this.setOptionList();
     this.route.paramMap.subscribe((params: any) => {
-      const id = params.get('id');
-      console.log(id);
-      this.taskId = id;
+      this.taskId = params.get('taskId')
+      this.projectId = params.get('id')
     });
-    this.getTaskDetails();
+    this.getProjectDetails()
   }
+
+  getProjectDetails(){
+    this.db.getData(this.projectId).then(data=>{
+      this.projectDetails = data.data
+      this.getTaskDetails();
+    })
+  }
+  
   getTaskDetails() {
-    this.task = projectDetailsData.tasks.find(
-      (task) => task._id === this.taskId
+    this.task = this.projectDetails.tasks.find(
+      (task:any) => task._id === this.taskId
     );
   }
   addSubTask(data: any) {
@@ -44,19 +55,14 @@ export class TaskDetailsPageComponent implements OnInit {
     this.textFormControl.reset();
   }
   editTask() {
-    this.openEditTaskName('0', '0', this.task.name,"EDIT_TASK"
-    );
+    this.openEditTaskName(this.task.name,"EDIT_TASK");
   }
   openEditTaskName(
-    enterAnimationDuration: string,
-    exitAnimationDuration: string,
     taskName: string,
     editType:string
   ): void {
     const modelref = this.dialog.open(EditTaskCardComponent, {
-      width: '400px',
-      enterAnimationDuration,
-      exitAnimationDuration,
+      width: '400px'
     });
     modelref.componentInstance.title = taskName;
     modelref.componentInstance.editType=editType;
@@ -106,5 +112,9 @@ export class TaskDetailsPageComponent implements OnInit {
   setOptionList(){
     let options:any = actions.TASK_STATUS;
     this.taskOptions = options;
+  }
+
+  goBack(){
+    this.routingService.navigate('/details',this.projectDetails._id)
   }
 }

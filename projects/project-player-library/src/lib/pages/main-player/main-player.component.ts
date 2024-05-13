@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RoutingService } from '../../services/routing/routing.service';
+import { DbService } from '../../services/db/db.service';
+import { projectDetailsData } from '../details-page/project-details.component.spec.data';
 
 @Component({
   selector: 'lib-main-player',
@@ -7,15 +9,27 @@ import { RoutingService } from '../../services/routing/routing.service';
   styleUrls: ['./main-player.component.css']
 })
 export class MainPlayerComponent implements OnInit {
+  projectDetails = projectDetailsData
 
-  constructor(private routerService: RoutingService) { }
+  constructor(private routerService: RoutingService, private db: DbService) {}
 
-  ngOnInit(): void {
-    this.navigate()
+  ngOnInit() {
+    setTimeout(()=>{
+      this.storeDataToLocal()
+      }, 2000)
   }
 
   navigate(){
-    this.routerService.navigate('/details')
+    this.routerService.navigate('/details',this.projectDetails._id)
+  }
+
+  storeDataToLocal(){
+    let data = {
+      key: this.projectDetails._id,
+      data: this.projectDetails
+    }
+    this.db.addData(data)
+    this.navigate()
   }
 
 }

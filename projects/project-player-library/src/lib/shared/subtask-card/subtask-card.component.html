@@ -14,7 +14,7 @@
             <mat-form-field>
                 <mat-select [(value)]="subTask.status" (valueChange)="updateSubTaskStatus(subTask)" name="taskStatus">
                   @for (item of subTaskOptions; track $index) {
-                    <mat-option [value]="item.value">{{item.label}}</mat-option>
+                    <mat-option [value]="item.value">{{item.label | translate}}</mat-option>
                   }
                 </mat-select>
               </mat-form-field>

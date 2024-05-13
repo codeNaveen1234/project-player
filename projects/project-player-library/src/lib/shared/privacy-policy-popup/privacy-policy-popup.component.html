@@ -1,0 +1,19 @@
+<div class="p-5">
+    <div class="flex flex-row justify-center mb-3 font-bold text-xl">{{ "UPLOAD_EVIDENCES" | translate }}</div>
+    <div class="flex flex-row">
+        <mat-checkbox [(ngModel)]="isChecked" color="primary" class="mr-3"></mat-checkbox>
+        <div>
+            <span>{{ "TERMS_AND_CONDITIONS_MSG_1" | translate }} </span>
+            <a href="https://www.google.com" class="text-blue-600" target="_blank">{{ "CONTENT_POLICY" | translate }}</a>.
+            <span> {{ "TERMS_AND_CONDITIONS_MSG_2" | translate }}</span>
+        </div>
+    </div>
+    <div class="flex flex-row mt-10">
+        <button  mat-flat-button (click)="closePopup(false)" color="{{!isChecked?'primary':''}}" class="w-full mr-3 !border-solid !border-2 !border-blue-700 !rounded-3xl">
+            {{ "DO_NOT_UPLOAD" | translate }}
+        </button>
+        <button  mat-flat-button (click)="closePopup(true)" [disabled]="!isChecked" color="primary" class="w-full !rounded-3xl">
+            {{ "UPLOAD" | translate }}
+        </button>
+    </div>
+</div>

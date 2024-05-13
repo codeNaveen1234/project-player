@@ -1,3 +1,6 @@
+<div class="flex mt-3">
+    <mat-icon fontIcon="keyboard_backspace" class="cursor-pointer" (click)="goBack()"></mat-icon>
+</div>
 <div class="task-details">
     <div class="task-header" (click)="editTask()">
         <h4>{{task.name}}</h4>
@@ -15,7 +18,7 @@
             <mat-form-field>
                 <mat-select [(value)]="task.status" name="taskStatus" [disabled]="task.children.length > 0">
                   @for (item of taskOptions; track $index) {
-                    <mat-option [value]="item.value">{{item.label}}</mat-option>
+                    <mat-option [value]="item.value">{{item.label | translate}}</mat-option>
                   }
                 </mat-select>
               </mat-form-field>
