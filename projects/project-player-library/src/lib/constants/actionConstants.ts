@@ -56,15 +56,15 @@ export const actions = {
     ],
     TASK_STATUS: [
         {
-            label : "Not Started",
+            label : "NOT_STARTED",
             value:"notStarted"
         },
         {
-            label : "In Progress",
+            label : "IN_PROGRESS",
             value:"inProgress"
         },
         {
-            label : "Completed",
+            label : "COMPLETED",
             value:"completed"
         },
     ],

@@ -70,20 +70,27 @@ export class DetailsPageComponent implements OnInit {
   }
 
   taskCardAction(event:any){
-    if(event.item.action == "edited"){
-      this.moveToTaskDetails(event.id);
-    }
-    else if (event.item.action == "deleted"){
-      this.openDialogForDelete('0','0',event.id);
-    }
-    else {
-      console.log("shared");
+    switch (event.action) {
+      case 'edit':
+        this.moveToTaskDetails(event.id);
+        break;
+
+      case 'share':
+        this.openDialog()
+        break;
+
+      case 'delete':
+        this.openDialogForDelete(event.id);
+        break;
+    
+      default:
+        break;
     }
   }
 
   moveToTaskDetails(data: any) {
     if (!this.submitted) {
-      this.routerService.navigate(`/task-details/${data}`)
+      this.routerService.navigate(`/task-details/${data}`,this.projectDetails._id)
     }
   }
 
@@ -92,11 +99,11 @@ export class DetailsPageComponent implements OnInit {
       case "download":
         this.projectDetails.downloaded = true
         this.setActionsList()
-        this.toasterService.showToast("success",2000,"top","right")
+        this.toasterService.showToast("PROJECT_DOWNLOADING_SUCCESS")
         break;
 
       case "share":
-        this.openDialog('0','0')
+        this.openDialog()
         break;
 
       case "files":
@@ -116,14 +123,9 @@ export class DetailsPageComponent implements OnInit {
     moveToFiles() {
     this.routerService.navigate('/files');
   }
-    openDialog(
-    enterAnimationDuration: string,
-    exitAnimationDuration: string
-  ): void {
+    openDialog(): void {
     const modelref = this.dialog.open(DailogPopupComponent, {
       width: '400px',
-      enterAnimationDuration,
-      exitAnimationDuration,
     });
     modelref.componentInstance.dialogBox = {
       title: "SHAREABLE_FILE",
@@ -139,15 +141,9 @@ export class DetailsPageComponent implements OnInit {
     });
   }
 
-  openDialogForDelete(
-    enterAnimationDuration: string,
-    exitAnimationDuration: string,
-    id:any
-  ): void {
+  openDialogForDelete(id:any): void {
     const modelref = this.dialog.open(DailogPopupComponent, {
-      width: '300px',
-      enterAnimationDuration,
-      exitAnimationDuration,
+      width: '300px'
     });
     modelref.componentInstance.dialogBox = {
       title: "CONFIRMATION_DELETE",

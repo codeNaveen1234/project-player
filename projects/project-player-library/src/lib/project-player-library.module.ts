@@ -39,7 +39,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
 const routes: Routes = [
   { path: 'details/:id', component: DetailsPageComponent },
   { path: 'files', component: AttachmentListingPageComponent },
-  { path: 'task-details/:id', component: TaskDetailsPageComponent },
+  { path: 'task-details/:taskId/:id', component: TaskDetailsPageComponent },
   { path: 'add-task/:id', component: AddTaskPageComponent },
 ];
 

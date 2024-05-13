@@ -21,20 +21,7 @@ export class AddTaskPageComponent implements OnInit {
   acceptType = ''
   taskData:any
   projectDetails:any
-  taskOptions = [
-    {
-      label : "NOT_STARTED",
-      value:"notStarted"
-    },
-    {
-      label : "IN_PROGRESS",
-      value:"inProgress"
-    },
-    {
-      label : "COMPLETED",
-      value:"completed"
-    },
-  ]
+  taskOptions = actions.TASK_STATUS
   taskTitle = ''
   taskStatus = 'notStarted'
   endDate = ''

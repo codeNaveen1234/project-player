@@ -16,16 +16,7 @@ export class TaskCardComponent {
   constructor(private routerService: RoutingService) {}
 
   actionsEmit(item:any,id:any){
-    if(item.action === "edit"){
-      item.action = "edited"
-    }
-    else if(item.action === "share"){
-      item.action = "shared"
-    }
-    else {
-      item.action = "deleted"
-    }
-    const data = { item: item, id: id };
+    const data = { action: item.action, id: id };
     this.newItemEvent.emit(data);
   }
 

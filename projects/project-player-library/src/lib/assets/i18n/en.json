@@ -57,5 +57,6 @@
     "NOT_STARTED":"Not Started",
     "IN_PROGRESS":"In Progress",
     "COMPLETED":"Completed",
-    "TASK_DESCRIPTION":"Task description"
+    "TASK_DESCRIPTION":"Task description",
+    "PROJECT_DOWNLOADING_SUCCESS":"You have downloaded the project successfully!"
 }
