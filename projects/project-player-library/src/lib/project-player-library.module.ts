@@ -39,14 +39,16 @@ import { PrivacyPolicyPopupComponent } from './shared/privacy-policy-popup/priva
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { PreviewDetailsPageComponent } from './pages/preview-details-page/preview-details-page.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { AddFilesPageComponent } from './pages/add-files-page/add-files-page.component';
+import { AddLinkPopupComponent } from './shared/add-link-popup/add-link-popup.component'
 
 const routes: Routes = [
   { path: 'details/:id', component: DetailsPageComponent },
   { path: 'files/:id', component: AttachmentListingPageComponent },
   { path: 'task-details/:taskId/:id', component: TaskDetailsPageComponent },
   { path: 'add-task/:id', component: AddTaskPageComponent },
-  { path: 'preview-details/:id', component: PreviewDetailsPageComponent}
-
+  { path: 'preview-details/:id', component: PreviewDetailsPageComponent},
+  { path: 'add-files/:id', component: AddFilesPageComponent }
 ];
 
 export function translateHttpLoaderFactory(httpClient: HttpClient) {
@@ -70,7 +72,9 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     DailogPopupComponent,
     AddTaskPageComponent,
     PreviewDetailsPageComponent,
-    PrivacyPolicyPopupComponent
+    PrivacyPolicyPopupComponent,
+    AddFilesPageComponent,
+    AddLinkPopupComponent
   ],
   imports: [
     CommonModule,

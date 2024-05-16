@@ -66,7 +66,7 @@ export class DetailsPageComponent implements OnInit {
   }
 
   navigateToNewTask() {
-    this.routerService.navigate('/add-task',this.projectDetails._id)
+    this.routerService.navigate(`/add-task/${this.projectDetails._id}`)
   }
 
   taskCardAction(event:any){
@@ -90,7 +90,7 @@ export class DetailsPageComponent implements OnInit {
 
   moveToTaskDetails(data: any) {
     if (!this.submitted) {
-      this.routerService.navigate(`/task-details/${data}`,this.projectDetails._id)
+      this.routerService.navigate(`/task-details/${data}/${this.projectDetails._id}`)
     }
   }
 

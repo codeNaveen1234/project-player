@@ -48,7 +48,7 @@
         }
     </div>
     <div class="add-files-button" [ngClass]="{'add-files-button-sub': task.children.length === 0}">
-        <button mat-flat-button color="primary">{{ 'ADD_FILES' | translate }}</button>
+        <button mat-flat-button color="primary" (click)="addFiles()">{{ 'ADD_FILES' | translate }}</button>
     </div>
 
 </div>

@@ -7,6 +7,7 @@ import { actions } from '../../constants/actionConstants';
 import { RoutingService } from '../../services/routing/routing.service';
 import { DbService } from '../../services/db/db.service';
 import { UtilsService } from '../../services/utils/utils.service';
+import { PrivacyPolicyPopupComponent } from '../../shared/privacy-policy-popup/privacy-policy-popup.component';
 import { ToastService } from '../../services/toast/toast.service';
 
 interface TaskOption {
@@ -126,7 +127,7 @@ export class TaskDetailsPageComponent implements OnInit {
   }
 
   goBack(){
-    this.routingService.navigate('/details',this.projectDetails._id)
+    this.routingService.navigate(`/details/${this.projectDetails._id}`)
   }
 
   taskStatusChange(){
@@ -141,4 +142,22 @@ export class TaskDetailsPageComponent implements OnInit {
     }
     this.db.updateData(finalData);
   }
+
+  addFiles(){
+    const dialogRef = this.dialog.open(PrivacyPolicyPopupComponent,{
+      width:'400px',
+      minHeight:'150px'
+    })
+
+    dialogRef.afterClosed().subscribe(data=>{
+      if(data){
+        if(data.isChecked && data.upload){
+          this.routingService.navigate(`/add-files/${this.projectDetails._id}`,{taskId:this.taskId})
+        }else{
+          this.toasterService.showToast('ACCEPT_POLICY_ERROR_MSG')
+        }
+      }
+    })
+  }
+
 }

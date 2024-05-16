@@ -72,5 +72,16 @@
     "PROJECT_SUBMMITTED_SUCCESS":"Project submmitted successfully!",
     "PROJECT_SYNC_SUCCESS":"Project Synced Successfully!",
     "TASK_DELETE_SUCCESS":"Task Deleted Successfully!",
-    "START_IMPROVEMENT_SUCCESS":"Start With Your Improvement!"
+    "START_IMPROVEMENT_SUCCESS":"Start With Your Improvement!",
+    "ADD_LINK":"Add link",
+    "ADD_LINK_PLACEHOLDER":"Add link here",
+    "ADD_ATTACHMENT":"Add attachment",
+    "ADD_REMARKS":"Add remarks",
+    "ADD_REMARKS_PLACEHOLDER":"Type your remarks here",
+    "TASK_FILES_DESCRIPTION": "Would you like to add any remarks or attach any files before you mark your task complete?",
+    "PROJECT_FILES_DESCRIPTION": "Would you like to add any evidence of impact as photos, videos, remarks or documents before submitting?",
+    "DELETE_ATTACHMENT_CONFIRMATION_MSG":"Are you sure you want to delete selected attachment?",
+    "INVALID_LINK_MSG":"Please check the link. Special characters, comma, spaces or new lines are not allowed.",
+    "SUBMIT_IMPROVEMENT_CONFIRMATION_MSG":"Are you sure you want to submit your improvement project?. Once submitted no further edits can be made to the project.",
+    "SUBMIT":"Submit"
 }
