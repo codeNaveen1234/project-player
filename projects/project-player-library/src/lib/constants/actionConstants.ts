@@ -52,7 +52,12 @@ export const actions = {
             label: "FILES",
             icon: "picture_as_pdf",
             accept: "application/pdf"
-          }
+          },
+          {
+            label: "LINKS",
+            icon: "link",
+            accept: "link"
+          },
     ],
     TASK_STATUS: [
         {

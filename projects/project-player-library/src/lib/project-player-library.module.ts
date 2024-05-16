@@ -34,13 +34,16 @@ import { EditTaskCardComponent } from './shared/edit-task-card/edit-task-card.co
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AddTaskPageComponent } from './pages/add-task-page/add-task-page.component';
 import { PrivacyPolicyPopupComponent } from './shared/privacy-policy-popup/privacy-policy-popup.component';
-import { MatCheckboxModule } from '@angular/material/checkbox'
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AddFilesPageComponent } from './pages/add-files-page/add-files-page.component';
+import { AddLinkPopupComponent } from './shared/add-link-popup/add-link-popup.component'
 
 const routes: Routes = [
   { path: 'details/:id', component: DetailsPageComponent },
   { path: 'files', component: AttachmentListingPageComponent },
   { path: 'task-details/:taskId/:id', component: TaskDetailsPageComponent },
   { path: 'add-task/:id', component: AddTaskPageComponent },
+  { path: 'add-files/:id', component: AddFilesPageComponent }
 ];
 
 export function translateHttpLoaderFactory(httpClient: HttpClient) {
@@ -61,7 +64,9 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     EditTaskCardComponent,
     DailogPopupComponent,
     AddTaskPageComponent,
-    PrivacyPolicyPopupComponent
+    PrivacyPolicyPopupComponent,
+    AddFilesPageComponent,
+    AddLinkPopupComponent
   ],
   imports: [
     CommonModule,

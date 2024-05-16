@@ -35,6 +35,7 @@ export class AddTaskPageComponent implements OnInit {
 
   ngOnInit(){
     this.taskData = this.utils.getMetaData()
+    this.uploadOptions.pop()
   }
 
   getProjectDetails(id:any){
@@ -44,7 +45,7 @@ export class AddTaskPageComponent implements OnInit {
   }
 
   goBack(){
-    this.routingService.navigate('/details',this.projectDetails._id)
+    this.routingService.navigate(`/details/${this.projectDetails._id}`)
   }
 
   uploadFile(accept:any){
