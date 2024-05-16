@@ -16,11 +16,11 @@ export class MainPlayerComponent implements OnInit {
   ngOnInit() {
     setTimeout(()=>{
       this.storeDataToLocal()
-      }, 2000)
+      }, 1000)
   }
 
   navigate(){
-    this.routerService.navigate('/details',this.projectDetails._id)
+    this.routerService.navigate(`/details/${this.projectDetails._id}`)
   }
 
   storeDataToLocal(){

@@ -58,5 +58,16 @@
     "IN_PROGRESS":"In Progress",
     "COMPLETED":"Completed",
     "TASK_DESCRIPTION":"Task description",
-    "PROJECT_DOWNLOADING_SUCCESS":"You have downloaded the project successfully!"
+    "PROJECT_DOWNLOADING_SUCCESS":"You have downloaded the project successfully!",
+    "ADD_LINK":"Add link",
+    "ADD_LINK_PLACEHOLDER":"Add link here",
+    "ADD_ATTACHMENT":"Add attachment",
+    "ADD_REMARKS":"Add remarks",
+    "ADD_REMARKS_PLACEHOLDER":"Type your remarks here",
+    "TASK_FILES_DESCRIPTION": "Would you like to add any remarks or attach any files before you mark your task complete?",
+    "PROJECT_FILES_DESCRIPTION": "Would you like to add any evidence of impact as photos, videos, remarks or documents before submitting?",
+    "DELETE_ATTACHMENT_CONFIRMATION_MSG":"Are you sure you want to delete selected attachment?",
+    "INVALID_LINK_MSG":"Please check the link. Special characters, comma, spaces or new lines are not allowed.",
+    "SUBMIT_IMPROVEMENT_CONFIRMATION_MSG":"Are you sure you want to submit your improvement project?. Once submitted no further edits can be made to the project.",
+    "SUBMIT":"Submit"
 }
