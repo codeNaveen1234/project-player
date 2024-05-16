@@ -15,7 +15,6 @@ import { ToastService } from '../../services/toast/toast.service';
 export class DetailsPageComponent implements OnInit {
   completedCount: number = 0;
   progressValue: number = 0;
-  showAllTasks: boolean = false;
   actionsList = [];
   projectActions = []
   submitted: boolean = false;
@@ -63,6 +62,7 @@ export class DetailsPageComponent implements OnInit {
   }
   submitImprovement() {
     this.submitted = true;
+    this.toasterService.showToast("PROJECT_SUBMMITTED_SUCCESS")
   }
 
   navigateToNewTask() {
@@ -82,7 +82,7 @@ export class DetailsPageComponent implements OnInit {
       case 'delete':
         this.openDialogForDelete(event.id);
         break;
-    
+
       default:
         break;
     }
@@ -112,6 +112,7 @@ export class DetailsPageComponent implements OnInit {
 
       case "sync":
         this.projectDetails.isEdit = false
+        this.toasterService.showToast("PROJECT_SYNC_SUCCESS")
         this.setActionsList()
         break;
 
@@ -121,7 +122,7 @@ export class DetailsPageComponent implements OnInit {
   }
 
     moveToFiles() {
-    this.routerService.navigate('/files');
+    this.routerService.navigate('/files',this.projectDetails._id);
   }
     openDialog(): void {
     const modelref = this.dialog.open(DailogPopupComponent, {
@@ -135,6 +136,7 @@ export class DetailsPageComponent implements OnInit {
     modelref.afterClosed().subscribe((res: boolean) => {
       if (res) {
         console.log('you have selected sync and share respectively');
+        this.toasterService.showToast("PROJECT_SYNC_SUCCESS")
       } else {
         console.log(`you have selected Don't sync.`);
       }
@@ -154,6 +156,12 @@ export class DetailsPageComponent implements OnInit {
       if (res) {
         console.log('The task was deleted.');
         this.projectDetails.tasks = this.projectDetails.tasks.filter((task:any) => task._id !== id);
+        let finalData = {
+          key: this.projectDetails._id,
+          data:this.projectDetails
+        }
+        this.db.updateData(finalData)
+        this.toasterService.showToast("ASK_DELETE_SUCCESS")
       } else {
         console.log('The deletion was canceled.');
       }
@@ -173,4 +181,16 @@ export class DetailsPageComponent implements OnInit {
     this.actionsList = optionList;
   }
 
+  moveToDetailsTask(data: any) {
+    if (!this.submitted) {
+      this.routerService.navigate(`/task-details/${data}`,this.projectDetails._id);
+    }
+  }
+
+  onLearningResources(){
+    console.log("learning reources");
+  }
+  onStartObservation(){
+    console.log("start observation");
+  }
 }

@@ -37,12 +37,16 @@ import { AttachmentShowCardComponent } from './shared/attachment-show-card/attac
 import { AddTaskPageComponent } from './pages/add-task-page/add-task-page.component';
 import { PrivacyPolicyPopupComponent } from './shared/privacy-policy-popup/privacy-policy-popup.component';
 import { MatCheckboxModule } from '@angular/material/checkbox'
+import { PreviewDetailsPageComponent } from './pages/preview-details-page/preview-details-page.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 const routes: Routes = [
   { path: 'details/:id', component: DetailsPageComponent },
-  { path: 'files', component: AttachmentListingPageComponent },
+  { path: 'files/:id', component: AttachmentListingPageComponent },
   { path: 'task-details/:taskId/:id', component: TaskDetailsPageComponent },
   { path: 'add-task/:id', component: AddTaskPageComponent },
+  { path: 'preview-details/:id', component: PreviewDetailsPageComponent}
+
 ];
 
 export function translateHttpLoaderFactory(httpClient: HttpClient) {
@@ -65,6 +69,7 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     EditTaskCardComponent,
     DailogPopupComponent,
     AddTaskPageComponent,
+    PreviewDetailsPageComponent,
     PrivacyPolicyPopupComponent
   ],
   imports: [
@@ -93,7 +98,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
       },
     }),
     MatSnackBarModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatExpansionModule
   ],
   exports: [RouterModule],
 })

@@ -63,5 +63,14 @@
     "IN_PROGRESS":"In Progress",
     "COMPLETED":"Completed",
     "TASK_DESCRIPTION":"Task description",
-    "PROJECT_DOWNLOADING_SUCCESS":"You have downloaded the project successfully!"
+    "PROJECT_DOWNLOADING_SUCCESS":"You have downloaded the project successfully!",
+    "CERTIFICATE_CRITERIA":"Certificate criteria",
+    "LEARNING_RESOURCES":"Learning resources",
+    "OBSERVATION":" Start observation",
+    "FILES_CHANGES_UPDATED":"File Changes Updated Successfully!",
+    "ATTACHMENT_REMOVED_SUCCESS":"Attachment removed Successfully!",
+    "PROJECT_SUBMMITTED_SUCCESS":"Project submmitted successfully!",
+    "PROJECT_SYNC_SUCCESS":"Project Synced Successfully!",
+    "TASK_DELETE_SUCCESS":"Task Deleted Successfully!",
+    "START_IMPROVEMENT_SUCCESS":"Start With Your Improvement!"
 }
