@@ -1,10 +1,10 @@
-@if (attachments.type === 'image/jpeg') {
+@if (attachments.type.includes('image')) {
     <mat-card class="w-full  rounded-full p-2 " style=" box-shadow: rgba(133, 119, 119, 0.555) 5px 5px 4px;">
         <div class="flex w-full justify-end">
             <mat-icon class="cursor-pointer" fontIcon="cancel" (click)="actionEmit(attachments)"></mat-icon>
         </div>
         <div class="p-2">
-            <img [src]="" [alt]="attachments.name" srcset="">
+            <img  [src]="attachment" [alt]="attachments.name" srcset="">
         </div>
     </mat-card>
 }
@@ -12,9 +12,9 @@
     <div class="flex justify-between items-center p-1  w-full bg-gray-300 rounded">
         <div class="flex flex-row items-center gap-x-2">
             <span class="flex items-center">
-                <mat-icon *ngIf="attachments.type === 'video/mp4'" fontIcon="videocam" color="primary"></mat-icon>
-                <mat-icon *ngIf="attachments.type === 'link'" fontIcon="link" color="primary"></mat-icon>
-                <mat-icon *ngIf="attachments.type === 'application/pdf'" fontIcon="description" color="primary"></mat-icon>
+                <mat-icon *ngIf="attachments.type.includes('video')" fontIcon="videocam" color="primary"></mat-icon>
+                <mat-icon *ngIf="attachments.type.includes('link')" fontIcon="link" color="primary"></mat-icon>
+                <mat-icon *ngIf="attachments.type.includes('application')" fontIcon="description" color="primary"></mat-icon>
             </span>
             <div class="text-blue-600">
                 {{attachments.name}}
@@ -22,7 +22,7 @@
         </div>
         <div class="flex flex-col cursor-pointer" (click)="actionEmit(attachments)">
             <div class="flex justify-center items-end"><mat-icon fontIcon="cancel" color="primary"></mat-icon></div>
-            <div class="text-xs text-blue-600">Remove</div>
+            <div class="text-xs text-blue-600">{{ "REMOVE" | translate}}</div>
         </div>
     </div>
 }

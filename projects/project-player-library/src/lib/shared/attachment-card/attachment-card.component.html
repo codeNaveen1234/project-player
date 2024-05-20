@@ -2,12 +2,12 @@
     <div class="text-gray-500 font-semibold text-lg p-2 border-b-2 border-gray-500">
         {{details.title}}
     </div>
-    <div  *ngIf="attachmentsType === 'image/jpeg' && details.remarks" class="text-gray-500 px-5 font-semibold text-sm pt-4 pb-2">
-       {{details.remarks}}
+    <div  *ngIf="details.remarks && attachmentsType === 'image'" class="text-gray-500 px-5 font-semibold text-sm pt-4 pb-2">
+       {{ details.remarks }}
     </div>
     <div class="flex flex-wrap w-full p-2">
         @for (item of details.attachments; track $index) {
-            <div class="w-full p-2 sm:w-1/2 sm:p-2" *ngIf="item.type === attachmentsType">
+            <div class="w-full p-2 sm:w-1/2 sm:p-2" *ngIf="item.type.includes(attachmentsType)">
                 <lib-attachment-show-card  [attachments]="item"  (emitAttachment)="getAttachmentRemove($event)" ></lib-attachment-show-card>
             </div>
         }

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DailogPopupComponent } from '../../shared/dialog-popup/dailog-popup.component';
-import { projectDetailsData } from '../details-page/project-details.component.spec.data';
 import { RoutingService } from '../../services/routing/routing.service';
+import { DbService } from '../../services/db/db.service';
+import { ActivatedRoute } from '@angular/router';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'lib-attachment-listing-page',
@@ -10,25 +12,42 @@ import { RoutingService } from '../../services/routing/routing.service';
   styleUrl: './attachment-listing-page.component.css'
 })
 export class AttachmentListingPageComponent {
-  constructor(private dialog: MatDialog,private routerService:RoutingService){}
-  projectData:any = projectDetailsData;
+  projectData:any ;
   isImages:any;
   isVideos:any;
   isFiles:any;
   isLinks:any;
   attachments:any;
-  ngOnInit(): void {
-    this.getAttachments(this.projectData);
+  constructor(private dialog: MatDialog,private routerService:RoutingService,private db:DbService,private activatedRoute:ActivatedRoute,private toasterService:ToastService){
+    activatedRoute.params.subscribe(param=>{
+      this.getData(param['id'])
+    })
   }
+
+  getData(id:any){
+    this.db.getData(id).then(data=>{
+      this.projectData = data.data;
+      this.getAttachments(this.projectData);
+    })
+  }
+
   hasAttachments(attachmentType: string): { project: boolean, task: boolean } {
     let result = { project: false, task: false };
-
-    if (this.attachments.project || (this.attachments.tasks && Array.isArray(this.attachments.tasks) && this.attachments.tasks.length > 0)) {
-        result.project = this.attachments.project.attachments && this.attachments.project.attachments.some((attachment: any) => attachment.type === attachmentType);
-        result.task = this.attachments.tasks.some((task: any) => task.attachments && task.attachments.some((attachment: any) => attachment.type === attachmentType));
+    console.log(this.attachments);
+    if(attachmentType === 'image'){
+      if ( this.attachments.project || this.attachments.tasks ) {
+          result.project = this.attachments.project.attachments && this.attachments.project.attachments.some((attachment: any) => attachment.type.includes(attachmentType)) || this.attachments.project.remarks;
+          result.task = this.attachments.tasks.some((task: any) => task.attachments && task.attachments.some((attachment: any) => attachment.type.includes(attachmentType))) || this.attachments.tasks.some((task:any)=>task.remarks);
+      }
+      return result;
     }
-
+    else{
+      if ( this.attachments.project || (this.attachments.tasks && Array.isArray(this.attachments.tasks) && this.attachments.tasks.length > 0)) {
+        result.project = this.attachments.project.attachments && this.attachments.project.attachments.some((attachment: any) => attachment.type.includes(attachmentType));
+        result.task = this.attachments.tasks.some((task: any) => task.attachments && task.attachments.some((attachment: any) => attachment.type.includes(attachmentType)));
+    }
     return result;
+    }
 }
 
   getAttachments(data:any){
@@ -53,17 +72,20 @@ export class AttachmentListingPageComponent {
             remarks: task.remarks ? task.remarks : '',
             attachments: []
           }
-          if(task.attachments && task.attachments.length){
+          if(task.attachments && task.attachments.length || task.remarks){
             this.getEvendencies(task.attachments,taskEvidence)
             this.attachments.tasks.push(taskEvidence);
           }
         }
       })
+      console.log(this.attachments,"this is for attachments in the getattachments");
     }
-    this.isVideos = this.hasAttachments('video/mp4');
-    this.isFiles = this.hasAttachments('application/pdf');
+    this.isVideos = this.hasAttachments('video');
+    this.isFiles = this.hasAttachments('application');
     this.isLinks = this.hasAttachments('link');
-    this.isImages = this.hasAttachments('image/jpeg');
+    this.isImages = this.hasAttachments('image');
+    console.log(this.isImages,"this is image");
+    console.log(this.attachments,"this is updated one");
   }
   getEvendencies(attachments:any,evidence:any){
     attachments.forEach((attachment: any) => {
@@ -116,9 +138,33 @@ export class AttachmentListingPageComponent {
               });
           }
       });
-      this.getAttachments(this.projectData);
+        let finalData = {
+          key: this.projectData._id,
+          data: this.projectData
+        }
+        this.db.updateData(finalData);
+        this.db.deleteData(data);
+        this.toasterService.showToast("ATTACHMENT_REMOVED_SUCCESS")
+        this.getData(this.projectData._id);
   }
   moveToHomePage(){
-    this.routerService.navigate('/details');
+    this.routerService.navigate(`/details/${this.projectData._id}`);
   }
+  isFirstAttachment(attachments: any[], itemIndex: number, attachmentType: string): boolean {
+    const firstAttachmentIndex = attachments.findIndex(a => a.type.includes(attachmentType));
+    return itemIndex === firstAttachmentIndex;
+}
+
+hasRemarks(task: any): boolean {
+    return task.remarks && task.remarks.trim() !== '';
+}
+
+trackByTaskIndex(index: number, task: any): any {
+    return task.id; // Use a unique identifier for the task
+}
+
+trackByItemIndex(index: number, item: any): any {
+    return item.id; // Use a unique identifier for the item
+}
+
 }
