@@ -11,7 +11,8 @@ export class TaskCardComponent {
   @Input() submittedImprovement: any;
   @Input() actionsList:any;
   @Output() newItemEvent = new EventEmitter<any>();
-
+  @Input() startImprovement?:any;
+  @Input() projectId?:any;
 
   constructor(private routerService: RoutingService) {}
 
@@ -21,8 +22,8 @@ export class TaskCardComponent {
   }
 
   moveToDetailsTask(data: any) {
-    if (!this.submittedImprovement) {
-      this.routerService.navigate(`/task-details/${data}`);
+    if (!this.submittedImprovement && !this.startImprovement && (this.task.type !== 'observation')) {
+      this.routerService.navigate(`/task-details/${data}/${this.projectId}`);
     }
   }
 }

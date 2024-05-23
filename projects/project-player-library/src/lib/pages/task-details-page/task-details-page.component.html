@@ -1,11 +1,11 @@
-<div class="flex mt-3 ml-3 gap-x-2">
-    <mat-icon fontIcon="keyboard_backspace" class="cursor-pointer text-black" (click)="goBack()"></mat-icon>
-     <span class="text-black">{{"TASK_DETAILS" | translate}}</span>
+<div class="flex mt-3 ml-3 gap-x-3">
+    <mat-icon fontIcon="keyboard_backspace " class="cursor-pointer text-black" (click)="goBack()"></mat-icon>
+     <span class="text-black text-xl font-bold">{{"TASK_DETAILS" | translate}}</span>
 </div>
 <div class="task-details">
     <div class="task-header" (click)="editTask()">
         <h4>{{task.name}}</h4>
-        <span><mat-icon color="primary"  fontIcon="edit"></mat-icon></span>
+        <span *ngIf="task.isDeletable"><mat-icon color="primary"  fontIcon="edit"></mat-icon></span>
     </div>
     <div class="task-date">
         <span >

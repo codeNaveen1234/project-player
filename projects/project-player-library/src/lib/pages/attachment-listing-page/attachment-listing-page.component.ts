@@ -33,7 +33,6 @@ export class AttachmentListingPageComponent {
 
   hasAttachments(attachmentType: string): { project: boolean, task: boolean } {
     let result = { project: false, task: false };
-    console.log(this.attachments);
     if(attachmentType === 'image'){
       if ( this.attachments.project || this.attachments.tasks ) {
           result.project = this.attachments.project.attachments && this.attachments.project.attachments.some((attachment: any) => attachment.type.includes(attachmentType)) || this.attachments.project.remarks;
@@ -78,14 +77,11 @@ export class AttachmentListingPageComponent {
           }
         }
       })
-      console.log(this.attachments,"this is for attachments in the getattachments");
     }
     this.isVideos = this.hasAttachments('video');
     this.isFiles = this.hasAttachments('application');
     this.isLinks = this.hasAttachments('link');
     this.isImages = this.hasAttachments('image');
-    console.log(this.isImages,"this is image");
-    console.log(this.attachments,"this is updated one");
   }
   getEvendencies(attachments:any,evidence:any){
     attachments.forEach((attachment: any) => {

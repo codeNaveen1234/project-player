@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DailogPopupComponent } from '../dialog-popup/dailog-popup.component';
 import { EditTaskCardComponent } from '../edit-task-card/edit-task-card.component';
 import { actions } from '../../constants/actionConstants';
+import { DbService } from '../../services/db/db.service';
+import { ToastService } from '../../services/toast/toast.service';
 interface TaskOption {
   value: any;
   label: string;
@@ -14,13 +16,14 @@ interface TaskOption {
 })
 export class SubtaskCardComponent {
 @Input() subTask: any;
+@Input() projectDetails:any;
 @Output() deleteSubTaskEvent = new EventEmitter<string>();
 @Output()  updateSubTaskStatusEvent = new EventEmitter<any>();
 subTaskOptions:TaskOption[] = [];
 ngOnInit(): void {
   this.setOptionList();
 }
-constructor(private dialog:MatDialog){}
+constructor(private dialog:MatDialog,private db: DbService,private toasterService:ToastService){}
 openDatePickerForSubTask(){
 }
 openDialog(
@@ -49,7 +52,14 @@ deleteSubTask(item:any){
 this.deleteSubTaskEvent.emit(item);
 }
 editSubTask(){
-this.openEditSubTaskName('0','0',this.subTask.name,"EDIT_SUBTASK");
+  if(this.subTask.isDeletable){
+    this.openEditSubTaskName('0','0',this.subTask.name,"EDIT_SUBTASK");
+    let finalData = {
+      key:this.projectDetails._id,
+      data:this.projectDetails
+    }
+    this.db.updateData(finalData);
+  }
 }
 openEditSubTaskName(
   enterAnimationDuration: string,
@@ -69,6 +79,7 @@ openEditSubTaskName(
   })
   modelref.afterClosed().subscribe((res: boolean) => {
     if (res) {
+    this.toasterService.showToast("FILES_CHANGES_UPDATED")
       console.log('You have successfully changed the sub task name');
     } else {
       console.log(`you have selected no and changes doesn't reflected.`);

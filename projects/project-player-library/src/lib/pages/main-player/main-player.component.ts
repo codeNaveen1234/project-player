@@ -20,7 +20,7 @@ export class MainPlayerComponent implements OnInit {
   }
 
   navigate(){
-    this.routerService.navigate(`/details/${this.projectDetails._id}`)
+    this.routerService.navigate(`/preview-details/${this.projectDetails._id}`)
   }
 
   storeDataToLocal(){

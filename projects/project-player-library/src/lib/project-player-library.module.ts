@@ -105,7 +105,7 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     MatCheckboxModule,
     MatExpansionModule
   ],
-  exports: [RouterModule],
+  exports: [RouterModule,MainPlayerComponent],
 })
 export class ProjectPlayerLibraryModule {
   constructor(private translate: TranslateService) {

@@ -57,14 +57,13 @@ export class TaskDetailsPageComponent implements OnInit {
     this.subTaskData.name = data,
     delete this.subTaskData.children;
     this.task.children.push(this.subTaskData);
-    this.toasterService.showToast("FILES_CHANGES_UPDATED");
     this.updateTaskStatus();
     this.textFormControl.reset();
   }
   editTask() {
-    this.openEditTaskName(this.task.name,"EDIT_TASK");
-    this.toasterService.showToast("FILES_CHANGES_UPDATED")
-    this.updateDataInDb()
+    if(this.task.isDeletable){
+      this.openEditTaskName(this.task.name,"EDIT_TASK");
+    }
   }
   openEditTaskName(
     taskName: string,
@@ -80,6 +79,7 @@ export class TaskDetailsPageComponent implements OnInit {
     });
     modelref.afterClosed().subscribe((res: boolean) => {
       if (res) {
+        this.updateDataInDb()
         console.log('You have successfully changed the task name');
       } else {
         console.log(`you have selected no and changes doesn't reflected.`);
@@ -96,7 +96,6 @@ export class TaskDetailsPageComponent implements OnInit {
     if (index !== -1) {
       this.task.children.splice(index, 1);
       console.log(`Subtask '${event.name}' deleted successfully.`);
-      this.toasterService.showToast("FILES_CHANGES_UPDATED")
       this.updateTaskStatus();
     } else {
       console.log(`Subtask '${event.name}' not found.`);
@@ -118,7 +117,6 @@ export class TaskDetailsPageComponent implements OnInit {
         this.task.status = 'inProgress';
       }
       this.updateDataInDb();
-      this.toasterService.showToast("FILES_CHANGES_UPDATED")
     }
   }
   setOptionList(){
@@ -131,8 +129,9 @@ export class TaskDetailsPageComponent implements OnInit {
   }
 
   taskStatusChange(){
-    this.updateDataInDb()
-    this.toasterService.showToast("FILES_CHANGES_UPDATED")
+    setTimeout(()=>{
+      this.updateDataInDb()
+    },0)
   }
 
   updateDataInDb(){
@@ -141,6 +140,8 @@ export class TaskDetailsPageComponent implements OnInit {
       data:this.projectDetails
     }
     this.db.updateData(finalData);
+    this.getProjectDetails();
+    this.toasterService.showToast("FILES_CHANGES_UPDATED")
   }
 
   addFiles(){
@@ -159,5 +160,4 @@ export class TaskDetailsPageComponent implements OnInit {
       }
     })
   }
-
 }

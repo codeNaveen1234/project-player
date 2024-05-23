@@ -19,6 +19,8 @@ export class DetailsPageComponent implements OnInit {
   projectActions = []
   submitted: boolean = false;
   projectDetails:any;
+  displayedTasks:any;
+  remainingTasks = [];
   constructor(private dialog: MatDialog, private routerService: RoutingService, private db: DbService, private activatedRoute: ActivatedRoute,
     private toasterService:ToastService
   ) {
@@ -36,6 +38,7 @@ export class DetailsPageComponent implements OnInit {
       this.countCompletedTasks(this.projectDetails);
       this.calculateProgress();
       this.setActionsList()
+      this.initializeTasks()
     })
   }
 
@@ -122,7 +125,7 @@ export class DetailsPageComponent implements OnInit {
   }
 
     moveToFiles() {
-    this.routerService.navigate('/files',this.projectDetails._id);
+    this.routerService.navigate(`/files/${this.projectDetails._id}`);
   }
     openDialog(): void {
     const modelref = this.dialog.open(DailogPopupComponent, {
@@ -183,7 +186,7 @@ export class DetailsPageComponent implements OnInit {
 
   moveToDetailsTask(data: any) {
     if (!this.submitted) {
-      this.routerService.navigate(`/task-details/${data}`,this.projectDetails._id);
+      this.routerService.navigate(`/task-details/${this.projectDetails._id}`,{taskId:data});
     }
   }
 
@@ -192,5 +195,18 @@ export class DetailsPageComponent implements OnInit {
   }
   onStartObservation(){
     console.log("start observation");
+  }
+  initializeTasks(): void {
+    if (this.projectDetails.tasks && this.projectDetails.tasks.length > 0) {
+      this.displayedTasks = this.projectDetails.tasks.slice(0, 4);
+      this.remainingTasks = this.projectDetails.tasks.slice(4);
+    }
+  }
+
+  loadMoreTasks(): void {
+    if (this.remainingTasks.length > 0) {
+      this.displayedTasks.push(...this.remainingTasks);
+      this.remainingTasks = [];
+    }
   }
 }

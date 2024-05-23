@@ -4,7 +4,7 @@
             <span class="circle"><mat-icon color="primary" fontIcon="radio_button_unchecked"></mat-icon></span>
             <h4>{{subTask.name}}</h4>
         </div>
-        <span class="delete-icon"><mat-icon (click)="openDialog('0','0')" fontIcon="delete"></mat-icon></span>
+        <span *ngIf="subTask.isDeletable" class="delete-icon"><mat-icon (click)="openDialog('0','0')" fontIcon="delete"></mat-icon></span>
     </div>
     <div class="sub-task-body">
         <div class="sub-task-date" (click)="openDatePickerForSubTask()">
