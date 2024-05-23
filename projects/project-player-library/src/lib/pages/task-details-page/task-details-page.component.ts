@@ -6,6 +6,7 @@ import { EditTaskCardComponent } from '../../shared/edit-task-card/edit-task-car
 import { actions } from '../../constants/actionConstants';
 import { RoutingService } from '../../services/routing/routing.service';
 import { DbService } from '../../services/db/db.service';
+import { UtilsService } from '../../services/utils/utils.service';
 import { PrivacyPolicyPopupComponent } from '../../shared/privacy-policy-popup/privacy-policy-popup.component';
 import { ToastService } from '../../services/toast/toast.service';
 
@@ -20,7 +21,7 @@ interface TaskOption {
 })
 export class TaskDetailsPageComponent implements OnInit {
   constructor(private route: ActivatedRoute, private dialog: MatDialog, private routingService: RoutingService,
-    private db: DbService, private toastService: ToastService) {}
+    private db: DbService,private utils: UtilsService,private toasterService:ToastService) {}
   taskId: any;
   selectedValue!: string;
   textFormControl = new FormControl('');
@@ -28,6 +29,7 @@ export class TaskDetailsPageComponent implements OnInit {
   taskOptions : TaskOption[] =[];
   projectId: any
   projectDetails:any
+  subTaskData:any;
 
   ngOnInit(): void {
     this.setOptionList();
@@ -44,20 +46,25 @@ export class TaskDetailsPageComponent implements OnInit {
       this.getTaskDetails();
     })
   }
-  
+
   getTaskDetails() {
     this.task = this.projectDetails.tasks.find(
       (task:any) => task._id === this.taskId
     );
   }
   addSubTask(data: any) {
-    console.log(data);
-    this.task.children.push({ name: data, status: 'notStarted' });
+    this.subTaskData = this.utils.getMetaData();
+    this.subTaskData.name = data,
+    delete this.subTaskData.children;
+    this.task.children.push(this.subTaskData);
+    this.toasterService.showToast("FILES_CHANGES_UPDATED");
     this.updateTaskStatus();
     this.textFormControl.reset();
   }
   editTask() {
     this.openEditTaskName(this.task.name,"EDIT_TASK");
+    this.toasterService.showToast("FILES_CHANGES_UPDATED")
+    this.updateDataInDb()
   }
   openEditTaskName(
     taskName: string,
@@ -89,6 +96,7 @@ export class TaskDetailsPageComponent implements OnInit {
     if (index !== -1) {
       this.task.children.splice(index, 1);
       console.log(`Subtask '${event.name}' deleted successfully.`);
+      this.toasterService.showToast("FILES_CHANGES_UPDATED")
       this.updateTaskStatus();
     } else {
       console.log(`Subtask '${event.name}' not found.`);
@@ -109,6 +117,8 @@ export class TaskDetailsPageComponent implements OnInit {
       } else {
         this.task.status = 'inProgress';
       }
+      this.updateDataInDb();
+      this.toasterService.showToast("FILES_CHANGES_UPDATED")
     }
   }
   setOptionList(){
@@ -118,6 +128,19 @@ export class TaskDetailsPageComponent implements OnInit {
 
   goBack(){
     this.routingService.navigate(`/details/${this.projectDetails._id}`)
+  }
+
+  taskStatusChange(){
+    this.updateDataInDb()
+    this.toasterService.showToast("FILES_CHANGES_UPDATED")
+  }
+
+  updateDataInDb(){
+    let finalData = {
+      key:this.projectDetails._id,
+      data:this.projectDetails
+    }
+    this.db.updateData(finalData);
   }
 
   addFiles(){
@@ -131,9 +154,10 @@ export class TaskDetailsPageComponent implements OnInit {
         if(data.isChecked && data.upload){
           this.routingService.navigate(`/add-files/${this.projectDetails._id}`,{taskId:this.taskId})
         }else{
-          this.toastService.showToast('ACCEPT_POLICY_ERROR_MSG')
+          this.toasterService.showToast('ACCEPT_POLICY_ERROR_MSG')
         }
       }
     })
   }
+
 }

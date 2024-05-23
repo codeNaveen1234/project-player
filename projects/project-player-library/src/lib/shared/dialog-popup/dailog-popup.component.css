@@ -5,31 +5,39 @@ mat-dialog-actions {
   justify-content: flex-end;
 }
 
-::ng-deep .mdc-dialog .mdc-dialog__content{
+::ng-deep .mdc-dialog .mdc-dialog__content {
   padding: 10px 10px 0 10px;
 }
-::ng-deep .mat-mdc-button>.mat-icon{
-  margin: 0 3px 0 0;
-}
 
-mat-dialog-content h4{
+mat-dialog-content h4 {
   width: 80%;
   margin: 0;
   padding: 10px 0 10px 10px;
 }
 
-.buttons button{
+.buttons button {
   border-radius: 20px;
   box-shadow: 4px 4px rgba(128, 128, 128, 0.349);
+  display: inline;
+
 }
 
-.dialog-header{
+.dialog-header {
   display: flex;
   justify-content: space-between;
 }
-.dialog-header button{
+.dialog-header button {
   padding: 0;
 }
 ::ng-deep .mdc-button {
   min-width: 0 !important;
 }
+.dialog-header button{
+  width: 20px;
+  height: 20px;
+}
+
+mat-icon{
+  margin-right: 0px !important;
+}
+
