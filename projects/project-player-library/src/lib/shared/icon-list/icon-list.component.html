@@ -3,7 +3,7 @@
         <div class="icons">
             <div>
                 <span class="material-symbols-outlined" (click)="actionsEmit(item)">
-                    <mat-icon [ngStyle]="{ 'color': item.color}" color="primary" [fontIcon]="item.icon"></mat-icon>
+                    <mat-icon [ngStyle]="{ 'color': item.color}" class="{{item.color}}" [fontIcon]="item.icon"></mat-icon>
                 </span>
             </div>
             <div>

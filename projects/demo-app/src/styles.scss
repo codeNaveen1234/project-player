@@ -1,8 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
 
 body{
     font-family: "Roboto", sans-serif;
@@ -11,3 +7,9 @@ body{
     padding: 0;
 }
 
+
+:root {
+    --primary-color: #832215;
+    --disabled-btn-bg: #0000001f;
+    --disabled-btn-text: #00000061;
+}

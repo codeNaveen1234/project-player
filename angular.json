@@ -59,7 +59,8 @@
               "projects/demo-app/src/assets"
             ],
             "styles": [
-              "projects/demo-app/src/styles.scss"
+              "projects/demo-app/src/styles.scss",
+              "project-webcomponent/styles.css"
             ],
             "scripts": [
               "project-webcomponent/project-player-component.js"
@@ -170,8 +171,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2000kb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",

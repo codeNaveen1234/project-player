@@ -15,7 +15,7 @@
     @for(option of uploadOptions; track $index){
         <mat-card class="cursor-pointer p-4 flex flex-col items-center justify-center !rounded-3xl min-w-20"
         (click)="upload(option)">
-            <mat-icon fontIcon="{{option.icon}}" class="text-2xl" color="primary"></mat-icon>
+            <mat-icon fontIcon="{{option.icon}}" class="text-2xl primary-icon"></mat-icon>
             <div>{{ option.label | translate }}</div>
         </mat-card>
     }
@@ -41,6 +41,6 @@
     }
 </div>
 
-<button  mat-flat-button (click)="addFiles()" color="primary" class="w-full my-8 !rounded-2xl">
+<button  mat-flat-button (click)="addFiles()" class="w-full my-8 !rounded-2xl primary-button">
     {{ buttonLabel | translate }}
 </button>

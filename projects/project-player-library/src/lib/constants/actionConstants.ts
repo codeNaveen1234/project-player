@@ -4,25 +4,25 @@ export const actions = {
             title: "DOWNLOAD",
             icon: "cloud_download",
             action: "download",
-            color: "primary"
+            color: "primary-icon"
         },
         {
             title: "SHARE",
             icon: "ios_share",
             action: "share",
-            color: "primary"
+            color: "primary-icon"
         },
         {
             title: "FILES",
             icon: "folder_open",
             action: "files",
-            color: "primary"
+            color: "primary-icon"
         },
         {
             title: "SYNC",
             icon: "sync",
             action: "sync",
-            color: "primary"
+            color: "primary-icon"
         }
     ],
     SYNCED_ACTION : {
