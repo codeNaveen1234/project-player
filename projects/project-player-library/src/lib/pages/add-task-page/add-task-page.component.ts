@@ -16,7 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AddTaskPageComponent implements OnInit {
   @ViewChild('file') file! : ElementRef
-  uploadOptions = actions.FILE_UPLOAD_OPTIONS
+  uploadOptions = JSON.parse(JSON.stringify(actions.FILE_UPLOAD_OPTIONS))
   attachmentsList:any = []
   acceptType = ''
   taskData:any
@@ -55,7 +55,7 @@ export class AddTaskPageComponent implements OnInit {
 
   async onChange($event:any){
     let selectedFile = $event.target.files[0]
-    this.toastService.showToast('ATTACHED_SUCCESSFULLY')
+    this.toastService.showToast('ATTACHED_SUCCESSFULLY',"success")
     let fileName = this.attachmentService.generateFileName(selectedFile)
     let data = {
       name : fileName,
@@ -106,7 +106,7 @@ export class AddTaskPageComponent implements OnInit {
         if(data.isChecked && data.upload){
           this.file.nativeElement.click()
         }else{
-          this.toastService.showToast('ACCEPT_POLICY_ERROR_MSG')
+          this.toastService.showToast('ACCEPT_POLICY_ERROR_MSG',"danger")
         }
       }
     })

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RoutingService } from '../../services/routing/routing.service';
+import { statusLabels } from '../../constants/statusConstants';
 
 @Component({
   selector: 'lib-task-card',
@@ -13,6 +14,8 @@ export class TaskCardComponent {
   @Output() newItemEvent = new EventEmitter<any>();
   @Input() startImprovement?:any;
   @Input() projectId?:any;
+  statusLabels:any = statusLabels
+
 
   constructor(private routerService: RoutingService) {}
 

@@ -47,8 +47,8 @@
         </div>
             <div >
                 <mat-card-content class="item-content" >
-                    <h5 (click)="moveToDetailsTask(task._id)">
-                        {{task.status}}
+                    <h5>
+                        {{statusLabels[task.status]}}
                     </h5>
                     <h5 (click)="moveToDetailsTask(task._id)">{{"END_DATE"|translate}}: {{ task.endDate || '_' }}</h5>
                         <div class="w-full flex justify-end">
