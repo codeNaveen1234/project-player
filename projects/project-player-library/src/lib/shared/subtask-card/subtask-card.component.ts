@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DailogPopupComponent } from '../dialog-popup/dailog-popup.component';
 import { EditTaskCardComponent } from '../edit-task-card/edit-task-card.component';
 import { actions } from '../../constants/actionConstants';
+import { UtilsService } from '../../services/utils/utils.service';
 interface TaskOption {
   value: any;
   label: string;
@@ -14,53 +14,41 @@ interface TaskOption {
 })
 export class SubtaskCardComponent {
 @Input() subTask: any;
+@Input() projectDetails: any
 @Output() deleteSubTaskEvent = new EventEmitter<string>();
 @Output()  updateSubTaskStatusEvent = new EventEmitter<any>();
 subTaskOptions:TaskOption[] = [];
 ngOnInit(): void {
   this.setOptionList();
 }
-constructor(private dialog:MatDialog){}
-openDatePickerForSubTask(){
-}
-openDialog(
-  enterAnimationDuration: string,
-  exitAnimationDuration: string
-): void {
-  const modelref = this.dialog.open(DailogPopupComponent, {
-    width: '400px',
-    enterAnimationDuration,
-    exitAnimationDuration,
-  });
-  modelref.componentInstance.dialogBox = {
-    title: 'DELETE_SUB_TASK',
-    Yes: `YES`,
-    No: `NO`,
-  };
-  modelref.afterClosed().subscribe((res: boolean) => {
-    if (res) {
-      this.deleteSubTask(this.subTask);
-    } else {
-      console.log(`subtask was not deleted`);
-    }
-  });
+constructor(private dialog:MatDialog, private utils: UtilsService){}
+
+async openDialog() {
+  let popupDetails= {
+    title: "DELETE_SUB_TASK",
+    actionButtons: [
+      { label: "NO", action: false},
+      { label: "YES", action: true }
+    ]
+  }
+  let response = await this.utils.showDialogPopup(popupDetails)
+
+  if(response){
+    this.deleteSubTask(this.subTask);
+  }
 }
 deleteSubTask(item:any){
 this.deleteSubTaskEvent.emit(item);
 }
 editSubTask(){
-this.openEditSubTaskName('0','0',this.subTask.name,"EDIT_SUBTASK");
+this.openEditSubTaskName(this.subTask.name,"EDIT_SUBTASK");
 }
 openEditSubTaskName(
-  enterAnimationDuration: string,
-  exitAnimationDuration: string,
   subTaskName:string,
   editType:string
 ): void {
   const modelref = this.dialog.open(EditTaskCardComponent, {
-    width: '400px',
-    enterAnimationDuration,
-    exitAnimationDuration,
+    width: '400px'
   });
   modelref.componentInstance.title = subTaskName;
   modelref.componentInstance.editType=editType;

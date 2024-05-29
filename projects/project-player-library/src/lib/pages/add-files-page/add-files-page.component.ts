@@ -6,9 +6,9 @@ import { ToastService } from '../../services/toast/toast.service';
 import { AttachmentService } from '../../services/attachment/attachment.service';
 import { ActivatedRoute } from '@angular/router';
 import { DbService } from '../../services/db/db.service';
-import { DailogPopupComponent } from '../../shared/dialog-popup/dailog-popup.component';
 import { RoutingService } from '../../services/routing/routing.service';
 import { PrivacyPolicyPopupComponent } from '../../shared/privacy-policy-popup/privacy-policy-popup.component';
+import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
   selector: 'lib-add-files-page',
@@ -32,7 +32,7 @@ export class AddFilesPageComponent {
   updateDelay: any;
 
   constructor(private dialog: MatDialog, private toastService: ToastService, private attachmentService: AttachmentService,
-    private activatedRoute: ActivatedRoute, private db: DbService, private routingService: RoutingService) {
+    private activatedRoute: ActivatedRoute, private db: DbService, private routingService: RoutingService, private utils: UtilsService) {
       activatedRoute.params.subscribe(param=>{
         this.projectId = param['id']
       })
@@ -113,7 +113,7 @@ export class AddFilesPageComponent {
       url : '',
     }
     this.attachments.push(data)
-    this.toastService.showToast("ATTACHED_SUCCESSFULLY")
+    this.toastService.showToast("ATTACHED_SUCCESSFULLY","success")
     this.saveDataToLocalDb()
   }
 
@@ -132,25 +132,23 @@ export class AddFilesPageComponent {
         }
         this.attachments.push(linkData)
         this.saveDataToLocalDb()
-        this.toastService.showToast("ATTACHED_SUCCESSFULLY")
+        this.toastService.showToast("ATTACHED_SUCCESSFULLY","success")
       }
     })  
   }
 
-  deleteConfirmation(item:any,idx:any){
-    const dialogRef = this.dialog.open(DailogPopupComponent,{width:'400px'})
-
-    dialogRef.componentInstance.dialogBox = {
+  async deleteConfirmation(data:any){
+    let dialogData= {
       title: "DELETE_ATTACHMENT_CONFIRMATION_MSG",
-      Yes: "YES",
-      No: "NO"
+      actionButtons: [
+        { label: "YES", action: true },
+        { label: "NO", action: false}
+      ]
     }
-
-    dialogRef.afterClosed().subscribe(data=>{
-      if(data){
-        this.removeAttachment(item,idx)
-      }
-    })
+    let response = await this.utils.showDialogPopup(dialogData)
+    if(response){
+      this.removeAttachment(data.file,data.index)
+    }
   }
 
   removeAttachment(item:any,idx:any){
@@ -197,7 +195,7 @@ export class AddFilesPageComponent {
         if(data.isChecked && data.upload){
           this.uploadFiles(option)
         }else{
-          this.toastService.showToast('ACCEPT_POLICY_ERROR_MSG')
+          this.toastService.showToast('ACCEPT_POLICY_ERROR_MSG',"danger")
         }
       }
     })
@@ -211,18 +209,16 @@ export class AddFilesPageComponent {
     }
   }
 
-  showConfirmationPopup(){
-    const dialogRef = this.dialog.open(DailogPopupComponent,{width:'400px'})
-
-    dialogRef.componentInstance.dialogBox = {
+  async showConfirmationPopup(){
+    let dialogData= {
       title: "SUBMIT_IMPROVEMENT_CONFIRMATION_MSG",
-      Yes: "SUBMIT",
-      No: "CANCEL"
+      actionButtons: [
+        { label: "CANCEL", action: false},
+        { label: "SUBMIT", action: true }
+      ]
     }
-
-    dialogRef.afterClosed().subscribe(data=>{
-      if(data){
-      }
-    })
+    let response = await this.utils.showDialogPopup(dialogData)
+    if(response){
+    }
   }
 }

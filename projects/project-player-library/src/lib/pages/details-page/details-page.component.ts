@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { DailogPopupComponent } from '../../shared/dialog-popup/dailog-popup.component';
 import { RoutingService } from '../../services/routing/routing.service';
 import { actions } from '../../constants/actionConstants';
 import { DbService } from '../../services/db/db.service';
 import { ActivatedRoute } from '@angular/router';
 import { ToastService } from '../../services/toast/toast.service';
+import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
   selector: 'lib-details-page',
@@ -19,8 +18,8 @@ export class DetailsPageComponent implements OnInit {
   projectActions = []
   submitted: boolean = false;
   projectDetails:any;
-  constructor(private dialog: MatDialog, private routerService: RoutingService, private db: DbService, private activatedRoute: ActivatedRoute,
-    private toasterService:ToastService
+  constructor(private routerService: RoutingService, private db: DbService, private activatedRoute: ActivatedRoute,
+    private toasterService:ToastService, private utils: UtilsService
   ) {
     activatedRoute.params.subscribe(param=>{
       this.getData(param['id'])
@@ -72,7 +71,7 @@ export class DetailsPageComponent implements OnInit {
   taskCardAction(event:any){
     switch (event.action) {
       case 'edit':
-        this.moveToTaskDetails(event.id);
+        this.moveToTaskDetails(event._id);
         break;
 
       case 'share':
@@ -122,50 +121,44 @@ export class DetailsPageComponent implements OnInit {
   }
 
     moveToFiles() {
-    this.routerService.navigate('/files',this.projectDetails._id);
+    this.routerService.navigate(`/files/${this.projectDetails._id}`);
   }
-    openDialog(): void {
-    const modelref = this.dialog.open(DailogPopupComponent, {
-      width: '400px',
-    });
-    modelref.componentInstance.dialogBox = {
-      title: "SHAREABLE_FILE",
-      Yes: "SYNC_AND_SHARE",
-      No: "DONT_SYNC",
-    };
-    modelref.afterClosed().subscribe((res: boolean) => {
-      if (res) {
-        console.log('you have selected sync and share respectively');
-        this.toasterService.showToast("PROJECT_SYNC_SUCCESS")
-      } else {
-        console.log(`you have selected Don't sync.`);
+    async openDialog() {
+      let popupDetails= {
+        title: "SHAREABLE_FILE",
+        actionButtons: [
+          { label: "DONT_SYNC", action: false},
+          { label: "SYNC_AND_SHARE", action: true }
+        ]
       }
-    });
+      let response = await this.utils.showDialogPopup(popupDetails)
+
+      if(response){
+        console.log('you have selected sync and share respectively');
+      }else{
+        this.toasterService.showToast("FILE_NOT_SHARED","danger")
+      }
   }
 
-  openDialogForDelete(id:any): void {
-    const modelref = this.dialog.open(DailogPopupComponent, {
-      width: '300px'
-    });
-    modelref.componentInstance.dialogBox = {
+  async openDialogForDelete(id:any) {
+    let popupDetails= {
       title: "CONFIRMATION_DELETE",
-      Yes: 'YES',
-      No: 'NO',
-    };
-    modelref.afterClosed().subscribe((res: boolean) => {
-      if (res) {
-        console.log('The task was deleted.');
-        this.projectDetails.tasks = this.projectDetails.tasks.filter((task:any) => task._id !== id);
-        let finalData = {
-          key: this.projectDetails._id,
-          data:this.projectDetails
-        }
-        this.db.updateData(finalData)
-        this.toasterService.showToast("ASK_DELETE_SUCCESS")
-      } else {
-        console.log('The deletion was canceled.');
+      actionButtons: [
+        { label: "NO", action: false},
+        { label: "YES", action: true }
+      ]
+    }
+    let response = await this.utils.showDialogPopup(popupDetails)
+
+    if(response){
+      this.projectDetails.tasks = this.projectDetails.tasks.filter((task:any) => task._id !== id);
+      let finalData = {
+        key: this.projectDetails._id,
+        data:this.projectDetails
       }
-    });
+      this.db.updateData(finalData)
+      this.toasterService.showToast("ASK_DELETE_SUCCESS","success")
+    }
   }
 
   setActionsList(){

@@ -8,6 +8,13 @@
         <mat-label>{{ "TASK_DESCRIPTION" | translate }}</mat-label>
         <textarea matInput [(ngModel)]="taskTitle" required cols="10"></textarea>
     </mat-form-field>
+
+    <mat-form-field class="w-full">
+        <mat-label>{{ "END_DATE" | translate }}</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="endDate" disabled>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker disabled="false"></mat-datepicker>
+    </mat-form-field>
     
     <mat-form-field style="width: 100%;">
         <mat-label>{{ "STATUS" | translate }}</mat-label>
@@ -34,19 +41,7 @@
 <input type="file" (change)="onChange($event)" accept="{{acceptType}}" #file hidden />
 
 <div class="mt-5">
-    @for(attachment of attachmentsList; track $index){
-        <mat-card class="flex !flex-row mb-2.5 p-2.5">
-            @if(attachment.type.startsWith('image')){
-                <mat-icon fontIcon="image"></mat-icon>
-            }@else if(attachment.type.startsWith('video')){
-                <mat-icon fontIcon="videocam"></mat-icon>
-            }@else{
-                <mat-icon fontIcon="insert_drive_file"></mat-icon>
-            }
-            <div class="flex-1 ml-2.5">{{attachment.name}}</div>
-            <mat-icon fontIcon="cancel" class="cursor-pointer" (click)="removeAttachment($index)"></mat-icon>
-        </mat-card>
-    }
+    <lib-files-card [filesList]="attachmentsList" (deleteFile)="removeAttachment($event)"></lib-files-card>
 </div>
 
 <button  mat-flat-button (click)="addTask()" class="w-full my-8 !rounded-2xl" [disabled]="!taskTitle"

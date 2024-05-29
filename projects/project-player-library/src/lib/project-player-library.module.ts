@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProjectPlayerLibraryComponent } from './project-player-library.component';
 import { MainPlayerComponent } from './pages/main-player/main-player.component';
@@ -41,6 +41,10 @@ import { PreviewDetailsPageComponent } from './pages/preview-details-page/previe
 import {MatExpansionModule} from '@angular/material/expansion';
 import { AddFilesPageComponent } from './pages/add-files-page/add-files-page.component';
 import { AddLinkPopupComponent } from './shared/add-link-popup/add-link-popup.component'
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {provideNativeDateAdapter} from '@angular/material/core';
+import { FilesCardComponent } from './shared/files-card/files-card.component';
 
 const routes: Routes = [
   { path: 'details/:id', component: DetailsPageComponent },
@@ -50,6 +54,19 @@ const routes: Routes = [
   { path: 'preview-details/:id', component: PreviewDetailsPageComponent},
   { path: 'add-files/:id', component: AddFilesPageComponent }
 ];
+
+const MAT_CUSTOM_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMM YYYY',
+    weekDayA11yLabel: 'ddd',
+  },
+};
 
 export function translateHttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -74,7 +91,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     PreviewDetailsPageComponent,
     PrivacyPolicyPopupComponent,
     AddFilesPageComponent,
-    AddLinkPopupComponent
+    AddLinkPopupComponent,
+    FilesCardComponent
   ],
   imports: [
     CommonModule,
@@ -103,9 +121,21 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     }),
     MatSnackBarModule,
     MatCheckboxModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatDatepickerModule
   ],
   exports: [RouterModule],
+  providers: [
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: MAT_CUSTOM_DATE_FORMATS,
+    },
+    {
+      provide: LOCALE_ID,
+      useValue: 'en-in',
+    },
+    provideNativeDateAdapter()
+  ]
 })
 export class ProjectPlayerLibraryModule {
   constructor(private translate: TranslateService) {

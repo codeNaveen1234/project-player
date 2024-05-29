@@ -67,13 +67,13 @@ export class AddTaskPageComponent implements OnInit {
     this.attachmentsList.push(data)
   }
 
-  removeAttachment(index:any){
-    this.attachmentsList.splice(index,1)
+  removeAttachment(data:any){
+    this.attachmentsList.splice(data.index,1)
   }
 
   addTask(){
     this.taskData.name = this.taskTitle
-    this.taskData.endDate = this.endDate
+    this.taskData.endDate = new Date(this.endDate).toISOString()
     this.taskData.status = this.taskStatus
     this.taskData.attachments = this.attachmentsList
     this.projectDetails.tasks.push(this.taskData)

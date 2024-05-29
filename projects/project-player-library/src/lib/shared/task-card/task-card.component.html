@@ -15,7 +15,7 @@
                   <mat-menu #menu="matMenu" class="menu">
                     @for (item of actionsList; track $index) {
                         <button class="btn-menu"
-                                (click)="actionsEmit(item,task._id)"
+                                (click)="actionsEmit(item)"
                                 mat-menu-item
                                 style="padding: 0;"
                                 *ngIf="!submittedImprovement || (item.name !== 'DELETE' && item.name !== 'EDIT')">
