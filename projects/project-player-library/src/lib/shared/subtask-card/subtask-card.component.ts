@@ -43,6 +43,7 @@ openDialog(
   modelref.afterClosed().subscribe((res: boolean) => {
     if (res) {
       this.deleteSubTask(this.subTask);
+      this.toasterService.showToast("SUBTASK_DELETED","danger")
     } else {
       console.log(`subtask was not deleted`);
     }
@@ -79,7 +80,7 @@ openEditSubTaskName(
   })
   modelref.afterClosed().subscribe((res: boolean) => {
     if (res) {
-    this.toasterService.showToast("FILES_CHANGES_UPDATED")
+    this.toasterService.showToast("FILES_CHANGES_UPDATED","success")
       console.log('You have successfully changed the sub task name');
     } else {
       console.log(`you have selected no and changes doesn't reflected.`);

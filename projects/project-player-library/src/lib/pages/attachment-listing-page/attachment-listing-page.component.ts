@@ -140,7 +140,7 @@ export class AttachmentListingPageComponent {
         }
         this.db.updateData(finalData);
         this.db.deleteData(data);
-        this.toasterService.showToast("ATTACHMENT_REMOVED_SUCCESS")
+        this.toasterService.showToast("ATTACHMENT_REMOVED_SUCCESS","success")
         this.getData(this.projectData._id);
   }
   moveToHomePage(){

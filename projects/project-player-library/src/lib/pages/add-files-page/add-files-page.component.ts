@@ -79,7 +79,7 @@ export class AddFilesPageComponent {
       this.showPrivacyPolicyPopup(option)
     }
   }
-  
+
   uploadFiles(option:any){
     if(option.accept == 'link'){
       this.openLinkModal()
@@ -99,6 +99,7 @@ export class AddFilesPageComponent {
 
   async onFileSelect(event:any){
     let value = event.target.files[0]
+    let fileUrl = URL.createObjectURL(value)
     let fileName = this.attachmentService.generateFileName(value)
     let convertedFile = await this.attachmentService.convertTobase64(value)
     let dataToAdd = {
@@ -110,10 +111,10 @@ export class AddFilesPageComponent {
       name : fileName,
       type : value.type,
       isUploaded : false,
-      url : '',
+      url : fileUrl,
     }
     this.attachments.push(data)
-    this.toastService.showToast("ATTACHED_SUCCESSFULLY")
+    this.toastService.showToast("ATTACHED_SUCCESSFULLY","success")
     this.saveDataToLocalDb()
   }
 
@@ -134,7 +135,7 @@ export class AddFilesPageComponent {
         this.saveDataToLocalDb()
         this.toastService.showToast("ATTACHED_SUCCESSFULLY")
       }
-    })  
+    })
   }
 
   deleteConfirmation(item:any,idx:any){

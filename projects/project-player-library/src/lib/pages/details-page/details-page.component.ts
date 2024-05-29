@@ -25,6 +25,7 @@ export class DetailsPageComponent implements OnInit {
     private toasterService:ToastService
   ) {
     activatedRoute.params.subscribe(param=>{
+      setTimeout(()=>{ },100)
       this.getData(param['id'])
     })
   }
@@ -65,7 +66,7 @@ export class DetailsPageComponent implements OnInit {
   }
   submitImprovement() {
     this.submitted = true;
-    this.toasterService.showToast("PROJECT_SUBMMITTED_SUCCESS")
+    this.toasterService.showToast("PROJECT_SUBMMITTED_SUCCESS","success")
   }
 
   navigateToNewTask() {
@@ -75,7 +76,7 @@ export class DetailsPageComponent implements OnInit {
   taskCardAction(event:any){
     switch (event.action) {
       case 'edit':
-        this.moveToTaskDetails(event.id);
+        this.moveToDetailsTask(event.id);
         break;
 
       case 'share':
@@ -91,10 +92,10 @@ export class DetailsPageComponent implements OnInit {
     }
   }
 
-  moveToTaskDetails(data: any) {
+  moveToDetailsTask(data: any) {
     if (!this.submitted) {
-      this.routerService.navigate(`/task-details/${data}/${this.projectDetails._id}`)
-    }
+      this.routerService.navigate(`/task-details/${data}/${this.projectDetails._id}`);
+  }
   }
 
   iconListAction(event: any) {
@@ -102,7 +103,7 @@ export class DetailsPageComponent implements OnInit {
       case "download":
         this.projectDetails.downloaded = true
         this.setActionsList()
-        this.toasterService.showToast("PROJECT_DOWNLOADING_SUCCESS")
+        this.toasterService.showToast("PROJECT_DOWNLOADING_SUCCESS","success")
         break;
 
       case "share":
@@ -115,7 +116,7 @@ export class DetailsPageComponent implements OnInit {
 
       case "sync":
         this.projectDetails.isEdit = false
-        this.toasterService.showToast("PROJECT_SYNC_SUCCESS")
+        this.toasterService.showToast("PROJECT_SYNC_SUCCESS","success")
         this.setActionsList()
         break;
 
@@ -139,7 +140,7 @@ export class DetailsPageComponent implements OnInit {
     modelref.afterClosed().subscribe((res: boolean) => {
       if (res) {
         console.log('you have selected sync and share respectively');
-        this.toasterService.showToast("PROJECT_SYNC_SUCCESS")
+        this.toasterService.showToast("PROJECT_SYNC_SUCCESS","success")
       } else {
         console.log(`you have selected Don't sync.`);
       }
@@ -164,7 +165,7 @@ export class DetailsPageComponent implements OnInit {
           data:this.projectDetails
         }
         this.db.updateData(finalData)
-        this.toasterService.showToast("ASK_DELETE_SUCCESS")
+        this.toasterService.showToast("TASK_DELETE_SUCCESS","success")
       } else {
         console.log('The deletion was canceled.');
       }
@@ -184,11 +185,6 @@ export class DetailsPageComponent implements OnInit {
     this.actionsList = optionList;
   }
 
-  moveToDetailsTask(data: any) {
-    if (!this.submitted) {
-      this.routerService.navigate(`/task-details/${this.projectDetails._id}`,{taskId:data});
-    }
-  }
 
   onLearningResources(){
     console.log("learning reources");
