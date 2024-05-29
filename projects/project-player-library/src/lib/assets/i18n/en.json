@@ -83,5 +83,7 @@
     "DELETE_ATTACHMENT_CONFIRMATION_MSG":"Are you sure you want to delete selected attachment?",
     "INVALID_LINK_MSG":"Please check the link. Special characters, comma, spaces or new lines are not allowed.",
     "SUBMIT_IMPROVEMENT_CONFIRMATION_MSG":"Are you sure you want to submit your improvement project?. Once submitted no further edits can be made to the project.",
-    "SUBMIT":"Submit"
+    "SUBMIT":"Submit",
+    "SYNCING_PAGE":"Syncing page",
+    "FILE_NOT_SHARED": "File not shared !"
 }

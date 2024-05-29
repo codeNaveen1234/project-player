@@ -1,14 +1,18 @@
 <mat-dialog-content>
 <div class="dialog-header">
-    <h4>{{dialogBox.title |translate }}</h4>
-    <button mat-button class="close-icon" [mat-dialog-close]="false">
-        <mat-icon fontIcon="close"></mat-icon>
-    </button>
+    <h4>{{data.title |translate }}</h4>
+
+    @if(data.showCloseIcon){
+        <button mat-button class="close-icon" [mat-dialog-close]="false">
+            <mat-icon fontIcon="close"></mat-icon>
+        </button>
+    }
 </div>
     </mat-dialog-content>
     <mat-dialog-actions>
         <div class="buttons">
-            <button [mat-dialog-close]="false" mat-flat-button class="primary-button">{{dialogBox.No |translate}}</button>
-            <button [mat-dialog-close]="true"  mat-flat-button class="primary-button" cdkFocusInitial>{{dialogBox.Yes | translate}}</button>
+            @for(button of data.actionButtons; track $index){
+                <button mat-flat-button class="primary-button" (click)="closePopup(button.action)">{{button.label |translate}}</button>
+            }
         </div>
     </mat-dialog-actions>
