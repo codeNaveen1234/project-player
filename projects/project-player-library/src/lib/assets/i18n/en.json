@@ -85,5 +85,7 @@
     "SUBMIT_IMPROVEMENT_CONFIRMATION_MSG":"Are you sure you want to submit your improvement project?. Once submitted no further edits can be made to the project.",
     "SUBMIT":"Submit",
     "LOAD_MORE":"Load more",
-    "SUBTASK_DELETED":"Sub task deleted"
+    "SUBTASK_DELETED":"Sub task deleted",
+    "SYNCING_PAGE":"Syncing page",
+    "FILE_NOT_SHARED": "File not shared !"
 }

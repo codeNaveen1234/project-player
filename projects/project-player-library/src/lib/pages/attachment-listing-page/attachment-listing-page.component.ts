@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { DailogPopupComponent } from '../../shared/dialog-popup/dailog-popup.component';
 import { RoutingService } from '../../services/routing/routing.service';
 import { DbService } from '../../services/db/db.service';
 import { ActivatedRoute } from '@angular/router';
 import { ToastService } from '../../services/toast/toast.service';
+import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
   selector: 'lib-attachment-listing-page',
@@ -18,7 +17,9 @@ export class AttachmentListingPageComponent {
   isFiles:any;
   isLinks:any;
   attachments:any;
-  constructor(private dialog: MatDialog,private routerService:RoutingService,private db:DbService,private activatedRoute:ActivatedRoute,private toasterService:ToastService){
+  constructor(private routerService:RoutingService,private db:DbService,private activatedRoute:ActivatedRoute,private toasterService:ToastService,
+    private utils: UtilsService
+  ){
     activatedRoute.params.subscribe(param=>{
       this.getData(param['id'])
     })
@@ -91,29 +92,21 @@ export class AttachmentListingPageComponent {
 
 
   getRemoveAttachment(event:any){
-    this.removeAttachment("0ms","0ms",event.name);
+    this.removeAttachment(event.name);
   }
 
-  removeAttachment(enterAnimationDuration: string,
-    exitAnimationDuration: string, data:any): void {
-      const modelref = this.dialog.open(DailogPopupComponent, {
-        width: "400px",
-        enterAnimationDuration,
-        exitAnimationDuration,
-      });
-      modelref.componentInstance.dialogBox = {
-        title: "DELETE_ATTACHMENT",
-        Yes: "YES",
-        No: "NO",
-      };
-      modelref.afterClosed().subscribe((res: boolean) => {
-        if (res) {
-          this.deleteAttachment(data);
-          console.log("you have successfully deleted the attachment");
-        } else {
-          console.log(`you have selected cancel`);
-        }
-      });
+  async removeAttachment(data:any) {
+      let popupDetails= {
+        title: "CONFIRMATION_DELETE",
+        actionButtons: [
+          { label: "YES", action: true },
+          { label: "NO", action: false}
+        ]
+      }
+      let response = await this.utils.showDialogPopup(popupDetails)
+      if(response){
+        this.deleteAttachment(data);
+      }
     }
     deleteAttachment(data: any): void {
       if (this.projectData.attachments) {

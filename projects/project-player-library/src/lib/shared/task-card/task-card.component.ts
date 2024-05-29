@@ -19,8 +19,8 @@ export class TaskCardComponent {
 
   constructor(private routerService: RoutingService) {}
 
-  actionsEmit(item:any,id:any){
-    const data = { action: item.action, id: id };
+  actionsEmit(item:any){
+    const data = { action: item.action, ...this.task };
     this.newItemEvent.emit(data);
   }
 

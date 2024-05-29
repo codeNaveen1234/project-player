@@ -23,22 +23,7 @@
 <input type="file" (change)="onFileSelect($event)" accept="{{acceptType}}" #file hidden />
 
 <div class="mt-5">
-    @for(item of attachments; track $index){
-        <mat-card class="flex !flex-row mb-2.5 p-2.5">
-            @if(item.type == 'link'){
-                <mat-icon fontIcon="link"></mat-icon>
-            }
-            @else if(item.type.startsWith('image')){
-                <mat-icon fontIcon="image"></mat-icon>
-            }@else if(item.type.startsWith('video')){
-                <mat-icon fontIcon="videocam"></mat-icon>
-            }@else{
-                <mat-icon fontIcon="insert_drive_file"></mat-icon>
-            }
-            <div class="flex-1 ml-2.5">{{item.name}}</div>
-            <mat-icon fontIcon="cancel" class="cursor-pointer" (click)="deleteConfirmation(item,$index)"></mat-icon>
-        </mat-card>
-    }
+    <lib-files-card [filesList]="attachments" (deleteFile)="deleteConfirmation($event)"></lib-files-card>
 </div>
 
 <button  mat-flat-button (click)="addFiles()" class="w-full my-8 !rounded-2xl primary-button">

@@ -7,11 +7,15 @@
         <h4>{{task.name}}</h4>
         <span *ngIf="task.isDeletable"><mat-icon class="primary-icon"  fontIcon="edit"></mat-icon></span>
     </div>
-    <div class="task-date">
-        <span >
-            <mat-icon (click)="openDatePickerForTask()" class="primary-icon" fontIcon="date_range"></mat-icon>
-            </span>
-        <div></div>
+    <div class="task-status mb-3">
+        <h3>{{"END_DATE"|translate}}</h3>
+        <div>
+            <mat-form-field class="w-full">
+                <input matInput [matDatepicker]="picker" [(ngModel)]="task.endDate" disabled>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker disabled="false"></mat-datepicker>
+            </mat-form-field>
+        </div>
     </div>
     <div class="task-status">
         <h3>{{"STATUS"|translate}}</h3>
