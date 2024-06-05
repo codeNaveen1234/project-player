@@ -3,9 +3,11 @@
     <span class="details-card-header w-2/3">
         <h4>{{projectDetails.title}}</h4>
       </span>
-      <div *ngIf="projectDetails.certificate" class="w-1/3 flex items-center justify-center">
-        <span class="bg-yellow-400 text-black text-xs rounded p-1">{{ "CERTIFICATE" | translate}}</span>
-    </div>
+      @if (projectDetails.certificate) {
+        <div  class="w-1/3 flex items-center justify-center">
+          <span class="bg-yellow-400 text-black text-xs rounded p-1">{{ "CERTIFICATE" | translate}}</span>
+      </div>
+      }
   </div>
     <mat-card-content>
       <div style="display: flex;">
@@ -15,18 +17,18 @@
             <mat-card-content  *ngIf="!submitted">
                 <h4>{{"PROGRESS" | translate}}</h4>
                 <p>{{completedCount}}/{{projectDetails.tasks.length}} {{"TASK_COMPLETED" | translate}}</p>
-                <mat-progress-bar class="progress-bar"   mode="determinate" [value]="progressValue"></mat-progress-bar>
+                <mat-progress-bar class="progress-bar primary-icon"   mode="determinate" [value]="progressValue"></mat-progress-bar>
             </mat-card-content>
             <mat-card-content class="after-submission"  *ngIf="submitted">
                 <span class="material-symbols-outlined">
-                    <mat-icon aria-hidden="false"  aria-label="Example verified icon" fontIcon="verified"></mat-icon>
+                    <mat-icon aria-hidden="false" class="primary-icon"  aria-label="Example verified icon" fontIcon="verified"></mat-icon>
 
                     </span>
                 <h3>{{"PROGRESS_COMPLETE" | translate}}</h3>
             </mat-card-content>
         </mat-card>
         <div *ngIf="progressValue === 100 && !submitted" class="progress-alert">
-            <h4>{{"PROGRESS_ALERT"| translate}} <span> <mat-icon  fontIcon="arrow_circle_down"></mat-icon> </span>
+            <h4>{{"PROGRESS_ALERT"| translate}} <span> <mat-icon class="primary-icon"  fontIcon="arrow_circle_down"></mat-icon> </span>
             </h4>
 
         </div>
@@ -52,8 +54,8 @@
     <mat-tab [label]="'TASK_DETAILS' | translate">
       <div class="tab-label-container">
         <div class="task-details">
-            <div class="no-tasks" *ngIf="projectDetails.tasks.length === 0">
-                <p>{{"NO_TASKS"|translate}}</p>
+            <div class="no-tasks my-5" *ngIf="projectDetails.tasks.length === 0">
+                <p class="primary-icon">{{"NO_TASKS"|translate}}</p>
             </div>
           <ng-container >
             <div *ngFor="let item of displayedTasks" class="task-card">
@@ -61,20 +63,20 @@
                 <div>
                   <ng-container *ngIf="item">
                     <ng-container *ngIf="item.learningResources && item.learningResources.length > 0 && item.type !== 'observation'; else checkObservation">
-                      <button (click)="onLearningResources()" class="task-buttons text-sm px-3 py-2" mat-flat-button color="primary">
+                      <button (click)="onLearningResources(item._id,true)" class="primary-button task-buttons text-sm px-3 py-2" mat-flat-button >
                         {{"LEARNING_RESOURCES" | translate}}
                       </button>
                     </ng-container>
                     <ng-template #checkObservation>
                       <ng-container *ngIf="item.type === 'observation'; else noLearningResources">
-                        <button (click)="onStartObservation()" class="task-buttons text-sm px-3 py-2" mat-flat-button color="primary">
+                        <button (click)="onStartObservation()" class=" primary-button task-buttons text-sm px-3 py-2" mat-flat-button >
                           {{"OBSERVATION" | translate}}
                         </button>
                       </ng-container>
-                    </ng-template>
+                     </ng-template>
                   </ng-container>
                   <ng-template #noLearningResources>
-                    <div (click)="moveToDetailsTask(item._id)" class="flex">
+                    <div (click)="moveToDetailsTask(item)" class="flex">
                       <span class="text-gray-500 flex items-center font-bold text-sm">
                         {{"VIEW_TASK_DETAILS" | translate}}
                       </span>
@@ -85,17 +87,17 @@
               </lib-task-card>
             </div>
 
-            <div *ngIf="projectDetails.tasks.length > displayedTasks.length" class="w-full my-2">
-              <button (click)="loadMoreTasks()" class="w-full" mat-flat-button color="primary">
+            <div *ngIf="projectDetails.tasks.length > displayedTasks.length" class=" w-full my-2">
+              <button (click)="loadMoreTasks()" class="primary-button w-full" mat-flat-button color="primary">
                 {{"LOAD_MORE" | translate}}
               </button>
             </div>
 
           </ng-container>
           <mat-card class="add-task" (click)="navigateToNewTask()">
-            <div class="add-task-div">
-                <mat-icon color="primary" fontIcon="add_circle"></mat-icon>
-                <p>{{"ADD_YOUR_OWN_TASK"|translate}}</p>
+            <div class="add-task-div ">
+                <mat-icon  class="primary-icon" fontIcon="add_circle"></mat-icon>
+                <p >{{"ADD_YOUR_OWN_TASK"|translate}}</p>
             </div>
           </mat-card>
         </div>

@@ -13,6 +13,7 @@ export class ApiService {
     'x-auth-token': this.token,
     'X-authenticated-user-token': this.token,
     'Content-Type': 'application/json',
+    'internal-access-token':'Fqn0m0HQ0gXydRtBCg5l'
   }
 
   constructor(private http: HttpClient) { }

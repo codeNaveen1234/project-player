@@ -41,13 +41,11 @@ mat-card{
 }
 
 .sub-task-date{
-    padding: 10px;
-    background-color: rgba(139, 126, 126, 0.479);
+    padding-right: 10px;
     cursor: pointer;
     display: flex;
     align-items: center;
 }
 .sub-task-body mat-form-field{
     width: 100%;
-    padding-left: 10px;
 }

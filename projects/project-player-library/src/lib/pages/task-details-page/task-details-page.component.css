@@ -1,6 +1,6 @@
 
 .task-details{
-    padding: 0 5% 5% 5%;
+    padding: 0 2% 4% 2%;
 }
 .task-header{
     display: flex;
@@ -49,12 +49,7 @@
     display: none;
 }
 
-::ng-deep .mdc-text-field--filled.mdc-text-field--disabled{
-    background-color: transparent !important;
-}
-::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-    background-color: transparent !important;
-}
+
 .subtask-input-field input{
     padding: 0;
 }

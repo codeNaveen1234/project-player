@@ -82,6 +82,7 @@ export class TaskDetailsPageComponent implements OnInit {
         this.updateDataInDb()
         console.log('You have successfully changed the task name');
       } else {
+        this.toasterService.showToast("FILES_CHANGES_NOT_UPDATED","danger")
         console.log(`you have selected no and changes doesn't reflected.`);
       }
     });
@@ -141,7 +142,7 @@ export class TaskDetailsPageComponent implements OnInit {
     }
     this.db.updateData(finalData);
     this.getProjectDetails();
-    this.toasterService.showToast("FILES_CHANGES_UPDATED")
+    this.toasterService.showToast("FILES_CHANGES_UPDATED","success")
   }
 
   addFiles(){
@@ -155,9 +156,25 @@ export class TaskDetailsPageComponent implements OnInit {
         if(data.isChecked && data.upload){
           this.routingService.navigate(`/add-files/${this.projectDetails._id}`,{taskId:this.taskId})
         }else{
-          this.toasterService.showToast('ACCEPT_POLICY_ERROR_MSG')
+          this.toasterService.showToast('ACCEPT_POLICY_ERROR_MSG',"danger")
         }
       }
     })
+  }
+
+  onDateChange(newDate: Date) {
+    let localDateString = this.formatDateToLocal(newDate);
+    this.task.endDate = localDateString;
+    this.updateDataInDb();
+  }
+
+  formatDateToLocal(date: Date): string {
+    let offset = date.getTimezoneOffset() * 60000;
+    let localISOTime = new Date(date.getTime() - offset).toISOString().slice(0, -1);
+    return localISOTime;
+  }
+
+  onLearningResources(id:any,fromHome:boolean){
+    this.routingService.navigate(`/learning-resource/${id}/${this.projectDetails._id}/${fromHome}`)
   }
 }

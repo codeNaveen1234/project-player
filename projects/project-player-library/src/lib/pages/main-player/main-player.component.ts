@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RoutingService } from '../../services/routing/routing.service';
 import { DbService } from '../../services/db/db.service';
-import { projectDetailsData } from '../details-page/project-details.component.spec.data';
+import { HttpClient } from '@angular/common/http';
+import { ApiService } from '../../services/api/api.service';
 
 @Component({
   selector: 'lib-main-player',
@@ -9,27 +10,80 @@ import { projectDetailsData } from '../details-page/project-details.component.sp
   styleUrls: ['./main-player.component.css']
 })
 export class MainPlayerComponent implements OnInit {
-  projectDetails = projectDetailsData
-
-  constructor(private routerService: RoutingService, private db: DbService) {}
+  projectDetails:any;
+  projectId:any;
+  solutionId:any;
+  @Input() projectData:any;
+  constructor(private routerService: RoutingService, private db: DbService,private http: HttpClient,private apiService:ApiService) {}
 
   ngOnInit() {
     setTimeout(()=>{
+      this.projectId = this.projectData._id;
       this.storeDataToLocal()
       }, 1000)
   }
 
-  navigate(){
-    this.routerService.navigate(`/preview-details/${this.projectDetails._id}`)
+  navigateToDetails(){
+    this.routerService.navigate(`/details/${this.projectId}`)
+  }
+
+  navigateToTemplate(){
+    this.routerService.navigate(`/preview-details/${this.projectId}`)
   }
 
   storeDataToLocal(){
-    let data = {
-      key: this.projectDetails._id,
-      data: this.projectDetails
+    if(this.projectId){
+      this.db.getData(this.projectId).then((data)=>{
+        let projectDetails = data.data;
+        if(projectDetails){
+            this.routerService.navigate(`/details/${this.projectId}`)
+          }
+        }).catch((res)=>{
+          this.getProjectDetails()
+      })
+
     }
-    this.db.addData(data)
-    this.navigate()
+    else {
+      this.getProjectTemplate()
+    }
   }
 
+  getProjectDetails(){
+    console.log("this is from the function");
+    const configForProjectId = {
+      url: `${'project/v1/userProjects/details/'}${this.projectId}`,
+      payload: {}
+    }
+      this.apiService.post(configForProjectId).subscribe((res)=>{
+        console.log(res);
+        this.projectDetails = res.result;
+        if(this.projectDetails){
+          let data = {
+            key: this.projectDetails._id,
+            data: this.projectDetails
+          }
+          this.db.addData(data)
+          this.navigateToDetails()
+        }
+      })
+  }
+  getProjectTemplate(){
+      const configForSolutionId = {
+        url: `${'project/v1/solutions/getDetails/'}${this.solutionId}`,
+        payload: {}
+      }
+      this.apiService.post(configForSolutionId).subscribe((res)=>{
+        this.projectDetails = res.result;
+        let data = {
+          key: this.projectDetails._id,
+          data: this.projectDetails
+        }
+        this.db.addData(data)
+        this.navigateToTemplate()
+      })
+  }
+
+  ngOnDestroy(): void {
+    console.log("player destroyed");
+  }
 }

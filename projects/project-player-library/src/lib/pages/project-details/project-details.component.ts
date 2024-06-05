@@ -38,4 +38,8 @@ getCertificateCriteria(): string[] {
   return this.validationTexts;
 }
 
+openResource(data:any){
+  window.open(data.link, '_blank');
+}
+
 }

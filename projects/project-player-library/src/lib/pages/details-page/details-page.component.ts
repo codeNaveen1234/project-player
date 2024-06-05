@@ -18,8 +18,8 @@ export class DetailsPageComponent implements OnInit {
   projectActions = []
   submitted: boolean = false;
   projectDetails:any;
-  displayedTasks=[];
-  remainingTasks=[];
+  displayedTasks:any[]=[];
+  remainingTasks:any[]=[];
   constructor(private routerService: RoutingService, private db: DbService, private activatedRoute: ActivatedRoute,
     private toasterService:ToastService, private utils: UtilsService
   ) {
@@ -83,7 +83,7 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case 'delete':
-        this.openDialogForDelete(event.id);
+        this.openDialogForDelete(event._id);
         break;
 
       default:
@@ -93,7 +93,7 @@ export class DetailsPageComponent implements OnInit {
 
   moveToDetailsTask(data: any) {
     if (!this.submitted) {
-      this.routerService.navigate(`/task-details/${data}/${this.projectDetails._id}`);
+      this.routerService.navigate(`/task-details/${data._id}/${this.projectDetails._id}`);
   }
   }
 
@@ -161,7 +161,8 @@ export class DetailsPageComponent implements OnInit {
         data:this.projectDetails
       }
       this.db.updateData(finalData)
-      this.toasterService.showToast("ASK_DELETE_SUCCESS","success")
+      this.initializeTasks()
+      this.toasterService.showToast("TASK_DELETE_SUCCESS","success")
     }
   }
 
@@ -179,14 +180,15 @@ export class DetailsPageComponent implements OnInit {
   }
 
 
-  onLearningResources(){
-    console.log("learning reources");
+  onLearningResources(id:any,fromHome:boolean){
+    this.routerService.navigate(`/learning-resource/${id}/${this.projectDetails._id}/${fromHome}`)
+
   }
   onStartObservation(){
     console.log("start observation");
   }
   initializeTasks(): void {
-    if (this.projectDetails.tasks && this.projectDetails.tasks.length > 0) {
+    if (this.projectDetails.tasks && this.projectDetails.tasks.length >= 0) {
       this.displayedTasks = this.projectDetails.tasks.slice(0, 4);
       this.remainingTasks = this.projectDetails.tasks.slice(4);
     }

@@ -9,7 +9,7 @@
     <div class="sub-task-body">
         <div class="sub-task-date">
             <mat-form-field class="w-full">
-                <input matInput [matDatepicker]="picker" [(ngModel)]="subTask.endDate" disabled>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="subTask.endDate" (ngModelChange)="onDateChange($event)" disabled>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker disabled="false"></mat-datepicker>
             </mat-form-field>

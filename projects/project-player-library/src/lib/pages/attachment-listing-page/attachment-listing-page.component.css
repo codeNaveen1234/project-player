@@ -4,6 +4,4 @@
     border-radius: 5px;
     box-shadow: rgba(133, 119, 119, 0.555) 5px 5px 4px;
 }
-::ng-deep div[aria-selected="true"] {
-    border-bottom: 5px solid blue;
-  }
+

@@ -1,5 +1,5 @@
-<div class="flex mt-3 ml-3 gap-x-3">
-    <mat-icon fontIcon="keyboard_backspace " class="cursor-pointer text-black" (click)="goBack()"></mat-icon>
+<div class="flex items-center mt-3 ml-3 gap-x-3">
+    <mat-icon fontIcon="arrow_back " class="cursor-pointer text-black" (click)="goBack()"></mat-icon>
      <span class="text-black text-xl font-bold">{{"TASK_DETAILS" | translate}}</span>
 </div>
 <div class="task-details">
@@ -11,7 +11,7 @@
         <h3>{{"END_DATE"|translate}}</h3>
         <div>
             <mat-form-field class="w-full">
-                <input matInput [matDatepicker]="picker" [(ngModel)]="task.endDate" disabled>
+                <input  matInput [matDatepicker]="picker" [(ngModel)]="task.endDate" (ngModelChange)="onDateChange($event)" disabled>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker disabled="false"></mat-datepicker>
             </mat-form-field>
@@ -51,8 +51,13 @@
             </div>
         }
     </div>
-    <div class="add-files-button" [ngClass]="{'add-files-button-sub': task.children.length === 0}">
+    <div class="add-files-button flex gap-x-3" [ngClass]="{'add-files-button-sub': task.children.length === 0}">
         <button mat-flat-button class="primary-button" (click)="addFiles()">{{ 'ADD_FILES' | translate }}</button>
+        <ng-container *ngIf="task.learningResources && task.learningResources.length > 0 ">
+            <button (click)="onLearningResources(task._id,false)" class="primary-button" mat-flat-button >
+              {{"LEARNING_RESOURCES" | translate}}
+            </button>
+          </ng-container>
     </div>
 
 </div>
