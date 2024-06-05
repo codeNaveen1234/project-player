@@ -54,7 +54,7 @@ const routes: Routes = [
   { path: 'add-task/:id', component: AddTaskPageComponent },
   { path: 'preview-details/:id', component: PreviewDetailsPageComponent},
   { path: 'add-files/:id', component: AddFilesPageComponent },
-  { path: 'learning-resource/:taskId/:id/:fromHome', component: LearningResourcesComponent}
+  { path: 'learning-resource/:taskId/:id/:fromDetailspage', component: LearningResourcesComponent}
 ];
 
 const MAT_CUSTOM_DATE_FORMATS = {

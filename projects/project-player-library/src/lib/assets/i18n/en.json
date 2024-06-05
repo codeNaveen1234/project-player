@@ -65,7 +65,7 @@
     "TASK_DESCRIPTION":"Task description",
     "PROJECT_DOWNLOADING_SUCCESS":"You have downloaded the project successfully!",
     "CERTIFICATE_CRITERIA":"Certificate criteria",
-    "LEARNING_RESOURCES":"View resources",
+    "VIEW_RESOURCES":"View resources",
     "OBSERVATION":" Start observation",
     "FILES_CHANGES_UPDATED":"Your changes saved successfully!",
     "ATTACHMENT_REMOVED_SUCCESS":"Attachment removed successfully!",
@@ -89,5 +89,5 @@
     "SYNCING_PAGE":"Syncing page",
     "FILE_NOT_SHARED": "File not shared !",
     "FILES_CHANGES_NOT_UPDATED":"File changes not updated !",
-    "LEARNING_RESOURCES_BACK":"Learning resources"
+    "LEARNING_RESOURCES":"Learning resources"
 }

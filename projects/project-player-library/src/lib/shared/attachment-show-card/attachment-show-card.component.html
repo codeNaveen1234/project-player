@@ -13,9 +13,13 @@
     <div class="flex justify-between items-center p-1  w-full bg-gray-300 rounded">
         <div class="flex flex-row items-center gap-x-2">
             <span class="flex items-center">
-                <mat-icon *ngIf="attachments.type.includes('video')" fontIcon="videocam" class="primary-icon"></mat-icon>
-                <mat-icon *ngIf="attachments.type.includes('link')" fontIcon="link" class="primary-icon"></mat-icon>
-                <mat-icon *ngIf="attachments.type.includes('application')" fontIcon="description" class="primary-icon"></mat-icon>
+                @if (attachments.type.includes('video')) {
+                    <mat-icon  fontIcon="videocam" class="primary-icon"></mat-icon>
+                } @else if (attachments.type.includes('link')) {
+                    <mat-icon  fontIcon="link" class="primary-icon"></mat-icon>
+                } @else if (attachments.type.includes('application')) {
+                    <mat-icon  fontIcon="description" class="primary-icon"></mat-icon>
+                }
             </span>
             <div class="primary-icon cursor-pointer" (click)="openAttachment(attachments)">
                 {{attachments.name}}

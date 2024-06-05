@@ -174,7 +174,7 @@ export class TaskDetailsPageComponent implements OnInit {
     return localISOTime;
   }
 
-  onLearningResources(id:any,fromHome:boolean){
-    this.routingService.navigate(`/learning-resource/${id}/${this.projectDetails._id}/${fromHome}`)
+  onLearningResources(id:any,fromDetailspage:boolean){
+    this.routingService.navigate(`/learning-resource/${id}/${this.projectDetails._id}/${fromDetailspage}`)
   }
 }

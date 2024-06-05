@@ -180,8 +180,8 @@ export class DetailsPageComponent implements OnInit {
   }
 
 
-  onLearningResources(id:any,fromHome:boolean){
-    this.routerService.navigate(`/learning-resource/${id}/${this.projectDetails._id}/${fromHome}`)
+  onLearningResources(id:any,fromDetailspage:boolean){
+    this.routerService.navigate(`/learning-resource/${id}/${this.projectDetails._id}/${fromDetailspage}`)
 
   }
   onStartObservation(){

@@ -11,22 +11,22 @@ import { RoutingService } from '../../services/routing/routing.service';
 export class LearningResourcesComponent implements OnInit {
   taskId: any;
   id: any;
-  fromHome!: boolean;
+  fromDetailspage!: boolean;
   learningResources: any;
 
-  constructor(private route: ActivatedRoute, private Db: DbService, private routerService: RoutingService) {}
+  constructor(private route: ActivatedRoute, private db: DbService, private routerService: RoutingService) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: any) => {
       this.taskId = params.get('taskId');
       this.id = params.get('id');
-      this.fromHome = params.get('fromHome') === 'true';
+      this.fromDetailspage = params.get('fromDetailspage') === 'true';
       this.getProjectDetails();
     });
   }
 
   getProjectDetails() {
-    this.Db.getData(this.id).then((data) => {
+    this.db.getData(this.id).then((data) => {
       let projectDetails = data.data;
       this.getTaskLearningResources(projectDetails);
     });
@@ -38,7 +38,7 @@ export class LearningResourcesComponent implements OnInit {
   }
 
   goBack() {
-    if (!this.fromHome) {
+    if (!this.fromDetailspage) {
       this.routerService.navigate(`/task-details/${this.taskId}/${this.id}`);
     } else {
       this.routerService.navigate(`/details/${this.id}`);

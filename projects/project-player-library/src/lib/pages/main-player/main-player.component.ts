@@ -18,7 +18,11 @@ export class MainPlayerComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(()=>{
-      this.projectId = this.projectData._id;
+      if(this.projectData._id){
+        this.projectId = this.projectData._id;
+      } else {
+        this.solutionId = this.projectData.solutionId;
+      }
       this.storeDataToLocal()
       }, 1000)
   }
@@ -28,34 +32,28 @@ export class MainPlayerComponent implements OnInit {
   }
 
   navigateToTemplate(){
-    this.routerService.navigate(`/preview-details/${this.projectId}`)
+    this.routerService.navigate(`/preview-details/${this.solutionId}`)
   }
 
   storeDataToLocal(){
     if(this.projectId){
       this.db.getData(this.projectId).then((data)=>{
-        let projectDetails = data.data;
-        if(projectDetails){
             this.routerService.navigate(`/details/${this.projectId}`)
-          }
         }).catch((res)=>{
           this.getProjectDetails()
       })
-
     }
     else {
-      this.getProjectTemplate()
+      this.navigateToTemplate()
     }
   }
 
   getProjectDetails(){
-    console.log("this is from the function");
     const configForProjectId = {
       url: `${'project/v1/userProjects/details/'}${this.projectId}`,
       payload: {}
     }
       this.apiService.post(configForProjectId).subscribe((res)=>{
-        console.log(res);
         this.projectDetails = res.result;
         if(this.projectDetails){
           let data = {
@@ -67,23 +65,7 @@ export class MainPlayerComponent implements OnInit {
         }
       })
   }
-  getProjectTemplate(){
-      const configForSolutionId = {
-        url: `${'project/v1/solutions/getDetails/'}${this.solutionId}`,
-        payload: {}
-      }
-      this.apiService.post(configForSolutionId).subscribe((res)=>{
-        this.projectDetails = res.result;
-        let data = {
-          key: this.projectDetails._id,
-          data: this.projectDetails
-        }
-        this.db.addData(data)
-        this.navigateToTemplate()
-      })
-  }
 
-  ngOnDestroy(): void {
-    console.log("player destroyed");
-  }
+
+
 }

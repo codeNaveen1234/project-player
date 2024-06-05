@@ -1,10 +1,5 @@
 import { Component, Input } from '@angular/core';
-interface LearningResource {
-  name: string;
-  link: string;
-  app: string;
-  id: string;
-}
+
 @Component({
   selector: 'lib-project-details',
   templateUrl: './project-details.component.html',
@@ -15,7 +10,7 @@ export class ProjectDetailsComponent {
 panelOpenStateForCertificate = false;
 panelOpenStateForResources = false;
 validationTexts!: string[];
-learningResources: LearningResource[] = [];
+learningResources: any[] = [];
 ngOnInit(): void {
   this.getCertificateCriteria();
   this.learningResources = this.projectDetails.learningResources;

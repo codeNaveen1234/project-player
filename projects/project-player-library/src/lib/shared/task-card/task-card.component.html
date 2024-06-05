@@ -2,8 +2,11 @@
     <div >
         <div class="flex  w-full">
             <div class="w-6 icon-complete mt-2">
-                <span class="complete-task" *ngIf="task.status !== 'completed'"></span>
-                <mat-icon *ngIf="task.status === 'completed'"  style="color: green;" fontIcon="check_circle"></mat-icon>
+            @if (task.status !== statusTypes.completed) {
+                <span class="complete-task" ></span>
+            }@else if (task.status === statusTypes.completed) {
+                <mat-icon   style="color: green;" fontIcon="check_circle"></mat-icon>
+            }
             </div>
             <div class="items-header w-full " >
                 <span class="w-auto sm:w-2/3" (click)="moveToDetailsTask(task._id)" >

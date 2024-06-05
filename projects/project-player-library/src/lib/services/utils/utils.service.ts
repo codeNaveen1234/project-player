@@ -40,7 +40,7 @@ export class UtilsService {
     return response
   }
 
-  newWindow(dataResponse:any){
+  viewFile(dataResponse:any){
     const w: any = window.open('', '_blank');
     const iframe = w.document.createElement('iframe');
     iframe.src = dataResponse.data;

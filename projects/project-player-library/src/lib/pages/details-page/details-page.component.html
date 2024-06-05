@@ -64,7 +64,7 @@
                   <ng-container *ngIf="item">
                     <ng-container *ngIf="item.learningResources && item.learningResources.length > 0 && item.type !== 'observation'; else checkObservation">
                       <button (click)="onLearningResources(item._id,true)" class="primary-button task-buttons text-sm px-3 py-2" mat-flat-button >
-                        {{"LEARNING_RESOURCES" | translate}}
+                        {{"VIEW_RESOURCES" | translate}}
                       </button>
                     </ng-container>
                     <ng-template #checkObservation>
@@ -87,11 +87,13 @@
               </lib-task-card>
             </div>
 
-            <div *ngIf="projectDetails.tasks.length > displayedTasks.length" class=" w-full my-2">
-              <button (click)="loadMoreTasks()" class="primary-button w-full" mat-flat-button color="primary">
-                {{"LOAD_MORE" | translate}}
-              </button>
-            </div>
+              @if (projectDetails.tasks.length > displayedTasks.length) {
+                <div  class=" w-full my-2">
+                  <button (click)="loadMoreTasks()" class="primary-button w-full" mat-flat-button color="primary">
+                    {{"LOAD_MORE" | translate}}
+                  </button>
+                </div>
+              }
 
           </ng-container>
           <mat-card class="add-task" (click)="navigateToNewTask()">

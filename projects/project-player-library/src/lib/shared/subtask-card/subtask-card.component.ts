@@ -61,11 +61,9 @@ openEditSubTaskName(
   })
   modelref.afterClosed().subscribe((res: boolean) => {
     if (res) {
-      console.log('You have successfully changed the sub task name');
       this.updateDataInDb();
     } else {
       this.toasterService.showToast("FILES_CHANGES_NOT_UPDATED","danger")
-      console.log(`you have selected no and changes doesn't reflected.`);
     }
   });
 }

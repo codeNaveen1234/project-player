@@ -5,14 +5,14 @@ import { UtilsService } from '../../services/utils/utils.service';
 @Component({
   selector: 'lib-attachment-show-card',
   templateUrl: './attachment-show-card.component.html',
-  styleUrls: ['./attachment-show-card.component.css'], // Corrected the property name
+  styleUrl: './attachment-show-card.component.css',
 })
 export class AttachmentShowCardComponent {
   @Input() attachments: any;
   attachment: any;
   @Output() emitAttachment = new EventEmitter<any>();
 
-  constructor(private db: DbService,private utilService:UtilsService) {} // Renamed the variable to follow conventions
+  constructor(private db: DbService,private utilService:UtilsService) {}
 
   ngOnInit(): void {
     this.getAttachment();
@@ -32,14 +32,13 @@ export class AttachmentShowCardComponent {
     if(data.type === 'link'){
       let url = data.name;
         if (!/^https?:\/\//i.test(url)) {
-            url = 'http://' + url; // Default to http if no scheme is provided
+            url = 'http://' + url;
         }
-        console.log(url);
         window.open(url, '_blank');
     }
     else {
       this.db.getData(data.name).then((response) => {
-        this.utilService.newWindow(response);
+        this.utilService.viewFile(response);
       });
     }
   }

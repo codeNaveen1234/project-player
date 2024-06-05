@@ -5,6 +5,7 @@ import { RoutingService } from '../../services/routing/routing.service';
 import { ActivatedRoute } from '@angular/router';
 import { DbService } from '../../services/db/db.service';
 import { ToastService } from '../../services/toast/toast.service';
+import { ApiService } from '../../services/api/api.service';
 
 @Component({
   selector: 'lib-preview-details-page',
@@ -17,13 +18,31 @@ export class PreviewDetailsPageComponent {
   displayedTasks:any;
   remainingTasks = [];
   startImprovement: boolean = true;
-  constructor(private routerService:RoutingService,private activatedRoute:ActivatedRoute,private db:DbService,private toasterService:ToastService){
+  solutionId:any;
+  constructor(private routerService:RoutingService,private activatedRoute:ActivatedRoute,private db:DbService,private toasterService:ToastService,private apiService:ApiService){
     activatedRoute.params.subscribe(param=>{
-      this.getData(param['id'])
+     this.solutionId = param['id']
+     this.getProjectTemplate()
+      this.getData(this.solutionId)
     })
   }
   ngOnInit(): void {
   }
+
+  getProjectTemplate(){
+    const configForSolutionId = {
+      url: `${'project/v1/solutions/getDetails/'}${this.solutionId}`,
+      payload: {}
+    }
+    this.apiService.post(configForSolutionId).subscribe((res)=>{
+      this.projectDetails = res.result;
+      let data = {
+        key: this.projectDetails.solutionId,
+        data: this.projectDetails
+      }
+      this.db.addData(data)
+    })
+}
   getData(id:any){
     this.db.getData(id).then(data=>{
       this.projectDetails = data.data;
@@ -39,7 +58,7 @@ export class PreviewDetailsPageComponent {
       console.log(event,"shared");
   }
   navigate(){
-    this.routerService.navigate(`/details/${this.projectDetails._id}`,);
+    this.routerService.navigate(`/details/${this.solutionId}`);
     this.startImprovement = false;
   }
   onLearningResources(){
