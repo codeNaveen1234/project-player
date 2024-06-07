@@ -39,4 +39,19 @@ export class UtilsService {
     let response = await firstValueFrom(dialogRef.afterClosed())
     return response
   }
+
+  viewFile(dataResponse:any){
+    const w: any = window.open('', '_blank');
+    const iframe = w.document.createElement('iframe');
+    iframe.src = dataResponse.data;
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    w.document.body.style.margin = '0';
+    w.document.body.style.padding = '0';
+    w.document.body.style.width = '100%';
+    w.document.body.style.height = '100%';
+    w.document.body.style.overflow = 'hidden';
+    w.document.body.appendChild(iframe);
+  }
 }

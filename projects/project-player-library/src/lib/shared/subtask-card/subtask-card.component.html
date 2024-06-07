@@ -1,7 +1,7 @@
 <mat-card>
     <div class="sub-task-header">
         <div (click)="editSubTask()">
-            <span class="circle"><mat-icon color="primary" fontIcon="radio_button_unchecked"></mat-icon></span>
+            <span class="circle"><mat-icon class="primary-icon" fontIcon="radio_button_unchecked"></mat-icon></span>
             <h4>{{subTask.name}}</h4>
         </div>
         <span class="delete-icon"><mat-icon (click)="openDialog()" fontIcon="delete"></mat-icon></span>
@@ -9,7 +9,7 @@
     <div class="sub-task-body">
         <div class="sub-task-date">
             <mat-form-field class="w-full">
-                <input matInput [matDatepicker]="picker" [(ngModel)]="subTask.endDate" disabled>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="subTask.endDate" (ngModelChange)="onDateChange($event)" disabled>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker disabled="false"></mat-datepicker>
             </mat-form-field>

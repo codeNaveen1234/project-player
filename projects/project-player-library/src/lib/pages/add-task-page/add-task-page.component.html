@@ -1,9 +1,9 @@
-<div class="flex mt-3">
-    <mat-icon fontIcon="keyboard_backspace" class="cursor-pointer" (click)="goBack()"></mat-icon>
+<div class="flex items-center mt-3">
+    <mat-icon fontIcon="arrow_back" class="cursor-pointer" (click)="goBack()"></mat-icon>
     <div class="text-xl ml-3 font-bold">{{ "ADD_NEW_TASK" | translate }}</div>
 </div>
 
-<div class="mt-5">
+<div class="mt-5 m-2">
     <mat-form-field style="width: 100%;">
         <mat-label>{{ "TASK_DESCRIPTION" | translate }}</mat-label>
         <textarea matInput [(ngModel)]="taskTitle" required cols="10"></textarea>
@@ -15,7 +15,7 @@
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker disabled="false"></mat-datepicker>
     </mat-form-field>
-    
+
     <mat-form-field style="width: 100%;">
         <mat-label>{{ "STATUS" | translate }}</mat-label>
         <mat-select [(ngModel)]="taskStatus">

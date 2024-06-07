@@ -45,6 +45,7 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { FilesCardComponent } from './shared/files-card/files-card.component';
+import { LearningResourcesComponent } from './pages/learning-resources/learning-resources.component';
 
 const routes: Routes = [
   { path: 'details/:id', component: DetailsPageComponent },
@@ -52,7 +53,8 @@ const routes: Routes = [
   { path: 'task-details/:taskId/:id', component: TaskDetailsPageComponent },
   { path: 'add-task/:id', component: AddTaskPageComponent },
   { path: 'preview-details/:id', component: PreviewDetailsPageComponent},
-  { path: 'add-files/:id', component: AddFilesPageComponent }
+  { path: 'add-files/:id', component: AddFilesPageComponent },
+  { path: 'learning-resource/:taskId/:id/:fromDetailspage', component: LearningResourcesComponent}
 ];
 
 const MAT_CUSTOM_DATE_FORMATS = {
@@ -76,7 +78,6 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
   declarations: [
     ProjectPlayerLibraryComponent,
     MainPlayerComponent,
-    DetailsPageComponent,
     TaskCardComponent,
     IconListComponent,
     TaskDetailsPageComponent,
@@ -92,7 +93,9 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     PrivacyPolicyPopupComponent,
     AddFilesPageComponent,
     AddLinkPopupComponent,
-    FilesCardComponent
+    FilesCardComponent,
+    DetailsPageComponent,
+    LearningResourcesComponent
   ],
   imports: [
     CommonModule,

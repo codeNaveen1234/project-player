@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RoutingService } from '../../services/routing/routing.service';
 import { DbService } from '../../services/db/db.service';
-import { projectDetailsData } from '../details-page/project-details.component.spec.data';
+import { HttpClient } from '@angular/common/http';
+import { ApiService } from '../../services/api/api.service';
 
 @Component({
   selector: 'lib-main-player',
@@ -9,27 +10,62 @@ import { projectDetailsData } from '../details-page/project-details.component.sp
   styleUrls: ['./main-player.component.css']
 })
 export class MainPlayerComponent implements OnInit {
-  projectDetails = projectDetailsData
-
-  constructor(private routerService: RoutingService, private db: DbService) {}
+  projectDetails:any;
+  projectId:any;
+  solutionId:any;
+  @Input() projectData:any;
+  constructor(private routerService: RoutingService, private db: DbService,private http: HttpClient,private apiService:ApiService) {}
 
   ngOnInit() {
     setTimeout(()=>{
+      if(this.projectData._id){
+        this.projectId = this.projectData._id;
+      } else {
+        this.solutionId = this.projectData.solutionId;
+      }
       this.storeDataToLocal()
       }, 1000)
   }
 
-  navigate(){
-    this.routerService.navigate(`/details/${this.projectDetails._id}`)
+  navigateToDetails(){
+    this.routerService.navigate(`/details/${this.projectId}`)
+  }
+
+  navigateToTemplate(){
+    this.routerService.navigate(`/preview-details/${this.solutionId}`)
   }
 
   storeDataToLocal(){
-    let data = {
-      key: this.projectDetails._id,
-      data: this.projectDetails
+    if(this.projectId){
+      this.db.getData(this.projectId).then((data)=>{
+            this.routerService.navigate(`/details/${this.projectId}`)
+        }).catch((res)=>{
+          this.getProjectDetails()
+      })
     }
-    this.db.addData(data)
-    this.navigate()
+    else {
+      this.navigateToTemplate()
+    }
   }
+
+  getProjectDetails(){
+    const configForProjectId = {
+      url: `${'project/v1/userProjects/details/'}${this.projectId}`,
+      payload: {}
+    }
+      this.apiService.post(configForProjectId).subscribe((res)=>{
+        this.projectDetails = res.result;
+        if(this.projectDetails){
+          let data = {
+            key: this.projectDetails._id,
+            data: this.projectDetails
+          }
+          this.db.addData(data)
+          this.navigateToDetails()
+        }
+      })
+  }
+
+
 
 }
