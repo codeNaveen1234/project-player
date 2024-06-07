@@ -85,5 +85,6 @@
     "SUBMIT_IMPROVEMENT_CONFIRMATION_MSG":"Are you sure you want to submit your improvement project?. Once submitted no further edits can be made to the project.",
     "SUBMIT":"Submit",
     "SYNCING_PAGE":"Syncing page",
-    "FILE_NOT_SHARED": "File not shared !"
+    "FILE_NOT_SHARED": "File not shared !",
+    "FILE_SIZE_EXCEEDED_ERROR_MSG":"The file is too large and cannot be uploaded. The file you are tying to upload has exceeded the maximum file size (50 MB)"
 }

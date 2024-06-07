@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
+import { DataService } from '../data/data.service';
+import { ToastService } from '../toast/toast.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AttachmentService {
 
-  constructor() { }
+  constructor(private dataService: DataService, private toastService: ToastService) { }
 
   generateFileName(file:any){
     let time = new Date().getTime()
@@ -38,5 +40,16 @@ export class AttachmentService {
     const byteArray = new Uint8Array(byteNumbers);
     const blob = new Blob([byteArray], { type: contentType });
     return blob
+  }
+
+  isFileSizeGreater(file:any){
+    let config = this.dataService.getConfig()
+    let maxLimit = config.maxFileSize * 1024 * 1024
+    if(file.size > maxLimit){
+      this.toastService.showToast("FILE_SIZE_EXCEEDED_ERROR_MSG","danger")
+      return true
+    }else{
+      return false
+    }
   }
 }

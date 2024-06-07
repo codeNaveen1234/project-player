@@ -55,6 +55,9 @@ export class AddTaskPageComponent implements OnInit {
 
   async onChange($event:any){
     let selectedFile = $event.target.files[0]
+    if(this.attachmentService.isFileSizeGreater(selectedFile)){
+      return
+    }
     this.toastService.showToast('ATTACHED_SUCCESSFULLY',"success")
     let fileName = this.attachmentService.generateFileName(selectedFile)
     let data = {
@@ -73,7 +76,7 @@ export class AddTaskPageComponent implements OnInit {
 
   addTask(){
     this.taskData.name = this.taskTitle
-    this.taskData.endDate = new Date(this.endDate).toISOString()
+    this.taskData.endDate = this.endDate ? new Date(this.endDate).toISOString() : ''
     this.taskData.status = this.taskStatus
     this.taskData.attachments = this.attachmentsList
     this.projectDetails.tasks.push(this.taskData)

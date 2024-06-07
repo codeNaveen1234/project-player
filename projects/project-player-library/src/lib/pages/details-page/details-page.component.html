@@ -1,6 +1,6 @@
 <mat-card class="details-card">
     <span class="details-card-header">
-        <h4>{{projectDetails.title}}</h4>
+        <h4>{{projectDetails?.title}}</h4>
     </span>
     <mat-card-content>
       <div style="display: flex;">
@@ -9,7 +9,7 @@
         <mat-card class="status-bar">
             <mat-card-content  *ngIf="!submitted">
                 <h4>{{"PROGRESS" | translate}}</h4>
-                <p>{{completedCount}}/{{projectDetails.tasks.length}} {{"TASK_COMPLETED" | translate}}</p>
+                <p>{{completedCount}}/{{projectDetails?.tasks.length}} {{"TASK_COMPLETED" | translate}}</p>
                 <mat-progress-bar class="progress-bar"   mode="determinate" [value]="progressValue"></mat-progress-bar>
             </mat-card-content>
             <mat-card-content class="after-submission"  *ngIf="submitted">
@@ -47,11 +47,11 @@
     <mat-tab [label]="'TASK_DETAILS' | translate">
       <div class="tab-label-container">
         <div class="task-details">
-            <div class="no-tasks" *ngIf="projectDetails.tasks.length === 0">
+            <div class="no-tasks" *ngIf="projectDetails?.tasks.length === 0">
                 <p>{{"NO_TASKS"|translate}}</p>
             </div>
-          @for (item of projectDetails.tasks; track $index) {
-            <div class="task-card" *ngIf="projectDetails.tasks.length !== 0">
+          @for (item of projectDetails?.tasks; track $index) {
+            <div class="task-card" *ngIf="projectDetails?.tasks.length !== 0">
               <lib-task-card [actionsList]="actionsList" [task]="item" [submittedImprovement]="submitted" (newItemEvent)="taskCardAction($event)"></lib-task-card>
             </div>
           }
