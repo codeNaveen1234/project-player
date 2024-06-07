@@ -1,17 +1,19 @@
-<div class="flex mt-3 ml-3 gap-x-2">
-    <mat-icon fontIcon="keyboard_backspace" class="cursor-pointer text-black" (click)="goBack()"></mat-icon>
-     <span class="text-black">{{"TASK_DETAILS" | translate}}</span>
+<div class="flex items-center mt-3 ml-3 gap-x-3">
+    <mat-icon fontIcon="arrow_back " class="cursor-pointer text-black" (click)="goBack()"></mat-icon>
+     <span class="text-black text-xl font-bold">{{"TASK_DETAILS" | translate}}</span>
 </div>
 <div class="task-details">
     <div class="task-header" (click)="editTask()">
         <h4>{{task.name}}</h4>
-        <span><mat-icon color="primary"  fontIcon="edit"></mat-icon></span>
+        @if (task.isDeletable) {
+            <span ><mat-icon class="primary-icon"  fontIcon="edit"></mat-icon></span>
+        }
     </div>
     <div class="task-status mb-3">
         <h3>{{"END_DATE"|translate}}</h3>
         <div>
             <mat-form-field class="w-full">
-                <input matInput [matDatepicker]="picker" [(ngModel)]="task.endDate" disabled>
+                <input  matInput [matDatepicker]="picker" [(ngModel)]="task.endDate" (ngModelChange)="onDateChange($event)" disabled>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker disabled="false"></mat-datepicker>
             </mat-form-field>
@@ -23,7 +25,7 @@
             <mat-form-field>
                 <mat-select (valueChange)="taskStatusChange()" [(value)]="task.status" name="taskStatus" [disabled]="task.children.length > 0">
                   @for (item of taskOptions; track $index) {
-                    <mat-option [value]="item.value">{{item.label | translate}}</mat-option>
+                    <mat-option class="primary-icon" [value]="item.value">{{item.label | translate}}</mat-option>
                   }
                 </mat-select>
               </mat-form-field>
@@ -32,14 +34,14 @@
     <div class="task-subtasks">
         <h3>{{"SUBTASKS"|translate}}</h3>
         <div class="subtask-input">
-            <mat-icon fontIcon="subdirectory_arrow_right"></mat-icon>
+            <mat-icon fontIcon="subdirectory_arrow_right" class="primary-icon"></mat-icon>
             <div class="subtask-input-field">
 
                     <mat-form-field class="example-full-width">
                         <input #subTask type="text" matInput [formControl]="textFormControl"
                                 [placeholder]="'ADD_SUBTASK_NAME'|translate">
                     </mat-form-field>
-                    <button [disabled]="!subTask.value" mat-flat-button color="primary" (click)="addSubTask(subTask.value)" >{{"ADD_SUBTASKS"|translate}}</button>
+                    <button [disabled]="!subTask.value" mat-flat-button [ngClass]="{'disabled-button':!subTask.value}" class="primary-button" (click)="addSubTask(subTask.value)" >{{"ADD_SUBTASKS"|translate}}</button>
 
             </div>
         </div>
@@ -51,8 +53,13 @@
             </div>
         }
     </div>
-    <div class="add-files-button" [ngClass]="{'add-files-button-sub': task.children.length === 0}">
-        <button mat-flat-button color="primary" (click)="addFiles()">{{ 'ADD_FILES' | translate }}</button>
+    <div class="add-files-button flex gap-x-3" [ngClass]="{'add-files-button-sub': task.children.length === 0}">
+        <button mat-flat-button class="primary-button" (click)="addFiles()">{{ 'ADD_FILES' | translate }}</button>
+        <ng-container *ngIf="task.learningResources && task.learningResources.length > 0 ">
+            <button (click)="onLearningResources(task._id,false)" class="primary-button" mat-flat-button >
+              {{"VIEW_RESOURCES" | translate}}
+            </button>
+          </ng-container>
     </div>
 
 </div>

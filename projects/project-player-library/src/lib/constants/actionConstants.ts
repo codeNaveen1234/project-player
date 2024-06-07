@@ -71,17 +71,20 @@ export const actions = {
         {
             name:"EDIT",
             icon:"edit",
-            action:"edit"
+            action:"edit",
+            color: "primary-icon"
         },
         {
             name:"SHARE",
             icon:"ios_share",
-            action:"share"
+            action:"share",
+            color: "primary-icon"
         },
         {
             name:"DELETE",
             icon:"delete",
-            action:"delete"
+            action:"delete",
+            color: "primary-icon"
         },
     ]
 }

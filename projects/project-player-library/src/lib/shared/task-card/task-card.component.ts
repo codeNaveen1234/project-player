@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RoutingService } from '../../services/routing/routing.service';
-import { statusLabels } from '../../constants/statusConstants';
+import { statusLabels, statusType } from '../../constants/statusConstants';
 
 @Component({
   selector: 'lib-task-card',
@@ -12,7 +12,10 @@ export class TaskCardComponent {
   @Input() submittedImprovement: any;
   @Input() actionsList:any;
   @Output() newItemEvent = new EventEmitter<any>();
+  @Input() startImprovement?:any;
+  @Input() projectId?:any;
   statusLabels:any = statusLabels
+  statusTypes:any = statusType
 
 
   constructor(private routerService: RoutingService) {}
@@ -23,8 +26,8 @@ export class TaskCardComponent {
   }
 
   moveToDetailsTask(data: any) {
-    if (!this.submittedImprovement) {
-      this.routerService.navigate(`/task-details/${data}`);
+    if (!this.submittedImprovement && !this.startImprovement && (this.task.type !== 'observation')) {
+      this.routerService.navigate(`/task-details/${data}/${this.projectId}`);
     }
   }
 }

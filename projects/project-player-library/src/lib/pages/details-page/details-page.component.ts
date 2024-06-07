@@ -18,10 +18,13 @@ export class DetailsPageComponent implements OnInit {
   projectActions = []
   submitted: boolean = false;
   projectDetails:any;
+  displayedTasks:any[]=[];
+  remainingTasks:any[]=[];
   constructor(private routerService: RoutingService, private db: DbService, private activatedRoute: ActivatedRoute,
     private toasterService:ToastService, private utils: UtilsService
   ) {
     activatedRoute.params.subscribe(param=>{
+      setTimeout(()=>{ },100)
       this.getData(param['id'])
     })
   }
@@ -35,6 +38,7 @@ export class DetailsPageComponent implements OnInit {
       this.countCompletedTasks(this.projectDetails);
       this.calculateProgress();
       this.setActionsList()
+      this.initializeTasks()
     })
   }
 
@@ -61,7 +65,7 @@ export class DetailsPageComponent implements OnInit {
   }
   submitImprovement() {
     this.submitted = true;
-    this.toasterService.showToast("PROJECT_SUBMMITTED_SUCCESS")
+    this.toasterService.showToast("PROJECT_SUBMMITTED_SUCCESS","success")
   }
 
   navigateToNewTask() {
@@ -71,7 +75,7 @@ export class DetailsPageComponent implements OnInit {
   taskCardAction(event:any){
     switch (event.action) {
       case 'edit':
-        this.moveToTaskDetails(event._id);
+        this.moveToDetailsTask(event._id);
         break;
 
       case 'share':
@@ -79,7 +83,7 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case 'delete':
-        this.openDialogForDelete(event.id);
+        this.openDialogForDelete(event._id);
         break;
 
       default:
@@ -87,10 +91,10 @@ export class DetailsPageComponent implements OnInit {
     }
   }
 
-  moveToTaskDetails(data: any) {
+  moveToDetailsTask(data: any) {
     if (!this.submitted) {
-      this.routerService.navigate(`/task-details/${data}/${this.projectDetails._id}`)
-    }
+      this.routerService.navigate(`/task-details/${data._id}/${this.projectDetails._id}`);
+  }
   }
 
   iconListAction(event: any) {
@@ -98,7 +102,7 @@ export class DetailsPageComponent implements OnInit {
       case "download":
         this.projectDetails.downloaded = true
         this.setActionsList()
-        this.toasterService.showToast("PROJECT_DOWNLOADING_SUCCESS")
+        this.toasterService.showToast("PROJECT_DOWNLOADING_SUCCESS","success")
         break;
 
       case "share":
@@ -111,7 +115,7 @@ export class DetailsPageComponent implements OnInit {
 
       case "sync":
         this.projectDetails.isEdit = false
-        this.toasterService.showToast("PROJECT_SYNC_SUCCESS")
+        this.toasterService.showToast("PROJECT_SYNC_SUCCESS","success")
         this.setActionsList()
         break;
 
@@ -157,7 +161,8 @@ export class DetailsPageComponent implements OnInit {
         data:this.projectDetails
       }
       this.db.updateData(finalData)
-      this.toasterService.showToast("ASK_DELETE_SUCCESS","success")
+      this.initializeTasks()
+      this.toasterService.showToast("TASK_DELETE_SUCCESS","success")
     }
   }
 
@@ -174,16 +179,25 @@ export class DetailsPageComponent implements OnInit {
     this.actionsList = optionList;
   }
 
-  moveToDetailsTask(data: any) {
-    if (!this.submitted) {
-      this.routerService.navigate(`/task-details/${data}`,this.projectDetails._id);
-    }
-  }
 
-  onLearningResources(){
-    console.log("learning reources");
+  onLearningResources(id:any,fromDetailspage:boolean){
+    this.routerService.navigate(`/learning-resource/${id}/${this.projectDetails._id}/${fromDetailspage}`)
+
   }
   onStartObservation(){
     console.log("start observation");
+  }
+  initializeTasks(): void {
+    if (this.projectDetails.tasks && this.projectDetails.tasks.length >= 0) {
+      this.displayedTasks = this.projectDetails.tasks.slice(0, 4);
+      this.remainingTasks = this.projectDetails.tasks.slice(4);
+    }
+  }
+
+  loadMoreTasks(): void {
+    if (this.remainingTasks.length > 0) {
+      this.displayedTasks.push(...this.remainingTasks);
+      this.remainingTasks = [];
+    }
   }
 }

@@ -95,6 +95,7 @@ export class AddTaskPageComponent implements OnInit {
     }
     this.db.updateData(finalData)
     this.goBack()
+    this.toastService.showToast("ATTACHED_SUCCESSFULLY","success")
   }
 
   showPrivacyPolicyPopup(){

@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EditTaskCardComponent } from '../edit-task-card/edit-task-card.component';
 import { actions } from '../../constants/actionConstants';
+import { DbService } from '../../services/db/db.service';
+import { ToastService } from '../../services/toast/toast.service';
 import { UtilsService } from '../../services/utils/utils.service';
 interface TaskOption {
   value: any;
@@ -21,7 +23,7 @@ subTaskOptions:TaskOption[] = [];
 ngOnInit(): void {
   this.setOptionList();
 }
-constructor(private dialog:MatDialog, private utils: UtilsService){}
+constructor(private dialog:MatDialog, private utils: UtilsService,private db: DbService,private toasterService:ToastService){}
 
 async openDialog() {
   let popupDetails= {
@@ -41,7 +43,9 @@ deleteSubTask(item:any){
 this.deleteSubTaskEvent.emit(item);
 }
 editSubTask(){
-this.openEditSubTaskName(this.subTask.name,"EDIT_SUBTASK");
+  if(this.subTask.isDeletable){
+    this.openEditSubTaskName(this.subTask.name,"EDIT_SUBTASK");
+  }
 }
 openEditSubTaskName(
   subTaskName:string,
@@ -57,9 +61,9 @@ openEditSubTaskName(
   })
   modelref.afterClosed().subscribe((res: boolean) => {
     if (res) {
-      console.log('You have successfully changed the sub task name');
+      this.updateDataInDb();
     } else {
-      console.log(`you have selected no and changes doesn't reflected.`);
+      this.toasterService.showToast("FILES_CHANGES_NOT_UPDATED","danger")
     }
   });
 }
@@ -69,5 +73,25 @@ updateSubTaskStatus(data:any){
 setOptionList(){
   let options:any = actions.TASK_STATUS;
   this.subTaskOptions = options;
+}
+onDateChange(newDate: Date) {
+  let localDateString = this.formatDateToLocal(newDate);
+  this.subTask.endDate = localDateString;
+  this.updateDataInDb();
+}
+
+formatDateToLocal(date: Date): string {
+  let offset = date.getTimezoneOffset() * 60000;
+  let localISOTime = new Date(date.getTime() - offset).toISOString().slice(0, -1);
+  return localISOTime;
+}
+
+updateDataInDb(){
+  let finalData = {
+    key:this.projectDetails._id,
+    data:this.projectDetails
+  }
+  this.db.updateData(finalData);
+  this.toasterService.showToast("FILES_CHANGES_UPDATED","success")
 }
 }

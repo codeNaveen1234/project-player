@@ -79,7 +79,7 @@ export class AddFilesPageComponent {
       this.showPrivacyPolicyPopup(option)
     }
   }
-  
+
   uploadFiles(option:any){
     if(option.accept == 'link'){
       this.openLinkModal()
@@ -137,7 +137,7 @@ export class AddFilesPageComponent {
         this.saveDataToLocalDb()
         this.toastService.showToast("ATTACHED_SUCCESSFULLY","success")
       }
-    })  
+    })
   }
 
   async deleteConfirmation(data:any){

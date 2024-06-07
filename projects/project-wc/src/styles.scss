@@ -72,3 +72,12 @@ $my-theme: mat.define-light-theme((
     color: var(--primary-color) !important;
     border-color: var(--primary-color) !important;
 }
+
+.mdc-linear-progress__bar-inner {
+    border-color: var(--primary-color) !important;
+}
+
+.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after {
+    color: var(--primary-color) !important;
+
+}
