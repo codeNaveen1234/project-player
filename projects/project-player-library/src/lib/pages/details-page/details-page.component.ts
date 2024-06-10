@@ -5,6 +5,7 @@ import { DbService } from '../../services/db/db.service';
 import { ActivatedRoute } from '@angular/router';
 import { ToastService } from '../../services/toast/toast.service';
 import { UtilsService } from '../../services/utils/utils.service';
+import { statusType } from '../../constants/statusConstants';
 
 @Component({
   selector: 'lib-details-page',
@@ -35,6 +36,7 @@ export class DetailsPageComponent implements OnInit {
   getData(id:any){
     this.db.getData(id).then(data=>{
       this.projectDetails = data.data
+      this.submitted = data.data.status == statusType.submitted
       this.countCompletedTasks(this.projectDetails);
       this.calculateProgress();
       this.setActionsList()
@@ -64,8 +66,7 @@ export class DetailsPageComponent implements OnInit {
     }
   }
   submitImprovement() {
-    this.submitted = true;
-    this.toasterService.showToast("PROJECT_SUBMMITTED_SUCCESS","success")
+    this.routerService.navigate(`/add-files/${this.projectDetails._id}`)
   }
 
   navigateToNewTask() {
@@ -91,9 +92,9 @@ export class DetailsPageComponent implements OnInit {
     }
   }
 
-  moveToDetailsTask(data: any) {
+  moveToDetailsTask(taskId: any) {
     if (!this.submitted) {
-      this.routerService.navigate(`/task-details/${data._id}/${this.projectDetails._id}`);
+      this.routerService.navigate(`/task-details/${taskId}/${this.projectDetails._id}`);
   }
   }
 
@@ -114,9 +115,7 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case "sync":
-        this.projectDetails.isEdit = false
-        this.toasterService.showToast("PROJECT_SYNC_SUCCESS","success")
-        this.setActionsList()
+        this.routerService.navigate('/sync',{projectId:this.projectDetails._id})
         break;
 
       default:
@@ -167,13 +166,13 @@ export class DetailsPageComponent implements OnInit {
   }
 
   setActionsList(){
-    let options:any = actions.PROJECT_ACTIONS;
+    let options:any = JSON.parse(JSON.stringify(actions.PROJECT_ACTIONS));
     let optionList:any = actions.ACTION_LIST;
-    if(this.projectDetails.downloaded){
-      options[0] = actions.DOWNLOADED_ACTION
-    }
     if(!this.projectDetails.isEdit){
       options[options.length-1] = actions.SYNCED_ACTION
+    }
+    if(this.submitted){
+      options.pop()
     }
     this.projectActions = options;
     this.actionsList = optionList;

@@ -1,9 +1,9 @@
 <mat-card class="details-card ">
   <div class="flex">
     <span class="details-card-header w-2/3">
-        <h4>{{projectDetails.title}}</h4>
+        <h4>{{projectDetails?.title}}</h4>
       </span>
-      @if (projectDetails.certificate) {
+      @if (projectDetails?.certificate) {
         <div  class="w-1/3 flex items-center justify-center">
           <span class="bg-yellow-400 text-black text-xs rounded p-1">{{ "CERTIFICATE" | translate}}</span>
       </div>
@@ -14,21 +14,18 @@
           <lib-icon-list [items]="projectActions" [submittedImprovement]="submitted" (newItemEvent)="iconListAction($event)"></lib-icon-list>
       </div>
         <mat-card class="status-bar" >
-            <mat-card-content  *ngIf="!submitted">
+            <mat-card-content  *ngIf="!submitted" class="status-background">
                 <h4>{{"PROGRESS" | translate}}</h4>
-                <p>{{completedCount}}/{{projectDetails.tasks.length}} {{"TASK_COMPLETED" | translate}}</p>
+                <p>{{completedCount}}/{{projectDetails?.tasks.length}} {{"TASK_COMPLETED" | translate}}</p>
                 <mat-progress-bar class="progress-bar primary-icon"   mode="determinate" [value]="progressValue"></mat-progress-bar>
             </mat-card-content>
             <mat-card-content class="after-submission"  *ngIf="submitted">
-                <span class="material-symbols-outlined">
-                    <mat-icon aria-hidden="false" class="primary-icon"  aria-label="Example verified icon" fontIcon="verified"></mat-icon>
-
-                    </span>
+                <mat-icon aria-hidden="false" aria-label="Example verified icon" fontIcon="verified" style="color: green;"></mat-icon>
                 <h3>{{"PROGRESS_COMPLETE" | translate}}</h3>
             </mat-card-content>
         </mat-card>
         <div *ngIf="progressValue === 100 && !submitted" class="progress-alert">
-            <h4>{{"PROGRESS_ALERT"| translate}} <span> <mat-icon class="primary-icon"  fontIcon="arrow_circle_down"></mat-icon> </span>
+            <h4>{{"PROGRESS_ALERT"| translate}} <span> <mat-icon fontIcon="arrow_circle_down"></mat-icon> </span>
             </h4>
 
         </div>
@@ -54,7 +51,7 @@
     <mat-tab [label]="'TASK_DETAILS' | translate">
       <div class="tab-label-container">
         <div class="task-details">
-            <div class="no-tasks my-5" *ngIf="projectDetails.tasks.length === 0">
+            <div class="no-tasks my-5" *ngIf="projectDetails?.tasks.length === 0">
                 <p class="primary-icon">{{"NO_TASKS"|translate}}</p>
             </div>
           <ng-container >
@@ -87,7 +84,7 @@
               </lib-task-card>
             </div>
 
-              @if (projectDetails.tasks.length > displayedTasks.length) {
+              @if (projectDetails?.tasks.length > displayedTasks.length) {
                 <div  class=" w-full my-2">
                   <button (click)="loadMoreTasks()" class="primary-button w-full" mat-flat-button color="primary">
                     {{"LOAD_MORE" | translate}}
@@ -96,12 +93,14 @@
               }
 
           </ng-container>
+          @if(!submitted){
           <mat-card class="add-task" (click)="navigateToNewTask()">
             <div class="add-task-div ">
                 <mat-icon  class="primary-icon" fontIcon="add_circle"></mat-icon>
                 <p >{{"ADD_YOUR_OWN_TASK"|translate}}</p>
             </div>
           </mat-card>
+          }
         </div>
       </div>
     </mat-tab>

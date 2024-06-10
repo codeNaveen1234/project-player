@@ -88,6 +88,10 @@
     "SUBTASK_DELETED":"Sub task deleted",
     "SYNCING_PAGE":"Syncing page",
     "FILE_NOT_SHARED": "File not shared !",
+    "FILE_SIZE_EXCEEDED_ERROR_MSG":"The file is too large and cannot be uploaded. The file you are tying to upload has exceeded the maximum file size (50 MB)",
     "FILES_CHANGES_NOT_UPDATED":"File changes not updated !",
-    "LEARNING_RESOURCES":"Learning resources"
+    "LEARNING_RESOURCES":"Learning resources",
+    "PROJECT_SYNC_SUCCESSFUL_MSG": "Your project has been synced successfully",
+    "PROJECT_SUBMISSION_SUCCESSFUL_MSG": "You have submitted your project successfully",
+    "NEW_TASK_ADDED_SUCCESSFULLY_MSG": "New Task has been successfully created."
 }

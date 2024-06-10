@@ -5,22 +5,22 @@
 <mat-tab-group dynamicHeight>
     <mat-tab [label]="'IMAGES' | translate" >
 
-        <div class="p-4 w-full text-center" *ngIf="!isImages.project && !isImages.task ">
+        <div class="p-4 w-full text-center" *ngIf="!isImages?.project && !isImages?.task ">
                 <div>{{ "NO_FILES" | translate:{ fileType: 'Image' } }}</div>
         </div>
         <div class="image-tasklist p-4" >
-            <div class="flex items-center"   *ngIf="isImages.project ">
+            <div class="flex items-center"   *ngIf="isImages?.project ">
                 <div class="w-auto mr-3" >{{"LEVEL_EVIDENCE" | translate:{type:'Project'} }}</div>
-                <span class="h-[4px]  flex-grow bg-yellow-400"></span>
+                <span class="h-[4px]  flex-grow bg-[var(--primary-color)]"></span>
             </div>
-            <div *ngIf="isImages.project">
+            <div *ngIf="isImages?.project">
                     <lib-attachment-card [details]="attachments.project" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
             </div>
-            <div class="flex items-center" *ngIf="isImages.task " >
+            <div class="flex items-center" *ngIf="isImages?.task " >
                 <div class="w-auto mr-3">{{"LEVEL_EVIDENCE" | translate:{type:'Task'} }} </div>
-                <span class="h-[4px]  flex-grow bg-yellow-400"></span>
+                <span class="h-[4px]  flex-grow bg-[var(--primary-color)]"></span>
             </div>
-            <div *ngIf="isImages.task">
+            <div *ngIf="isImages?.task">
                 <ng-container *ngFor="let task of attachments.tasks; let taskIndex = index; trackBy: trackByTaskIndex">
                     <ng-container *ngIf="task.attachments && task.attachments.length; else noAttachments">
                         <ng-container *ngFor="let item of task.attachments; let itemIndex = index; trackBy: trackByItemIndex">
@@ -54,23 +54,23 @@
         </div>
     </mat-tab>
     <mat-tab [label]="'VIDEOS' | translate">
-        <div class="p-4 w-full text-center"  *ngIf="!isVideos.project && !isVideos.task" >
+        <div class="p-4 w-full text-center"  *ngIf="!isVideos?.project && !isVideos?.task" >
             <div>{{"NO_FILES"|translate:{fileType:'Videos'} }}</div>
         </div>
 
          <div class="image-tasklist p-4" >
-            <div class="flex items-center"   *ngIf="isVideos.project">
+            <div class="flex items-center"   *ngIf="isVideos?.project">
                 <div class="w-auto mr-3" >{{"LEVEL_EVIDENCE" | translate:{type:'Project'} }}</div>
-                <span class="h-[4px]  flex-grow bg-yellow-400"></span>
+                <span class="h-[4px]  flex-grow bg-[var(--primary-color)]"></span>
             </div>
-            <div *ngIf="isVideos.project">
-                    <lib-attachment-card [details]="attachments.project" [attachmentsType]="'video'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+            <div *ngIf="isVideos?.project">
+                    <lib-attachment-card [details]="attachments?.project" [attachmentsType]="'video'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
             </div>
-            <div class="flex items-center" *ngIf="isVideos.task" >
+            <div class="flex items-center" *ngIf="isVideos?.task" >
                 <div class="w-auto mr-3">{{"LEVEL_EVIDENCE" | translate:{type:'Task'} }} </div>
-                <span class="h-[4px]  flex-grow bg-yellow-400"></span>
+                <span class="h-[4px]  flex-grow bg-[var(--primary-color)]"></span>
             </div>
-            <div *ngIf="isVideos.task">
+            <div *ngIf="isVideos?.task">
                 <ng-container *ngFor="let task of attachments.tasks; let taskIndex=index">
                     <ng-container *ngFor="let item of task.attachments; let itemIndex=index">
                       <ng-container *ngIf="item.type.includes('video')">
@@ -84,23 +84,23 @@
         </div>
     </mat-tab>
     <mat-tab [label]="'FILES' | translate" >
-        <div class="p-4 w-full text-center"  *ngIf="!isFiles.project && !isFiles.task" >
+        <div class="p-4 w-full text-center"  *ngIf="!isFiles?.project && !isFiles?.task" >
             <div>{{"NO_FILES"|translate:{fileType:'Files'} }}</div>
         </div>
 
         <div class="image-tasklist p-4" >
-            <div class="flex items-center"   *ngIf="isFiles.project">
+            <div class="flex items-center"   *ngIf="isFiles?.project">
                 <div class="w-auto mr-3" >{{"LEVEL_EVIDENCE" | translate:{type:'Project'} }}</div>
-                <span class="h-[4px]  flex-grow bg-yellow-400"></span>
+                <span class="h-[4px]  flex-grow bg-[var(--primary-color)]"></span>
             </div>
-            <div *ngIf="isFiles.project">
-                    <lib-attachment-card [details]="attachments.project" [attachmentsType]="'application'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+            <div *ngIf="isFiles?.project">
+                    <lib-attachment-card [details]="attachments?.project" [attachmentsType]="'application'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
             </div>
-            <div class="flex items-center" *ngIf="isFiles.task" >
+            <div class="flex items-center" *ngIf="isFiles?.task" >
                 <div class="w-auto mr-3">{{"LEVEL_EVIDENCE" | translate:{type:'Task'} }} </div>
-                <span class="h-[4px]  flex-grow bg-yellow-400"></span>
+                <span class="h-[4px]  flex-grow bg-[var(--primary-color)]"></span>
             </div>
-            <div *ngIf="isFiles.task">
+            <div *ngIf="isFiles?.task">
                 <ng-container *ngFor="let task of attachments.tasks; let taskIndex=index">
                     <ng-container *ngFor="let item of task.attachments; let itemIndex=index">
                       <ng-container *ngIf="item.type.includes('application')">
@@ -115,23 +115,23 @@
 
     </mat-tab>
     <mat-tab [label]="'LINKS' | translate">
-        <div class="p-4 w-full text-center"  *ngIf="!isLinks.project && !isLinks.task" >
+        <div class="p-4 w-full text-center"  *ngIf="!isLinks?.project && !isLinks?.task" >
             <div>{{"NO_FILES"|translate:{fileType:'Links'} }}</div>
         </div>
 
         <div class="image-tasklist p-4" >
-            <div class="flex items-center"   *ngIf="isLinks.project">
+            <div class="flex items-center"   *ngIf="isLinks?.project">
                 <div class="w-auto mr-3" >{{"LEVEL_EVIDENCE" | translate:{type:'Project'} }}</div>
-                <span class="h-[4px]  flex-grow bg-yellow-400"></span>
+                <span class="h-[4px]  flex-grow bg-[var(--primary-color)]"></span>
             </div>
-            <div *ngIf="isLinks.project">
-                    <lib-attachment-card [details]="attachments.project" [attachmentsType]="'link'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+            <div *ngIf="isLinks?.project">
+                    <lib-attachment-card [details]="attachments?.project" [attachmentsType]="'link'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
             </div>
-            <div class="flex items-center" *ngIf="isLinks.task" >
+            <div class="flex items-center" *ngIf="isLinks?.task" >
                 <div class="w-auto mr-3">{{"LEVEL_EVIDENCE" | translate:{type:'Task'} }} </div>
-                <span class="h-[4px]  flex-grow bg-yellow-400"></span>
+                <span class="h-[4px]  flex-grow bg-[var(--primary-color)]"></span>
             </div>
-            <div *ngIf="isLinks.task">
+            <div *ngIf="isLinks?.task">
                 <ng-container *ngFor="let task of attachments.tasks; let taskIndex=index">
                     <ng-container *ngFor="let item of task.attachments; let itemIndex=index">
                       <ng-container *ngIf="item.type.includes('link')">

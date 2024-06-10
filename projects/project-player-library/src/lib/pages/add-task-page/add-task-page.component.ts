@@ -55,6 +55,9 @@ export class AddTaskPageComponent implements OnInit {
 
   async onChange($event:any){
     let selectedFile = $event.target.files[0]
+    if(this.attachmentService.isFileSizeGreater(selectedFile)){
+      return
+    }
     this.toastService.showToast('ATTACHED_SUCCESSFULLY',"success")
     let fileName = this.attachmentService.generateFileName(selectedFile)
     let data = {
@@ -73,9 +76,10 @@ export class AddTaskPageComponent implements OnInit {
 
   addTask(){
     this.taskData.name = this.taskTitle
-    this.taskData.endDate = new Date(this.endDate).toISOString()
+    this.taskData.endDate = this.endDate ? new Date(this.endDate).toISOString() : ''
     this.taskData.status = this.taskStatus
     this.taskData.attachments = this.attachmentsList
+    this.projectDetails.isEdit = true
     this.projectDetails.tasks.push(this.taskData)
     this.attachmentsList.map(async(attachment:any)=>{
       let convertedFile = await this.attachmentService.convertTobase64(attachment.selectedFile)
@@ -92,7 +96,7 @@ export class AddTaskPageComponent implements OnInit {
     }
     this.db.updateData(finalData)
     this.goBack()
-    this.toastService.showToast("ATTACHED_SUCCESSFULLY","success")
+    this.toastService.showToast("NEW_TASK_ADDED_SUCCESSFULLY_MSG","success")
   }
 
   showPrivacyPolicyPopup(){

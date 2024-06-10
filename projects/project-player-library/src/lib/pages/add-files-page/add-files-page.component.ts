@@ -99,6 +99,9 @@ export class AddFilesPageComponent {
 
   async onFileSelect(event:any){
     let value = event.target.files[0]
+    if(this.attachmentService.isFileSizeGreater(value)){
+      return
+    }
     let fileName = this.attachmentService.generateFileName(value)
     let convertedFile = await this.attachmentService.convertTobase64(value)
     let dataToAdd = {
@@ -219,6 +222,7 @@ export class AddFilesPageComponent {
     }
     let response = await this.utils.showDialogPopup(dialogData)
     if(response){
+      this.routingService.navigate('/sync',{projectId:this.projectId, isSubmission: true})
     }
   }
 }

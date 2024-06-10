@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { RoutingService } from '../../services/routing/routing.service';
-import { DbService } from '../../services/db/db.service';
-import { HttpClient } from '@angular/common/http';
+import { DbService } from '../../services/db/db.service';;
+import { DataService } from '../../services/data/data.service';
 import { ApiService } from '../../services/api/api.service';
+import { apiUrls } from '../../constants/urlConstants';
 
 @Component({
   selector: 'lib-main-player',
@@ -14,7 +15,8 @@ export class MainPlayerComponent implements OnInit {
   projectId:any;
   solutionId:any;
   @Input() projectData:any;
-  constructor(private routerService: RoutingService, private db: DbService,private http: HttpClient,private apiService:ApiService) {}
+  @Input() config: any
+  constructor(private routerService: RoutingService, private db: DbService, private apiService:ApiService, private dataService: DataService) {}
 
   ngOnInit() {
     setTimeout(()=>{
@@ -25,6 +27,10 @@ export class MainPlayerComponent implements OnInit {
       }
       this.storeDataToLocal()
       }, 1000)
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.dataService.setConfig(changes['config'].currentValue)
   }
 
   navigateToDetails(){
@@ -38,7 +44,11 @@ export class MainPlayerComponent implements OnInit {
   storeDataToLocal(){
     if(this.projectId){
       this.db.getData(this.projectId).then((data)=>{
-            this.routerService.navigate(`/details/${this.projectId}`)
+        if(data){
+          this.routerService.navigate(`/details/${this.projectId}`)
+        }else{
+          this.getProjectDetails()
+        }      
         }).catch((res)=>{
           this.getProjectDetails()
       })
@@ -50,7 +60,7 @@ export class MainPlayerComponent implements OnInit {
 
   getProjectDetails(){
     const configForProjectId = {
-      url: `${'project/v1/userProjects/details/'}${this.projectId}`,
+      url: `${apiUrls.GET_PROJECT_DETAILS}${this.projectId}`,
       payload: {}
     }
       this.apiService.post(configForProjectId).subscribe((res)=>{
