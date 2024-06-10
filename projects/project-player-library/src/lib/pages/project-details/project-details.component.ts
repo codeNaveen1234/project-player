@@ -13,7 +13,7 @@ validationTexts!: string[];
 learningResources: any[] = [];
 ngOnInit(): void {
   this.getCertificateCriteria();
-  this.learningResources = this.projectDetails.learningResources;
+  this.learningResources = this.projectDetails?.learningResources;
 }
 getCategoryLabels(): string {
   return this.projectDetails.categories.map((item: { label: any; }) => item.label).join(', ');
@@ -22,7 +22,7 @@ getCategoryLabels(): string {
 getCertificateCriteria(): string[] {
   this.validationTexts = []; // Initialize validationTexts as an empty array
 
-  const conditions = this.projectDetails.certificate.criteria.conditions;
+  const conditions = this.projectDetails?.certificate.criteria.conditions;
 
   for (const conditionKey in conditions) {
     if (Object.prototype.hasOwnProperty.call(conditions, conditionKey)) {

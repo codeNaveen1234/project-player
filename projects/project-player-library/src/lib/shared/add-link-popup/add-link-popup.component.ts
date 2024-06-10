@@ -40,7 +40,7 @@ export class AddLinkPopupComponent {
      return false
     }else{
       if(value){
-        this.toastService.showToast("INVALID_LINK_MSG")
+        this.toastService.showToast("INVALID_LINK_MSG","danger")
       }
       return true
     }

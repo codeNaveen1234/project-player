@@ -55,7 +55,7 @@ export class AttachmentListingPageComponent {
       project: {},
       tasks: []
     };
-    if(data.attachments.length){
+    if(data?.attachments?.length){
       let projectEvidence = {
         title: data.title,
         remarks: data.remarks ? data.remarks : '',
@@ -64,7 +64,7 @@ export class AttachmentListingPageComponent {
       this.getEvendencies(data.attachments,projectEvidence);
       this.attachments.project = projectEvidence;
     }
-    if(data.tasks) {
+    if(data?.tasks) {
       data.tasks.forEach((task: { isDeleted: any; name: any; remarks: any; attachments: string | any[]; })=>{
         if(!task.isDeleted){
           let taskEvidence = {
@@ -127,6 +127,7 @@ export class AttachmentListingPageComponent {
               });
           }
       });
+      this.projectData.isEdit = true
         let finalData = {
           key: this.projectData._id,
           data: this.projectData

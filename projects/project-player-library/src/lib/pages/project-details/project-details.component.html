@@ -4,11 +4,11 @@
       {{"CATEGORIES" | translate}}:
       <span>{{ getCategoryLabels() }}</span>
     </p>
-    <p *ngIf="projectDetails.recommended" >{{"RECOMMENDED_FOR" | translate}}: <span>{{projectDetails.recommended}}</span></p>
-    <p *ngIf="projectDetails.duration" >{{"DURATION" | translate}}: <span>{{projectDetails.duration}}</span></p>
+    <p *ngIf="projectDetails?.recommended" >{{"RECOMMENDED_FOR" | translate}}: <span>{{projectDetails.recommended}}</span></p>
+    <p *ngIf="projectDetails?.duration" >{{"DURATION" | translate}}: <span>{{projectDetails.duration}}</span></p>
   </mat-card>
 
-  @if (projectDetails.learningResources.length > 0) {
+  @if (projectDetails?.learningResources.length > 0) {
     <mat-accordion >
       <mat-expansion-panel  style="box-shadow: #8577778e 5px 5px 4px; border-radius: 10px; margin: 12px 0;"  (opened)="panelOpenStateForResources=true" (closed)="panelOpenStateForResources = false">
         <mat-expansion-panel-header class="flex justify-between">
@@ -20,8 +20,8 @@
             <mat-icon class="arrow-expansion" *ngIf="!panelOpenStateForResources" class="primary-icon">arrow_circle_down</mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <ng-container *ngFor="let item of projectDetails.learningResources">
-            <mat-card class=" " style="box-shadow: #8577778e 5px 5px 4px;border-radius: 10px;">
+        <ng-container *ngFor="let item of projectDetails?.learningResources">
+            <mat-card class="cursor-pointer" style="box-shadow: #8577778e 5px 5px 4px;border-radius: 10px;">
               <div class="flex justify-between items-center px-4 py-2" (click)="openResource(item)">
                 <p class="text-base text-gray-700 font-bold">{{item.name}}</p>
                 <span class="flex justify-center items-center "><mat-icon class="arrow-expansion"  class="primary-icon" fontIcon="play_circle"></mat-icon></span>
@@ -32,7 +32,7 @@
       </mat-expansion-panel>
     </mat-accordion>
   }
-  @if (projectDetails.certificate) {
+  @if (projectDetails?.certificate) {
     <mat-accordion >
       <mat-expansion-panel  style="box-shadow: #8577778e 5px 5px 4px; border-radius: 10px; margin: 12px 0;"  (opened)="panelOpenStateForCertificate=true" (closed)="panelOpenStateForCertificate = false">
         <mat-expansion-panel-header class="flex justify-between py-2">

@@ -46,6 +46,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { FilesCardComponent } from './shared/files-card/files-card.component';
 import { LearningResourcesComponent } from './pages/learning-resources/learning-resources.component';
+import { SyncPageComponent } from './pages/sync-page/sync-page.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const routes: Routes = [
   { path: 'details/:id', component: DetailsPageComponent },
@@ -54,7 +56,8 @@ const routes: Routes = [
   { path: 'add-task/:id', component: AddTaskPageComponent },
   { path: 'preview-details/:id', component: PreviewDetailsPageComponent},
   { path: 'add-files/:id', component: AddFilesPageComponent },
-  { path: 'learning-resource/:taskId/:id/:fromDetailspage', component: LearningResourcesComponent}
+  { path: 'learning-resource/:taskId/:id/:fromDetailspage', component: LearningResourcesComponent},
+  { path: 'sync', component: SyncPageComponent }
 ];
 
 const MAT_CUSTOM_DATE_FORMATS = {
@@ -95,7 +98,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     AddLinkPopupComponent,
     FilesCardComponent,
     DetailsPageComponent,
-    LearningResourcesComponent
+    LearningResourcesComponent,
+    SyncPageComponent
   ],
   imports: [
     CommonModule,
@@ -125,7 +129,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     MatSnackBarModule,
     MatCheckboxModule,
     MatExpansionModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatProgressSpinnerModule
   ],
   exports: [RouterModule],
   providers: [

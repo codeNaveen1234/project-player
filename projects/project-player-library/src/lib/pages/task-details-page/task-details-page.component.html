@@ -1,4 +1,4 @@
-<div class="flex items-center mt-3 ml-3 gap-x-3">
+<div class="flex items-center ml-3 gap-x-3">
     <mat-icon fontIcon="arrow_back " class="cursor-pointer text-black" (click)="goBack()"></mat-icon>
      <span class="text-black text-xl font-bold">{{"TASK_DETAILS" | translate}}</span>
 </div>
@@ -23,7 +23,7 @@
         <h3>{{"STATUS"|translate}}</h3>
         <div>
             <mat-form-field>
-                <mat-select (valueChange)="taskStatusChange()" [(value)]="task.status" name="taskStatus" [disabled]="task.children.length > 0">
+                <mat-select (valueChange)="taskStatusChange()" [(value)]="task.status" name="taskStatus" [disabled]="task?.children?.length > 0">
                   @for (item of taskOptions; track $index) {
                     <mat-option class="primary-icon" [value]="item.value">{{item.label | translate}}</mat-option>
                   }
@@ -31,6 +31,7 @@
               </mat-form-field>
         </div>
     </div>
+    @if(task?.type !="observation" && task?.type != "assessment"){
     <div class="task-subtasks">
         <h3>{{"SUBTASKS"|translate}}</h3>
         <div class="subtask-input">
@@ -46,14 +47,15 @@
             </div>
         </div>
     </div>
+    }
     <div>
-        @for (item of task.children; track $index) {
+        @for (item of task?.children; track $index) {
             <div>
                 <lib-subtask-card [subTask]="item" [projectDetails]="projectDetails" (updateSubTaskStatusEvent)="updateTaskStatus($event)" (deleteSubTaskEvent)="deleteSubTask($event)"></lib-subtask-card>
             </div>
         }
     </div>
-    <div class="add-files-button flex gap-x-3" [ngClass]="{'add-files-button-sub': task.children.length === 0}">
+    <div class="add-files-button flex gap-x-3" [ngClass]="{'add-files-button-sub': task?.children?.length === 0}">
         <button mat-flat-button class="primary-button" (click)="addFiles()">{{ 'ADD_FILES' | translate }}</button>
         <ng-container *ngIf="task.learningResources && task.learningResources.length > 0 ">
             <button (click)="onLearningResources(task._id,false)" class="primary-button" mat-flat-button >

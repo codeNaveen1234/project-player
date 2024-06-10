@@ -10,10 +10,11 @@
     </mat-form-field>
 
     <div class="flex flex-row mt-3">
-        <button  mat-flat-button (click)="addLink(false)" class="w-full mr-3 !rounded-2xl !border-solid !border-2 !border-blue-700">
+        <button  mat-flat-button (click)="addLink(false)" class="w-full mr-3 !rounded-2xl primary-button-outline">
             {{ "CANCEL" | translate }}
         </button>
-        <button  mat-flat-button (click)="addLink(link)" color="primary" class="w-full !rounded-2xl" [disabled]="!link">
+        <button  mat-flat-button (click)="addLink(link)" class="w-full !rounded-2xl" [disabled]="!link"
+        [ngClass]="{'primary-button':link,'disabled-button':!link}">
             {{ "SAVE" | translate }}
         </button>
     </div>

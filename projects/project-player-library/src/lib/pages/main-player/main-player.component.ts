@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { RoutingService } from '../../services/routing/routing.service';
-import { DbService } from '../../services/db/db.service';
-import { projectDetailsData } from '../details-page/project-details.component.spec.data';
+import { DbService } from '../../services/db/db.service';;
 import { DataService } from '../../services/data/data.service';
 import { ApiService } from '../../services/api/api.service';
+import { apiUrls } from '../../constants/urlConstants';
 
 @Component({
   selector: 'lib-main-player',
@@ -44,7 +44,11 @@ export class MainPlayerComponent implements OnInit {
   storeDataToLocal(){
     if(this.projectId){
       this.db.getData(this.projectId).then((data)=>{
-            this.routerService.navigate(`/details/${this.projectId}`)
+        if(data){
+          this.routerService.navigate(`/details/${this.projectId}`)
+        }else{
+          this.getProjectDetails()
+        }      
         }).catch((res)=>{
           this.getProjectDetails()
       })
@@ -56,7 +60,7 @@ export class MainPlayerComponent implements OnInit {
 
   getProjectDetails(){
     const configForProjectId = {
-      url: `${'project/v1/userProjects/details/'}${this.projectId}`,
+      url: `${apiUrls.GET_PROJECT_DETAILS}${this.projectId}`,
       payload: {}
     }
       this.apiService.post(configForProjectId).subscribe((res)=>{

@@ -79,6 +79,7 @@ export class AddTaskPageComponent implements OnInit {
     this.taskData.endDate = this.endDate ? new Date(this.endDate).toISOString() : ''
     this.taskData.status = this.taskStatus
     this.taskData.attachments = this.attachmentsList
+    this.projectDetails.isEdit = true
     this.projectDetails.tasks.push(this.taskData)
     this.attachmentsList.map(async(attachment:any)=>{
       let convertedFile = await this.attachmentService.convertTobase64(attachment.selectedFile)
@@ -95,7 +96,7 @@ export class AddTaskPageComponent implements OnInit {
     }
     this.db.updateData(finalData)
     this.goBack()
-    this.toastService.showToast("ATTACHED_SUCCESSFULLY","success")
+    this.toastService.showToast("NEW_TASK_ADDED_SUCCESSFULLY_MSG","success")
   }
 
   showPrivacyPolicyPopup(){

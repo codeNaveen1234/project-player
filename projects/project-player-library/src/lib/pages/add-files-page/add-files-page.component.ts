@@ -222,6 +222,7 @@ export class AddFilesPageComponent {
     }
     let response = await this.utils.showDialogPopup(dialogData)
     if(response){
+      this.routingService.navigate('/sync',{projectId:this.projectId, isSubmission: true})
     }
   }
 }
