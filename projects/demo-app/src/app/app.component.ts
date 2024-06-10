@@ -7,8 +7,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   config = {
-    maxFileSize: 20,
-    baseurl: "",
-    token : ""
+    maxFileSize: 50,
+    baseUrl: "",
+    accessToken : ""
+  }
+
+  data = {
+    _id: ""
   }
 }
