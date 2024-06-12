@@ -1,8 +1,9 @@
 <div class="p-5">
     <div class="pb-4 text-2xl font-bold">
-        {{"JOIN_PROGRAM"| translate}} ?
+        {{ "START_IMPROVEMENT" | translate}} ?
     </div>
-    <div class="pb-4 text-lg">{{"JOIN_AND_VIEW"|translate:{name:data} }}</div>
+    <div class="pb-4 font-bold">{{"START_IMPROVEMENT_MSG" | translate }}</div>
+    <div class="pb-4">{{ "START_IMPROVEMENT_MSG_CONFIRM" | translate }}</div>
     <div class="flex justify-end">
         <button class="py-3 px-1 primary-button" mat-flat-button (click)="closePopup(true)">{{"JOIN_PROGRAM"| translate}}</button>
     </div>

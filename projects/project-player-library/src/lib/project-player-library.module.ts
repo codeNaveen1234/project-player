@@ -48,7 +48,7 @@ import { FilesCardComponent } from './shared/files-card/files-card.component';
 import { LearningResourcesComponent } from './pages/learning-resources/learning-resources.component';
 import { SyncPageComponent } from './pages/sync-page/sync-page.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ConfirmStartImprovementComponent } from './shared/confirm-start-improvement/confirm-start-improvement.component'
+import { StartImprovementPopupComponent } from './shared/start-improvement-popup/start-improvement-popup.component';
 
 const routes: Routes = [
   { path: 'details/:id', component: DetailsPageComponent },
@@ -101,7 +101,7 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     DetailsPageComponent,
     LearningResourcesComponent,
     SyncPageComponent,
-    ConfirmStartImprovementComponent
+    StartImprovementPopupComponent,
   ],
   imports: [
     CommonModule,

@@ -17,7 +17,7 @@ export class TaskCardComponent {
   @Input() startImprovement?:any;
   @Input() projectId?:any;
   @Output() startImprovementEvent = new EventEmitter<any>();
-  @Input() projectProgramName :any;
+
 
   statusLabels:any = statusLabels
   statusTypes:any = statusType
@@ -38,12 +38,11 @@ export class TaskCardComponent {
       this.showConfirmJoinProgram()
     }
   }
-  showConfirmJoinProgram(){
-    const dialogRef = this.dialog.open(ConfirmStartImprovementComponent,{
-      width:'400px',
-      minHeight:'150px',
-      data: this.projectProgramName
-    })
+  showConfirmJoinProgram() {
+    const dialogRef = this.dialog.open(StartImprovementPopupComponent, {
+      width: '400px',
+      minHeight: '150px',
+    });
 
     dialogRef.afterClosed().subscribe(data=>{
       if(data){
