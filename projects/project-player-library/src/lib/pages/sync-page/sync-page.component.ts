@@ -5,6 +5,7 @@ import { ToastService } from '../../services/toast/toast.service';
 import { DbService } from '../../services/db/db.service';
 import { SyncService } from '../../services/sync/sync.service';
 import { statusType } from '../../constants/statusConstants';
+import { ProjectService } from '../../services/project/project.service';
 
 @Component({
   selector: 'lib-sync-page',
@@ -25,10 +26,13 @@ export class SyncPageComponent {
   cloudUploadFailed = false
 
   constructor(private activatedRoute: ActivatedRoute, private routingService: RoutingService, private toastService: ToastService,
-    private db: DbService, private syncService: SyncService) {
+    private db: DbService, private syncService: SyncService, private projectService: ProjectService) {
     activatedRoute.queryParams.subscribe(params=>{
       this.projectId = params["projectId"]
       this.isSubmission = params['isSubmission'] == 'true'
+      this.taskId = params["taskId"]
+      this.isShare = params["isShare"] == "true"
+      this.fileName = params["fileName"]
     })
   }
 
@@ -133,7 +137,15 @@ export class SyncPageComponent {
     }
     this.db.updateData(data)
     this.resetImageUploadVariables()
+    if(this.cloudUploadFailed){
+      this.toastService.showToast("UPLOAD_FAILED","danger")
+      this.goBack()
+      return
+    }
     this.showToastMessage()
+    if(this.isShare){
+      this.projectService.getPdfUrl(this.fileName,this.projectId,this.taskId)
+    }
     this.goBack()
 
   }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { DataService } from '../data/data.service';
 import { Router } from '@angular/router';
+import { ToastService } from '../toast/toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,12 @@ export class ApiService {
   headers = {
     'Authorization': `Bearer ${this.token}`,
     'x-auth-token': this.token,
-    'X-authenticated-user-token': this.token,
+    'x-authenticated-user-token': this.token,
     'Content-Type': 'application/json',
+    'x-app-ver':''
   }
 
-  constructor(private http: HttpClient, private dataService: DataService, private router: Router) {
+  constructor(private http: HttpClient, private dataService: DataService, private router: Router, private toastService: ToastService) {
   }
 
   get(config:any): Observable<any> {
@@ -52,6 +54,7 @@ export class ApiService {
       errorMessage = `Error: ${error.error.message}`;
     } else {
       if (error.status === 401) {
+        this.toastService.showToast("TOKEN_EXPIRED","danger")
         this.router.navigate(['/']);
       }
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
@@ -66,8 +69,9 @@ export class ApiService {
     this.headers = {
       'Authorization': `Bearer ${config.accessToken}`,
       'x-auth-token': config.accessToken,
-      'X-authenticated-user-token': config.accessToken,
+      'x-authenticated-user-token': config.accessToken,
       'Content-Type': 'application/json',
+      'x-app-ver':''
     }
   }
 }
