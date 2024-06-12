@@ -93,5 +93,7 @@
     "LEARNING_RESOURCES":"Learning resources",
     "PROJECT_SYNC_SUCCESSFUL_MSG": "Your project has been synced successfully",
     "PROJECT_SUBMISSION_SUCCESSFUL_MSG": "You have submitted your project successfully",
-    "NEW_TASK_ADDED_SUCCESSFULLY_MSG": "New Task has been successfully created."
+    "NEW_TASK_ADDED_SUCCESSFULLY_MSG": "New Task has been successfully created.",
+    "START_IMPROVEMENT_MSG":"You must click on the Start improvement button to access and edit the project details.",
+    "START_IMPROVEMENT_MSG_CONFIRM":"Click on the Start improvement to get complete access to the content"
 }

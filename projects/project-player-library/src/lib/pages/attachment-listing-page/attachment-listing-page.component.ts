@@ -156,5 +156,8 @@ trackByTaskIndex(index: number, task: any): any {
 trackByItemIndex(index: number, item: any): any {
     return item.id; // Use a unique identifier for the item
 }
+hasImageAttachments(task: any): boolean {
+  return task.attachments.some((a: { type: string | string[]; }) => a.type.includes('image'));
+}
 
 }

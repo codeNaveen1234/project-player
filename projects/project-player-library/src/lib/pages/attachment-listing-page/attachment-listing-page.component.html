@@ -3,44 +3,33 @@
     <span class="text-black text-xl font-bold">{{"ATTACHMENT_FILES" | translate}}</span>
 </div>
 <mat-tab-group dynamicHeight>
-    <mat-tab [label]="'IMAGES' | translate" >
-
-        <div class="p-4 w-full text-center" *ngIf="!isImages?.project && !isImages?.task ">
-                <div>{{ "NO_FILES" | translate:{ fileType: 'Image' } }}</div>
+    <mat-tab [label]="'IMAGES' | translate">
+        <div class="p-4 w-full text-center" *ngIf="!isImages?.project && !isImages?.task">
+            <div>{{ "NO_FILES" | translate:{ fileType: 'Image' } }}</div>
         </div>
         <div class="image-tasklist p-4" >
-            <div class="flex items-center"   *ngIf="isImages?.project ">
-                <div class="w-auto mr-3" >{{"LEVEL_EVIDENCE" | translate:{type:'Project'} }}</div>
+            <div class="flex items-center"   *ngIf="isImages?.project">
+                <div class="w-auto mr-3" >{{ "LEVEL_EVIDENCE" | translate:{ type: 'Project' } }}</div>
                 <span class="h-[4px]  flex-grow bg-[var(--primary-color)]"></span>
             </div>
             <div *ngIf="isImages?.project">
-                    <lib-attachment-card [details]="attachments.project" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+                <lib-attachment-card [details]="attachments.project" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
             </div>
-            <div class="flex items-center" *ngIf="isImages?.task " >
-                <div class="w-auto mr-3">{{"LEVEL_EVIDENCE" | translate:{type:'Task'} }} </div>
-                <span class="h-[4px]  flex-grow bg-[var(--primary-color)]"></span>
+            <div class="flex items-center" *ngIf="isImages?.task">
+                <div class="w-auto mr-3">{{ "LEVEL_EVIDENCE" | translate:{ type: 'Task' } }}</div>
+                <span class="h-[4px] flex-grow bg-[var(--primary-color)]"></span>
             </div>
             <div *ngIf="isImages?.task">
                 <ng-container *ngFor="let task of attachments.tasks; let taskIndex = index; trackBy: trackByTaskIndex">
                     <ng-container *ngIf="task.attachments && task.attachments.length; else noAttachments">
-                        <ng-container *ngFor="let item of task.attachments; let itemIndex = index; trackBy: trackByItemIndex">
-                            <ng-container *ngIf="item.type.includes('image'); else noImage">
-                                <div *ngIf="isFirstAttachment(task.attachments, itemIndex, 'image')">
-                                    <div *ngIf="task.remarks && itemIndex < 1 ; else noRemarks">
+                        <ng-container *ngIf="hasImageAttachments(task); else checkForReviews">
+                            <ng-container *ngFor="let item of task.attachments; let itemIndex = index; trackBy: trackByItemIndex">
+                                <ng-container *ngIf="item.type.includes('image')">
+                                    <div *ngIf="isFirstAttachment(task.attachments, itemIndex, 'image')">
                                         <lib-attachment-card [details]="task" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
                                     </div>
-                                    <ng-template #noRemarks>
-                                        <div *ngIf="itemIndex < 1">
-                                            <lib-attachment-card [details]="task" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
-                                        </div>
-                                    </ng-template>
-                                </div>
+                                </ng-container>
                             </ng-container>
-                            <ng-template #noImage>
-                                <div *ngIf="itemIndex < 1">
-                                    <lib-attachment-card [details]="task" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
-                                </div>
-                            </ng-template>
                         </ng-container>
                     </ng-container>
                     <ng-template #noAttachments>
@@ -48,8 +37,12 @@
                             <lib-attachment-card [details]="task" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
                         </div>
                     </ng-template>
+                    <ng-template #checkForReviews>
+                        <div *ngIf="task.remarks">
+                            <lib-attachment-card [details]="task" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+                        </div>
+                    </ng-template>
                 </ng-container>
-
             </div>
         </div>
     </mat-tab>
