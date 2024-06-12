@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import { projectDetailsData } from '../details-page/project-details.component.spec.data';
+import { Component, SimpleChanges } from '@angular/core';
 import { actions } from '../../constants/actionConstants';
 import { RoutingService } from '../../services/routing/routing.service';
 import { ActivatedRoute } from '@angular/router';
 import { DbService } from '../../services/db/db.service';
-import { ToastService } from '../../services/toast/toast.service';
 import { ApiService } from '../../services/api/api.service';
+import { apiUrls } from '../../constants/urlConstants';
+import { DataService } from '../../services/data/data.service';
 
 @Component({
   selector: 'lib-preview-details-page',
@@ -13,17 +13,18 @@ import { ApiService } from '../../services/api/api.service';
   styleUrl: './preview-details-page.component.css'
 })
 export class PreviewDetailsPageComponent {
-  projectDetails:any ;
+  projectDetails:any;
   actionsList = [];
   displayedTasks:any;
   remainingTasks = [];
   startImprovement: boolean = true;
   solutionId:any;
-  constructor(private routerService:RoutingService,private activatedRoute:ActivatedRoute,private db:DbService,private toasterService:ToastService,private apiService:ApiService){
+  constructor(private routerService:RoutingService,private activatedRoute:ActivatedRoute,private db:DbService,private apiService:ApiService,private dataService: DataService){
     activatedRoute.params.subscribe(param=>{
      this.solutionId = param['id']
      this.getProjectTemplate()
-      this.getData(this.solutionId)
+      this.setActionsList();
+      this.initializeTasks()
     })
   }
   ngOnInit(): void {
@@ -36,11 +37,6 @@ export class PreviewDetailsPageComponent {
     }
     this.apiService.post(configForSolutionId).subscribe((res)=>{
       this.projectDetails = res.result;
-      let data = {
-        key: this.projectDetails.solutionId,
-        data: this.projectDetails
-      }
-      this.db.addData(data)
     })
 }
   getData(id:any){
@@ -58,8 +54,8 @@ export class PreviewDetailsPageComponent {
       console.log(event,"shared");
   }
   navigate(){
-    this.routerService.navigate(`/details/${this.solutionId}`);
     this.startImprovement = false;
+    this.getProjectDetails()
   }
   onLearningResources(){
     console.log("learning reources");
@@ -78,6 +74,30 @@ export class PreviewDetailsPageComponent {
     if (this.remainingTasks.length > 0) {
       this.displayedTasks.push(...this.remainingTasks);
       this.remainingTasks = [];
+    }
+  }
+
+  getProjectDetails(){
+    const configForProjectId = {
+      url: `${apiUrls.GET_PROJECT_DETAILS}${this.solutionId}`,
+      payload: {}
+    }
+      this.apiService.post(configForProjectId).subscribe((res)=>{
+        this.projectDetails = res.result;
+        if(this.projectDetails){
+          let data = {
+            key: this.projectDetails._id,
+            data: this.projectDetails
+          }
+          this.db.addData(data)
+          this.routerService.navigate(`/details/${this.solutionId}`);
+        }
+      })
+  }
+
+  startImprovementProgram(data:Event){
+    if(data){
+      this.navigate();
     }
   }
 }

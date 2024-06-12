@@ -49,6 +49,7 @@ import { LearningResourcesComponent } from './pages/learning-resources/learning-
 import { SyncPageComponent } from './pages/sync-page/sync-page.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoaderComponent } from './shared/loader/loader.component';
+import { StartImprovementPopupComponent } from './shared/start-improvement-popup/start-improvement-popup.component';
 
 const routes: Routes = [
   { path: 'details/:id', component: DetailsPageComponent },
@@ -101,7 +102,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     DetailsPageComponent,
     LearningResourcesComponent,
     SyncPageComponent,
-    LoaderComponent
+    LoaderComponent,
+    StartImprovementPopupComponent
   ],
   imports: [
     CommonModule,
