@@ -3,11 +3,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { MatDialog } from '@angular/material/dialog';
 import { DailogPopupComponent } from '../../shared/dialog-popup/dailog-popup.component';
 import { firstValueFrom } from 'rxjs';
+import { LoaderComponent } from '../../shared/loader/loader.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilsService {
+  loader: any
 
   constructor(private dialog: MatDialog) { }
 
@@ -53,5 +55,15 @@ export class UtilsService {
     w.document.body.style.height = '100%';
     w.document.body.style.overflow = 'hidden';
     w.document.body.appendChild(iframe);
+  }
+
+  startLoader(){
+    this.loader = this.dialog.open(LoaderComponent,{
+      disableClose: true
+    })
+  }
+
+  stopLoader(){
+    this.loader = this.loader ? this.loader.close() : null
   }
 }

@@ -48,6 +48,7 @@ import { FilesCardComponent } from './shared/files-card/files-card.component';
 import { LearningResourcesComponent } from './pages/learning-resources/learning-resources.component';
 import { SyncPageComponent } from './pages/sync-page/sync-page.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LoaderComponent } from './shared/loader/loader.component';
 
 const routes: Routes = [
   { path: 'details/:id', component: DetailsPageComponent },
@@ -99,7 +100,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     FilesCardComponent,
     DetailsPageComponent,
     LearningResourcesComponent,
-    SyncPageComponent
+    SyncPageComponent,
+    LoaderComponent
   ],
   imports: [
     CommonModule,

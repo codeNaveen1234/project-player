@@ -6,6 +6,9 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastService } from '../../services/toast/toast.service';
 import { UtilsService } from '../../services/utils/utils.service';
 import { statusType } from '../../constants/statusConstants';
+import { ProjectService } from '../../services/project/project.service';
+import { apiUrls } from '../../constants/urlConstants';
+import { ApiService } from '../../services/api/api.service';
 
 @Component({
   selector: 'lib-details-page',
@@ -21,8 +24,9 @@ export class DetailsPageComponent implements OnInit {
   projectDetails:any;
   displayedTasks:any[]=[];
   remainingTasks:any[]=[];
+
   constructor(private routerService: RoutingService, private db: DbService, private activatedRoute: ActivatedRoute,
-    private toasterService:ToastService, private utils: UtilsService
+    private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService
   ) {
     activatedRoute.params.subscribe(param=>{
       setTimeout(()=>{ },100)
@@ -37,6 +41,7 @@ export class DetailsPageComponent implements OnInit {
     this.db.getData(id).then(data=>{
       this.projectDetails = data.data
       this.submitted = data.data.status == statusType.submitted
+      this.getProjectTaskStatus()
       this.countCompletedTasks(this.projectDetails);
       this.calculateProgress();
       this.setActionsList()
@@ -80,7 +85,7 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case 'share':
-        this.openDialog()
+        this.projectService.showSyncSharePopup('task', event.name, this.projectDetails, event._id)
         break;
 
       case 'delete':
@@ -107,7 +112,7 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case "share":
-        this.openDialog()
+        this.projectService.showSyncSharePopup('project', this.projectDetails.title, this.projectDetails)
         break;
 
       case "files":
@@ -125,22 +130,6 @@ export class DetailsPageComponent implements OnInit {
 
     moveToFiles() {
     this.routerService.navigate(`/files/${this.projectDetails._id}`);
-  }
-    async openDialog() {
-      let popupDetails= {
-        title: "SHAREABLE_FILE",
-        actionButtons: [
-          { label: "DONT_SYNC", action: false},
-          { label: "SYNC_AND_SHARE", action: true }
-        ]
-      }
-      let response = await this.utils.showDialogPopup(popupDetails)
-
-      if(response){
-        console.log('you have selected sync and share respectively');
-      }else{
-        this.toasterService.showToast("FILE_NOT_SHARED","danger")
-      }
   }
 
   async openDialogForDelete(id:any) {
@@ -184,7 +173,6 @@ export class DetailsPageComponent implements OnInit {
 
   }
   onStartObservation(){
-    console.log("start observation");
   }
   initializeTasks(): void {
     if (this.projectDetails.tasks && this.projectDetails.tasks.length >= 0) {
@@ -199,4 +187,63 @@ export class DetailsPageComponent implements OnInit {
       this.remainingTasks = [];
     }
   }
+
+  getProjectTaskStatus(){
+    if(!this.projectDetails.tasks && this.projectDetails.tasks.length){
+      return
+    }
+    let taskIdList = this.getAssessmentTypeTaskIds()
+    if(!taskIdList.length){
+      return
+    }
+    const config = {
+      url: `${apiUrls.PROJECT_TASK_STATUS}/${this.projectDetails._id}`,
+      payload: { taskIds: taskIdList }
+    }
+    this.apiService.post(config).subscribe(response=>{
+      if(!response.result){
+        return
+      }
+      this.updateAssessmentStatus(response.result)
+    })
+    
+  }
+
+  getAssessmentTypeTaskIds(){
+    const taskIdsList = []
+    for(const task of this.projectDetails.tasks){
+      task.type == "assessment" || task.type == "observation" ? taskIdsList.push(task._id) : null
+    }
+    return taskIdsList
+  }
+
+  updateAssessmentStatus(assessmentList:any){
+    let isChanged = false
+    this.projectDetails.tasks.map((taskData:any)=>{
+      assessmentList.map((data:any)=>{
+        if(data.type == "assessment" || data.type == "observation"){
+          if(data._id == taskData._id && data.submissionDetails.status){
+            if(!taskData.submissionDetails || JSON.stringify(taskData.submissionDetails) != JSON.stringify(data.submissionDetails)){
+              taskData.submissionDetails = data.submissionDetails
+              taskData.status = data.submissionDetails.status
+              taskData.isEdit = true
+              isChanged = true
+              this.projectDetails.isEdit = true
+              this.countCompletedTasks(this.projectDetails);
+              this.calculateProgress();
+              this.setActionsList()
+            }
+          }
+        }
+      })
+    })
+    if(isChanged){
+      let finalData = {
+        key: this.projectDetails._id,
+        data:this.projectDetails
+      }
+      this.db.updateData(finalData)
+    }
+  }
+
 }
