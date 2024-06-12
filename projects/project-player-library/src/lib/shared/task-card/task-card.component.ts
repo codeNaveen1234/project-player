@@ -35,10 +35,10 @@ export class TaskCardComponent {
       this.routerService.navigate(`/task-details/${data}/${this.projectId}`);
     }
     else if(!this.submittedImprovement && this.startImprovement){
-      this.showConfirmJoinProgram()
+      this.showConfirmStartImprovement();
     }
   }
-  showConfirmJoinProgram() {
+  showConfirmStartImprovement() {
     const dialogRef = this.dialog.open(StartImprovementPopupComponent, {
       width: '400px',
       minHeight: '150px',

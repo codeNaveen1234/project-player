@@ -7,10 +7,10 @@
         <div class="p-4 w-full text-center" *ngIf="!isImages?.project && !isImages?.task">
             <div>{{ "NO_FILES" | translate:{ fileType: 'Image' } }}</div>
         </div>
-        <div class="image-tasklist p-4">
-            <div class="flex items-center" *ngIf="isImages?.project">
-                <div class="w-auto mr-3">{{ "LEVEL_EVIDENCE" | translate:{ type: 'Project' } }}</div>
-                <span class="h-[4px] flex-grow bg-[var(--primary-color)]"></span>
+        <div class="image-tasklist p-4" >
+            <div class="flex items-center"   *ngIf="isImages?.project">
+                <div class="w-auto mr-3" >{{ "LEVEL_EVIDENCE" | translate:{ type: 'Project' } }}</div>
+                <span class="h-[4px]  flex-grow bg-[var(--primary-color)]"></span>
             </div>
             <div *ngIf="isImages?.project">
                 <lib-attachment-card [details]="attachments.project" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>

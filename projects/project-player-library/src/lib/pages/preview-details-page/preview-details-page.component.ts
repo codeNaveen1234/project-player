@@ -30,10 +30,6 @@ export class PreviewDetailsPageComponent {
   ngOnInit(): void {
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.dataService.setConfig(changes['config'].currentValue)
-  }
-
   getProjectTemplate(){
     const configForSolutionId = {
       url: `${'project/v1/solutions/getDetails/'}${this.solutionId}`,
