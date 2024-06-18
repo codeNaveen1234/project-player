@@ -62,8 +62,6 @@ openEditSubTaskName(
   modelref.afterClosed().subscribe((res: boolean) => {
     if (res) {
       this.updateDataInDb();
-    } else {
-      this.toasterService.showToast("FILES_CHANGES_NOT_UPDATED","danger")
     }
   });
 }
@@ -87,6 +85,7 @@ formatDateToLocal(date: Date): string {
 }
 
 updateDataInDb(){
+  this.projectDetails.isEdit = true
   let finalData = {
     key:this.projectDetails._id,
     data:this.projectDetails

@@ -52,6 +52,7 @@ import { LoaderComponent } from './shared/loader/loader.component';
 import { StartImprovementPopupComponent } from './shared/start-improvement-popup/start-improvement-popup.component';
 
 const routes: Routes = [
+  { path: '' },
   { path: 'details/:id', component: DetailsPageComponent },
   { path: 'files/:id', component: AttachmentListingPageComponent },
   { path: 'task-details/:taskId/:id', component: TaskDetailsPageComponent },

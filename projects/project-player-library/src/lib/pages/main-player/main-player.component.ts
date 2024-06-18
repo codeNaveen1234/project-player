@@ -76,6 +76,8 @@ export class MainPlayerComponent implements OnInit {
       })
   }
 
-
-
+  ngOnDestroy(){
+    this.dataService.clearConfig()
+    this.routerService.navigate('/')
+  }
 }

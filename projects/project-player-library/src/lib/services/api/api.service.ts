@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { DataService } from '../data/data.service';
 import { Router } from '@angular/router';
-import { ToastService } from '../toast/toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,7 @@ export class ApiService {
     'x-app-ver':''
   }
 
-  constructor(private http: HttpClient, private dataService: DataService, private router: Router, private toastService: ToastService) {
+  constructor(private http: HttpClient, private dataService: DataService, private router: Router) {
   }
 
   get(config:any): Observable<any> {
@@ -54,7 +53,6 @@ export class ApiService {
       errorMessage = `Error: ${error.error.message}`;
     } else {
       if (error.status === 401) {
-        this.toastService.showToast("TOKEN_EXPIRED","danger")
         this.router.navigate(['/']);
       }
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
