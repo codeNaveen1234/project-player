@@ -9,6 +9,7 @@ import { DbService } from '../../services/db/db.service';
 import { UtilsService } from '../../services/utils/utils.service';
 import { PrivacyPolicyPopupComponent } from '../../shared/privacy-policy-popup/privacy-policy-popup.component';
 import { ToastService } from '../../services/toast/toast.service';
+import { statusType } from '../../constants/statusConstants';
 
 interface TaskOption {
   value: any;
@@ -80,10 +81,6 @@ export class TaskDetailsPageComponent implements OnInit {
     modelref.afterClosed().subscribe((res: boolean) => {
       if (res) {
         this.updateDataInDb()
-        console.log('You have successfully changed the task name');
-      } else {
-        this.toasterService.showToast("FILES_CHANGES_NOT_UPDATED","danger")
-        console.log(`you have selected no and changes doesn't reflected.`);
       }
     });
   }
@@ -96,29 +93,24 @@ export class TaskDetailsPageComponent implements OnInit {
     );
     if (index !== -1) {
       this.task.children.splice(index, 1);
-      console.log(`Subtask '${event.name}' deleted successfully.`);
       this.updateTaskStatus();
-    } else {
-      console.log(`Subtask '${event.name}' not found.`);
     }
   }
   updateTaskStatus(event?: any) {
-    if(this.task.children.length > 0){
       const allNotStarted = this.task.children.every(
-        (child: any) => child.status === 'notStarted'
+        (child: any) => child.status === statusType.notStarted
       );
       const allCompleted = this.task.children.every(
-        (child: any) => child.status === 'completed'
+        (child: any) => child.status === statusType.completed
       );
       if (allNotStarted) {
-        this.task.status = 'notStarted';
+        this.task.status = statusType.notStarted;
       } else if (allCompleted) {
-        this.task.status = 'completed';
+        this.task.status = statusType.completed;
       } else {
-        this.task.status = 'inProgress';
+        this.task.status = statusType.inProgress;
       }
       this.updateDataInDb();
-    }
   }
   setOptionList(){
     let options:any = actions.TASK_STATUS;
@@ -136,6 +128,8 @@ export class TaskDetailsPageComponent implements OnInit {
   }
 
   updateDataInDb(){
+    this.task.isEdit = true
+    this.projectDetails.isEdit = true
     let finalData = {
       key:this.projectDetails._id,
       data:this.projectDetails

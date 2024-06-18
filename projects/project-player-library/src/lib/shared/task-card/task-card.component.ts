@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RoutingService } from '../../services/routing/routing.service';
 import { statusLabels, statusType } from '../../constants/statusConstants';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmStartImprovementComponent } from '../confirm-start-improvement/confirm-start-improvement.component';
 
 @Component({
   selector: 'lib-task-card',
@@ -23,7 +21,7 @@ export class TaskCardComponent {
   statusTypes:any = statusType
 
 
-  constructor(private routerService: RoutingService,private dialog: MatDialog) {}
+  constructor(private routerService: RoutingService) {}
 
   actionsEmit(item:any){
     const data = { action: item.action, ...this.task };
@@ -35,24 +33,8 @@ export class TaskCardComponent {
       this.routerService.navigate(`/task-details/${data}/${this.projectId}`);
     }
     else if(!this.submittedImprovement && this.startImprovement){
-      this.showConfirmStartImprovement();
+      this.startImprovementEvent.emit(data);
     }
-  }
-  showConfirmStartImprovement() {
-    const dialogRef = this.dialog.open(StartImprovementPopupComponent, {
-      width: '400px',
-      minHeight: '150px',
-    });
-
-    dialogRef.afterClosed().subscribe(data=>{
-      if(data){
-        this.actionsEmitForStartImprovement(data)
-      }
-    })
-  }
-
-  actionsEmitForStartImprovement(data:any){
-    this.startImprovementEvent.emit(data);
   }
 
 }

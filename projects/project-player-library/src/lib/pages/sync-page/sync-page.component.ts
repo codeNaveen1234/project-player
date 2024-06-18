@@ -166,4 +166,8 @@ export class SyncPageComponent {
     this.toastService.showToast(toastMessage,"success")
   }
 
+  goToAttachmentsList(){
+    this.routingService.navigate(`/files/${this.projectId}`);
+  }
+
 }
