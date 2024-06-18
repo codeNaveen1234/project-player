@@ -103,7 +103,7 @@ export class TaskDetailsPageComponent implements OnInit {
     }
   }
   updateTaskStatus(event?: any) {
-    if(this.task.children.length > 0){
+    if(this.task.children.length >= 0){
       const allNotStarted = this.task.children.every(
         (child: any) => child.status === 'notStarted'
       );
