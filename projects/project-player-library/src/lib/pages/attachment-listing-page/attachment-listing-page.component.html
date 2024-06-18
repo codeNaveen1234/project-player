@@ -4,8 +4,8 @@
 </div>
 <mat-tab-group dynamicHeight>
     <mat-tab [label]="'IMAGES' | translate">
-        <div class="p-4 w-full text-center" *ngIf="!isImages?.project && !isImages?.task">
-            <div>{{ "NO_FILES" | translate:{ fileType: 'Image' } }}</div>
+        <div class="p-4 w-full text-center flex flex-row justify-center" *ngIf="!isImages?.project && !isImages?.task">
+            <mat-card class="p-3">{{ "NO_FILES" | translate:{ fileType: 'Images' } }}</mat-card>
         </div>
         <div class="image-tasklist p-4" >
             <div class="flex items-center"   *ngIf="isImages?.project">
@@ -47,8 +47,8 @@
         </div>
     </mat-tab>
     <mat-tab [label]="'VIDEOS' | translate">
-        <div class="p-4 w-full text-center"  *ngIf="!isVideos?.project && !isVideos?.task" >
-            <div>{{"NO_FILES"|translate:{fileType:'Videos'} }}</div>
+        <div class="p-4 w-full text-center flex flex-row justify-center"  *ngIf="!isVideos?.project && !isVideos?.task" >
+            <mat-card class="p-3">{{"NO_FILES"|translate:{fileType:'Videos'} }}</mat-card>
         </div>
 
          <div class="image-tasklist p-4" >
@@ -77,8 +77,8 @@
         </div>
     </mat-tab>
     <mat-tab [label]="'FILES' | translate" >
-        <div class="p-4 w-full text-center"  *ngIf="!isFiles?.project && !isFiles?.task" >
-            <div>{{"NO_FILES"|translate:{fileType:'Files'} }}</div>
+        <div class="p-4 w-full text-center flex flex-row justify-center"  *ngIf="!isFiles?.project && !isFiles?.task" >
+            <mat-card class="p-3">{{"NO_FILES"|translate:{fileType:'Files'} }}</mat-card>
         </div>
 
         <div class="image-tasklist p-4" >
@@ -108,8 +108,8 @@
 
     </mat-tab>
     <mat-tab [label]="'LINKS' | translate">
-        <div class="p-4 w-full text-center"  *ngIf="!isLinks?.project && !isLinks?.task" >
-            <div>{{"NO_FILES"|translate:{fileType:'Links'} }}</div>
+        <div class="p-4 w-full text-center flex flex-row justify-center"  *ngIf="!isLinks?.project && !isLinks?.task" >
+            <mat-card class="p-3">{{"NO_FILES"|translate:{fileType:'Links'} }}</mat-card>
         </div>
 
         <div class="image-tasklist p-4" >

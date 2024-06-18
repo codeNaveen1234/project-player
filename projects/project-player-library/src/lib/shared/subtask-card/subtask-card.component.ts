@@ -20,6 +20,7 @@ export class SubtaskCardComponent {
 @Output() deleteSubTaskEvent = new EventEmitter<string>();
 @Output()  updateSubTaskStatusEvent = new EventEmitter<any>();
 subTaskOptions:TaskOption[] = [];
+@Input() task:any
 ngOnInit(): void {
   this.setOptionList();
 }
@@ -86,6 +87,8 @@ formatDateToLocal(date: Date): string {
 
 updateDataInDb(){
   this.projectDetails.isEdit = true
+  this.subTask.isEdit = true
+  this.task.isEdit = true
   let finalData = {
     key:this.projectDetails._id,
     data:this.projectDetails

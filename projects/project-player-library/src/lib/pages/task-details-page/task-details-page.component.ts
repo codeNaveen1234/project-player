@@ -89,7 +89,7 @@ export class TaskDetailsPageComponent implements OnInit {
 
   deleteSubTask(event: any) {
     const index = this.task.children.findIndex(
-      (child: any) => child.name === event.name
+      (child: any) => child._id === event._id
     );
     if (index !== -1) {
       this.task.children.splice(index, 1);
