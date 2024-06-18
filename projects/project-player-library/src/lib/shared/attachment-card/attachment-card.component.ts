@@ -9,6 +9,7 @@ export class AttachmentCardComponent {
 @Input() details:any;
 @Input() attachmentsType:any;
 @Output() onRemove = new EventEmitter<any>();
+@Input() projectDataStatus:any;
 getAttachmentRemove(event:any){
   this.onRemove.emit(event);
 }
