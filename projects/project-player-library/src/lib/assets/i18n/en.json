@@ -98,5 +98,7 @@
     "TOKEN_EXPIRED": "Token expired",
     "PLEASE_WAIT_MSG": "Please wait",
     "START_IMPROVEMENT_MSG":"You must click on the Start improvement button to access and edit the project details.",
-    "START_IMPROVEMENT_MSG_CONFIRM":"Click on the Start improvement to get complete access to the content"
+    "START_IMPROVEMENT_MSG_CONFIRM":"Click on the Start improvement to get complete access to the content",
+    "UPLOAD_FAILED":"Upload failed !",
+    "CONFIRMATION_ATTACHMENT_DELETE":"Are you sure you want to delete the attachment ?"
 }
