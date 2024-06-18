@@ -13,7 +13,10 @@ export class DataService {
   }
 
   getConfig(){
-    console.log('Data get config')
     return this.configuration
+  }
+
+  clearConfig(){
+    this.configuration = null
   }
 }

@@ -29,7 +29,6 @@ export class DetailsPageComponent implements OnInit {
     private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService
   ) {
     activatedRoute.params.subscribe(param=>{
-      setTimeout(()=>{ },100)
       this.getData(param['id'])
     })
   }
