@@ -13,7 +13,7 @@
                 <span class="h-[4px]  flex-grow bg-[var(--primary-color)]"></span>
             </div>
             <div *ngIf="isImages?.project">
-                <lib-attachment-card [details]="attachments.project" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+                <lib-attachment-card [details]="attachments.project" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)" [projectDataStatus]="projectData.status"></lib-attachment-card>
             </div>
             <div class="flex items-center" *ngIf="isImages?.task">
                 <div class="w-auto mr-3">{{ "LEVEL_EVIDENCE" | translate:{ type: 'Task' } }}</div>
@@ -26,7 +26,7 @@
                             <ng-container *ngFor="let item of task.attachments; let itemIndex = index; trackBy: trackByItemIndex">
                                 <ng-container *ngIf="item.type.includes('image')">
                                     <div *ngIf="isFirstAttachment(task.attachments, itemIndex, 'image')">
-                                        <lib-attachment-card [details]="task" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+                                        <lib-attachment-card [details]="task" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)" [projectDataStatus]="projectData.status"></lib-attachment-card>
                                     </div>
                                 </ng-container>
                             </ng-container>
@@ -34,12 +34,12 @@
                     </ng-container>
                     <ng-template #noAttachments>
                         <div *ngIf="task.remarks">
-                            <lib-attachment-card [details]="task" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+                            <lib-attachment-card [details]="task" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)" [projectDataStatus]="projectData.status"></lib-attachment-card>
                         </div>
                     </ng-template>
                     <ng-template #checkForReviews>
                         <div *ngIf="task.remarks">
-                            <lib-attachment-card [details]="task" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+                            <lib-attachment-card [details]="task" [attachmentsType]="'image'" (onRemove)="getRemoveAttachment($event)" [projectDataStatus]="projectData.status"></lib-attachment-card>
                         </div>
                     </ng-template>
                 </ng-container>
@@ -57,7 +57,7 @@
                 <span class="h-[4px]  flex-grow bg-[var(--primary-color)]"></span>
             </div>
             <div *ngIf="isVideos?.project">
-                    <lib-attachment-card [details]="attachments?.project" [attachmentsType]="'video'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+                    <lib-attachment-card [details]="attachments?.project" [attachmentsType]="'video'" (onRemove)="getRemoveAttachment($event)" [projectDataStatus]="projectData.status"></lib-attachment-card>
             </div>
             <div class="flex items-center" *ngIf="isVideos?.task" >
                 <div class="w-auto mr-3">{{"LEVEL_EVIDENCE" | translate:{type:'Task'} }} </div>
@@ -68,7 +68,7 @@
                     <ng-container *ngFor="let item of task.attachments; let itemIndex=index">
                       <ng-container *ngIf="item.type.includes('video')">
                         <div *ngIf="isFirstAttachment(task.attachments, itemIndex,'video')">
-                          <lib-attachment-card [details]="task" [attachmentsType]="'video'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+                          <lib-attachment-card [details]="task" [attachmentsType]="'video'" (onRemove)="getRemoveAttachment($event)" [projectDataStatus]="projectData.status"></lib-attachment-card>
                         </div>
                       </ng-container>
                     </ng-container>
@@ -87,7 +87,7 @@
                 <span class="h-[4px]  flex-grow bg-[var(--primary-color)]"></span>
             </div>
             <div *ngIf="isFiles?.project">
-                    <lib-attachment-card [details]="attachments?.project" [attachmentsType]="'application'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+                    <lib-attachment-card [details]="attachments?.project" [attachmentsType]="'application'" (onRemove)="getRemoveAttachment($event)" [projectDataStatus]="projectData.status"></lib-attachment-card>
             </div>
             <div class="flex items-center" *ngIf="isFiles?.task" >
                 <div class="w-auto mr-3">{{"LEVEL_EVIDENCE" | translate:{type:'Task'} }} </div>
@@ -98,7 +98,7 @@
                     <ng-container *ngFor="let item of task.attachments; let itemIndex=index">
                       <ng-container *ngIf="item.type.includes('application')">
                         <div *ngIf="isFirstAttachment(task.attachments, itemIndex,'application')">
-                          <lib-attachment-card [details]="task" [attachmentsType]="'application'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+                          <lib-attachment-card [details]="task" [attachmentsType]="'application'" (onRemove)="getRemoveAttachment($event)" [projectDataStatus]="projectData.status"></lib-attachment-card>
                         </div>
                       </ng-container>
                     </ng-container>
@@ -118,7 +118,7 @@
                 <span class="h-[4px]  flex-grow bg-[var(--primary-color)]"></span>
             </div>
             <div *ngIf="isLinks?.project">
-                    <lib-attachment-card [details]="attachments?.project" [attachmentsType]="'link'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+                    <lib-attachment-card [details]="attachments?.project" [attachmentsType]="'link'" (onRemove)="getRemoveAttachment($event)" [projectDataStatus]="projectData.status"></lib-attachment-card>
             </div>
             <div class="flex items-center" *ngIf="isLinks?.task" >
                 <div class="w-auto mr-3">{{"LEVEL_EVIDENCE" | translate:{type:'Task'} }} </div>
@@ -129,7 +129,7 @@
                     <ng-container *ngFor="let item of task.attachments; let itemIndex=index">
                       <ng-container *ngIf="item.type.includes('link')">
                         <div *ngIf="isFirstAttachment(task.attachments, itemIndex,'link')">
-                          <lib-attachment-card [details]="task" [attachmentsType]="'link'" (onRemove)="getRemoveAttachment($event)"></lib-attachment-card>
+                          <lib-attachment-card [details]="task" [attachmentsType]="'link'" (onRemove)="getRemoveAttachment($event)" [projectDataStatus]="projectData.status"></lib-attachment-card>
                         </div>
                       </ng-container>
                     </ng-container>

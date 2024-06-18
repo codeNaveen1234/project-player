@@ -42,20 +42,17 @@ export class DetailsPageComponent implements OnInit {
       this.projectDetails = data.data
       this.submitted = data.data.status == statusType.submitted
       this.getProjectTaskStatus()
-      this.countCompletedTasks(this.projectDetails);
+      this.countCompletedTasks();
       this.calculateProgress();
       this.setActionsList()
       this.initializeTasks()
     })
   }
+  countCompletedTasks(): number {
+    this.completedCount = 0; // Reset the count each time the method is called
 
-  countCompletedTasks(projectDetails: any): number {
-    if (
-      projectDetails &&
-      projectDetails.tasks &&
-      projectDetails.tasks.length > 0
-    ) {
-      projectDetails.tasks.forEach((task: any) => {
+    if (this.projectDetails && this.projectDetails.tasks && this.projectDetails.tasks.length > 0) {
+      this.projectDetails.tasks.forEach((task: any) => {
         if (task.status === 'completed') {
           this.completedCount++;
         }
@@ -64,12 +61,17 @@ export class DetailsPageComponent implements OnInit {
 
     return this.completedCount;
   }
+
   calculateProgress(): void {
-    if (this.projectDetails.tasks.length > 0) {
-      this.progressValue =
-        (this.completedCount / this.projectDetails.tasks.length) * 100;
+    const totalTasks = this.projectDetails.tasks.length;
+
+    if (totalTasks > 0 && this.completedCount > 0) {
+      this.progressValue = (this.completedCount / totalTasks) * 100;
+    } else {
+      this.progressValue = 0; // Ensure progress is zero if no tasks are completed
     }
   }
+
   submitImprovement() {
     this.routerService.navigate(`/add-files/${this.projectDetails._id}`)
   }
@@ -206,7 +208,7 @@ export class DetailsPageComponent implements OnInit {
       }
       this.updateAssessmentStatus(response.result)
     })
-    
+
   }
 
   getAssessmentTypeTaskIds(){
@@ -229,7 +231,7 @@ export class DetailsPageComponent implements OnInit {
               taskData.isEdit = true
               isChanged = true
               this.projectDetails.isEdit = true
-              this.countCompletedTasks(this.projectDetails);
+              this.countCompletedTasks();
               this.calculateProgress();
               this.setActionsList()
             }

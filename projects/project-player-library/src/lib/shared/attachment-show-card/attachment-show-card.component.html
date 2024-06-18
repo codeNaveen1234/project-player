@@ -1,8 +1,10 @@
 @if (attachments.type.includes('image')) {
     <mat-card class="w-full  rounded-full p-2 " style=" box-shadow: rgba(133, 119, 119, 0.555) 5px 5px 4px;">
-        <div class="flex w-full justify-end">
-            <mat-icon  class="primary-icon cursor-pointer" fontIcon="cancel" (click)="actionEmit(attachments)"></mat-icon>
-        </div>
+        @if ( projectDataStatus !== 'submitted' ) {
+            <div class="flex w-full justify-end">
+                <mat-icon  class="primary-icon cursor-pointer" fontIcon="cancel" (click)="actionEmit(attachments)"></mat-icon>
+            </div>
+        }
         <div class="p-2 h-[20vh]">
             <img [src]="attachment" [alt]="attachments.name" class="w-full h-full object-contain">
         </div>
@@ -25,9 +27,11 @@
                 {{attachments.name}}
             </div>
         </div>
-        <div class="flex flex-col cursor-pointer" (click)="actionEmit(attachments)">
-            <div class="flex justify-center items-end"><mat-icon fontIcon="cancel" class="primary-icon"></mat-icon></div>
-            <div class="text-xs primary-icon">{{ "REMOVE" | translate}}</div>
-        </div>
+        @if ( projectDataStatus !== 'submitted' ) {
+            <div class="flex flex-col cursor-pointer" (click)="actionEmit(attachments)">
+                <div class="flex justify-center items-end"><mat-icon fontIcon="cancel" class="primary-icon"></mat-icon></div>
+                <div class="text-xs primary-icon">{{ "REMOVE" | translate}}</div>
+            </div>
+        }
     </div>
 }

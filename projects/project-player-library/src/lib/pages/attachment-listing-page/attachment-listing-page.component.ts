@@ -36,8 +36,8 @@ export class AttachmentListingPageComponent {
     let result = { project: false, task: false };
     if(attachmentType === 'image'){
       if ( this.attachments.project || this.attachments.tasks ) {
-          result.project = this.attachments.project.attachments && this.attachments.project.attachments.some((attachment: any) => attachment.type.includes(attachmentType)) || this.attachments.project.remarks;
-          result.task = this.attachments.tasks.some((task: any) => task.attachments && task.attachments.some((attachment: any) => attachment.type.includes(attachmentType))) || this.attachments.tasks.some((task:any)=>task.remarks);
+        result.project = !!(this.attachments.project.attachments && this.attachments.project.attachments.some((attachment: any) => attachment.type.includes(attachmentType)) || this.attachments.project.remarks);
+        result.task = this.attachments.tasks.some((task: any) => task.attachments && task.attachments.some((attachment: any) => attachment.type.includes(attachmentType))) || this.attachments.tasks.some((task:any)=>task.remarks);
       }
       return result;
     }
@@ -55,7 +55,7 @@ export class AttachmentListingPageComponent {
       project: {},
       tasks: []
     };
-    if(data?.attachments?.length){
+    if(data?.attachments?.length || data?.remarks){
       let projectEvidence = {
         title: data.title,
         remarks: data.remarks ? data.remarks : '',
@@ -92,12 +92,12 @@ export class AttachmentListingPageComponent {
 
 
   getRemoveAttachment(event:any){
-    this.removeAttachment(event.name);
+    this.removeAttachment(event);
   }
 
   async removeAttachment(data:any) {
       let popupDetails= {
-        title: "CONFIRMATION_DELETE",
+        title: "CONFIRMATION_ATTACHMENT_DELETE",
         actionButtons: [
           { label: "YES", action: true },
           { label: "NO", action: false}
@@ -105,7 +105,7 @@ export class AttachmentListingPageComponent {
       }
       let response = await this.utils.showDialogPopup(popupDetails)
       if(response){
-        this.deleteAttachment(data);
+        this.deleteAttachment(data.name);
       }
     }
     deleteAttachment(data: any): void {

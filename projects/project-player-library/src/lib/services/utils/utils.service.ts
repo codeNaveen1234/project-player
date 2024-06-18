@@ -45,7 +45,7 @@ export class UtilsService {
   viewFile(dataResponse:any){
     const w: any = window.open('', '_blank');
     const iframe = w.document.createElement('iframe');
-    iframe.src = dataResponse.data;
+    iframe.src = dataResponse;
     iframe.style.width = '100%';
     iframe.style.height = '100%';
     iframe.style.border = 'none';
@@ -66,4 +66,20 @@ export class UtilsService {
   stopLoader(){
     this.loader = this.loader ? this.loader.close() : null
   }
+
+  viewVideo(dataResponse: any) {
+    const w: any = window.open('', '_blank');
+    const video = w.document.createElement('video');
+    video.src = dataResponse;
+    video.style.width = '100%';
+    video.style.height = '100%';
+    video.style.border = 'none';
+    video.controls = true;  // Adding controls so the user can play/pause the video
+    w.document.body.style.margin = '0';
+    w.document.body.style.padding = '0';
+    w.document.body.style.width = '100%';
+    w.document.body.style.height = '100%';
+    w.document.body.style.overflow = 'hidden';
+    w.document.body.appendChild(video);
+}
 }

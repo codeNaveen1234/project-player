@@ -8,7 +8,7 @@
     <div class="flex flex-wrap w-full p-2">
         @for (item of details.attachments; track $index) {
             <div class="w-full p-2 sm:w-1/2 sm:p-2" *ngIf="item.type.includes(attachmentsType)">
-                <lib-attachment-show-card  [attachments]="item"  (emitAttachment)="getAttachmentRemove($event)" ></lib-attachment-show-card>
+                <lib-attachment-show-card  [attachments]="item"  (emitAttachment)="getAttachmentRemove($event)" [projectDataStatus]="projectDataStatus"></lib-attachment-show-card>
             </div>
         }
     </div>

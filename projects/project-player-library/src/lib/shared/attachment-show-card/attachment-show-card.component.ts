@@ -9,6 +9,7 @@ import { UtilsService } from '../../services/utils/utils.service';
 })
 export class AttachmentShowCardComponent {
   @Input() attachments: any;
+  @Input() projectDataStatus:any;
   attachment: any;
   @Output() emitAttachment = new EventEmitter<any>();
 
@@ -21,7 +22,9 @@ export class AttachmentShowCardComponent {
   getAttachment() {
     this.db.getData(this.attachments.name).then((data) => {
       this.attachment = data.data;
-    });
+    }).catch((res)=>{
+      this.attachment = this.attachments.url;
+    })
   }
 
   actionEmit(data: any) {
@@ -29,17 +32,34 @@ export class AttachmentShowCardComponent {
   }
 
   openAttachment(data: any) {
-    if(data.type === 'link'){
-      let url = data.name;
-        if (!/^https?:\/\//i.test(url)) {
-            url = 'http://' + url;
-        }
-        window.open(url, '_blank');
+    if(!data.url){
+      if(data.type === 'link'){
+        let url = data.name;
+          if (!/^https?:\/\//i.test(url)) {
+              url = 'http://' + url;
+          }
+          window.open(url, '_blank');
+      }
+      else {
+        this.db.getData(data.name).then((response) => {
+          if(!data.type.includes('video')){
+            this.utilService.viewFile(response.data);
+          }
+          else{
+            this.utilService.viewVideo(response.data);
+          }
+        });
+      }
     }
     else {
-      this.db.getData(data.name).then((response) => {
-        this.utilService.viewFile(response);
-      });
+      if(!data.type.includes('video')){
+        this.utilService.viewFile(data.url);
+      }
+      else{
+        this.utilService.viewVideo(data.url);
+      }
     }
   }
+
+
 }
