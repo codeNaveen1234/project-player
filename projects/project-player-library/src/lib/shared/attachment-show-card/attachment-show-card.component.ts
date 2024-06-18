@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DbService } from '../../services/db/db.service';
 import { UtilsService } from '../../services/utils/utils.service';
-import { statusType } from 'dist/project-player-library/lib/constants/statusConstants';
+import { statusType } from '../../constants/statusConstants';
 
 @Component({
   selector: 'lib-attachment-show-card',
