@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RoutingService } from '../../services/routing/routing.service';
 import { statusLabels, statusType } from '../../constants/statusConstants';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmStartImprovementComponent } from '../confirm-start-improvement/confirm-start-improvement.component';
+import { StartImprovementPopupComponent } from '../start-improvement-popup/start-improvement-popup.component';
 
 @Component({
   selector: 'lib-task-card',
