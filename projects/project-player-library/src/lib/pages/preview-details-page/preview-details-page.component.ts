@@ -6,6 +6,8 @@ import { DbService } from '../../services/db/db.service';
 import { ApiService } from '../../services/api/api.service';
 import { apiUrls } from '../../constants/urlConstants';
 import { DataService } from '../../services/data/data.service';
+import { MatDialog } from '@angular/material/dialog';
+import { StartImprovementPopupComponent } from '../../shared/start-improvement-popup/start-improvement-popup.component';
 
 @Component({
   selector: 'lib-preview-details-page',
@@ -19,49 +21,42 @@ export class PreviewDetailsPageComponent {
   remainingTasks = [];
   startImprovement: boolean = true;
   solutionId:any;
-  constructor(private routerService:RoutingService,private activatedRoute:ActivatedRoute,private db:DbService,private apiService:ApiService,private dataService: DataService){
+  constructor(private routerService:RoutingService,private activatedRoute:ActivatedRoute,private db:DbService,private apiService:ApiService,private dataService: DataService,
+    private dialog: MatDialog
+  ){
     activatedRoute.params.subscribe(param=>{
      this.solutionId = param['id']
      this.getProjectTemplate()
-      this.setActionsList();
-      this.initializeTasks()
     })
   }
   ngOnInit(): void {
   }
 
   getProjectTemplate(){
+    let config = this.dataService.getConfig()
+    let profileInfo = config.profileInfo
     const configForSolutionId = {
-      url: `${'project/v1/solutions/getDetails/'}${this.solutionId}`,
-      payload: {}
+      url: `${apiUrls.GET_TEMPLATE_DETAILS}${this.solutionId}`,
+      payload: profileInfo
     }
     this.apiService.post(configForSolutionId).subscribe((res)=>{
       this.projectDetails = res.result;
-    })
-}
-  getData(id:any){
-    this.db.getData(id).then(data=>{
-      this.projectDetails = data.data;
       this.setActionsList();
       this.initializeTasks()
     })
-  }
+}
   setActionsList(){
     let optionList:any = actions.ACTION_LIST;
     this.actionsList = optionList;
   }
   taskCardAction(event:any){
-      console.log(event,"shared");
   }
   navigate(){
-    this.startImprovement = false;
-    this.getProjectDetails()
+    this.showStartImprovementPopup()
   }
   onLearningResources(){
-    console.log("learning reources");
   }
   onStartObservation(){
-    console.log("start observation");
   }
   initializeTasks(): void {
     if (this.projectDetails.tasks && this.projectDetails.tasks.length > 0) {
@@ -78,11 +73,14 @@ export class PreviewDetailsPageComponent {
   }
 
   getProjectDetails(){
+    let config = this.dataService.getConfig()
+    let profileInfo = config.profileInfo
     const configForProjectId = {
       url: `${apiUrls.GET_PROJECT_DETAILS}${this.solutionId}`,
-      payload: {}
+      payload: profileInfo
     }
       this.apiService.post(configForProjectId).subscribe((res)=>{
+        return
         this.projectDetails = res.result;
         if(this.projectDetails){
           let data = {
@@ -99,5 +97,18 @@ export class PreviewDetailsPageComponent {
     if(data){
       this.navigate();
     }
+  }
+
+  showStartImprovementPopup() {
+    const dialogRef = this.dialog.open(StartImprovementPopupComponent, {
+      width: '400px',
+      minHeight: '150px',
+    });
+
+    dialogRef.afterClosed().subscribe(data=>{
+      if(data){
+        this.getProjectDetails()
+      }
+    })
   }
 }
