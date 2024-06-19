@@ -138,8 +138,6 @@ export class SyncPageComponent {
     this.db.updateData(data)
     this.resetImageUploadVariables()
     if(this.cloudUploadFailed){
-      this.toastService.showToast("UPLOAD_FAILED","danger")
-      this.goBack()
       return
     }
     this.showToastMessage()
