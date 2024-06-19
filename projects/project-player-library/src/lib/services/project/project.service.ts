@@ -47,13 +47,27 @@ export class ProjectService {
     firstValueFrom(this.apiService.get(config)).then(response=>{
       this.utils.stopLoader()
       if(response.result && response.result.data && response.result.data.downloadUrl){
-        window.open(response.result.data.downloadUrl)
+        this.downloadFile(response.result.data.downloadUrl, name)
       }else{
         this.toastService.showToast("ERROR_IN_DOWNLOADING_MSG","danger")
       }
     }).catch(error=>{
       this.utils.stopLoader()
       this.toastService.showToast("ERROR_IN_DOWNLOADING_MSG","danger")
+    })
+  }
+
+  downloadFile(url:any, name: string){
+    let fileName = name.length > 40 ? name.slice(0,40) + '...' : name
+    fetch(url).then(resp => resp.blob()).then(blob => {
+      const convertedUrl = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = convertedUrl
+      a.download = fileName
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      window.URL.revokeObjectURL(convertedUrl)
     })
   }
 }

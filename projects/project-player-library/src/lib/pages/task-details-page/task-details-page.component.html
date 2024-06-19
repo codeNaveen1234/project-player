@@ -51,7 +51,7 @@
     <div>
         @for (item of task?.children; track $index) {
             <div>
-                <lib-subtask-card [subTask]="item" [projectDetails]="projectDetails" (updateSubTaskStatusEvent)="updateTaskStatus($event)" (deleteSubTaskEvent)="deleteSubTask($event)"></lib-subtask-card>
+                <lib-subtask-card [subTask]="item" [projectDetails]="projectDetails" [task]="task" (updateSubTaskStatusEvent)="updateTaskStatus($event)" (deleteSubTaskEvent)="deleteSubTask($event)"></lib-subtask-card>
             </div>
         }
     </div>

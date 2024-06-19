@@ -5,22 +5,32 @@
                 <mat-icon  class="primary-icon cursor-pointer" fontIcon="cancel" (click)="actionEmit(attachments)"></mat-icon>
             </div>
         }
-        <div class="p-2 h-[20vh]">
+        <div class="p-2 h-[20vh] relative">
             <img [src]="attachment" [alt]="attachments.name" class="w-full h-full object-contain">
+            @if(attachments.uploadFailed){
+                <div class="w-full h-full absolute top-0 left-0 flex flex-col justify-center items-center bg-[rgba(0,0,0,0.5)]">
+                    <mat-icon fontIcon="error" class="text-red-600"></mat-icon>
+                    <div class="text-white">{{ "FILE_CORRUPTED" | translate }}</div>
+                </div>
+            }
         </div>
 
     </mat-card>
 }
 @else {
-    <div class="flex justify-between items-center p-1  w-full bg-gray-300 rounded">
+    <div class="flex justify-between items-center p-1  w-full bg-gray-200 rounded">
         <div class="flex flex-row items-center gap-x-2">
             <span class="flex items-center">
+                @if(attachments.uploadFailed){
+                    <mat-icon fontIcon="error" class="text-red-600"></mat-icon>
+                }@else{
                 @if (attachments.type.includes('video')) {
                     <mat-icon  fontIcon="videocam" class="primary-icon"></mat-icon>
                 } @else if (attachments.type.includes('link')) {
                     <mat-icon  fontIcon="link" class="primary-icon"></mat-icon>
                 } @else if (attachments.type.includes('application')) {
                     <mat-icon  fontIcon="description" class="primary-icon"></mat-icon>
+                }
                 }
             </span>
             <div class="primary-icon cursor-pointer" (click)="openAttachment(attachments)">
