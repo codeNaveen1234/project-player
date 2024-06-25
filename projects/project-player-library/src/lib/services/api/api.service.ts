@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { DataService } from '../data/data.service';
 import { Router } from '@angular/router';
+import { ToastService } from '../toast/toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class ApiService {
     'x-app-ver':''
   }
 
-  constructor(private http: HttpClient, private dataService: DataService, private router: Router) {
+  constructor(private http: HttpClient, private dataService: DataService, private router: Router, private toastService: ToastService) {
   }
 
   get(config:any): Observable<any> {
@@ -47,13 +48,13 @@ export class ApiService {
     );
   }
 
-  private handleError(error: HttpErrorResponse): Observable<never> {
+  private handleError=(error: HttpErrorResponse): Observable<never> => {
     let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {
       errorMessage = `Error: ${error.error.message}`;
     } else {
       if (error.status === 401) {
-        this.router.navigate(['/']);
+        this.toastService.showToast(error.error.message,"danger")
       }
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }

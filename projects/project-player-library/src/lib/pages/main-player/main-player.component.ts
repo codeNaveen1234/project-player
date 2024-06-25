@@ -60,7 +60,7 @@ export class MainPlayerComponent implements OnInit {
 
   getProjectDetails(){
     const configForProjectId = {
-      url: `${apiUrls.GET_PROJECT_DETAILS}${this.projectId}`,
+      url: `${apiUrls.GET_PROJECT_DETAILS}/${this.projectId}`,
       payload: {}
     }
       this.apiService.post(configForProjectId).subscribe((res)=>{

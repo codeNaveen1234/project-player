@@ -2,10 +2,10 @@
     <mat-icon class="cursor-pointer text-black"  fontIcon="arrow_back" (click)="moveToHomePage()"></mat-icon>
     <span class="text-black text-xl font-bold">{{"ATTACHMENTS" | translate}}</span>
 </div>
-<mat-tab-group dynamicHeight>
+<mat-tab-group dynamicHeight (selectedTabChange)="onTabChange($event)">
     <mat-tab [label]="'IMAGES' | translate">
         <div class="p-4 w-full text-center flex flex-row justify-center" *ngIf="!isImages?.project && !isImages?.task">
-            <mat-card class="p-3">{{ "NO_FILES" | translate:{ fileType: 'Images' } }}</mat-card>
+            <mat-card class="p-3">{{ "NO_FILES" | translate:{ fileType: 'images' } }}</mat-card>
         </div>
         <div class="image-tasklist p-4" >
             <div class="flex items-center"   *ngIf="isImages?.project">
@@ -48,7 +48,7 @@
     </mat-tab>
     <mat-tab [label]="'VIDEOS' | translate">
         <div class="p-4 w-full text-center flex flex-row justify-center"  *ngIf="!isVideos?.project && !isVideos?.task" >
-            <mat-card class="p-3">{{"NO_FILES"|translate:{fileType:'Videos'} }}</mat-card>
+            <mat-card class="p-3">{{"NO_FILES"|translate:{fileType:'videos'} }}</mat-card>
         </div>
 
          <div class="image-tasklist p-4" >
@@ -78,7 +78,7 @@
     </mat-tab>
     <mat-tab [label]="'FILES' | translate" >
         <div class="p-4 w-full text-center flex flex-row justify-center"  *ngIf="!isFiles?.project && !isFiles?.task" >
-            <mat-card class="p-3">{{"NO_FILES"|translate:{fileType:'Files'} }}</mat-card>
+            <mat-card class="p-3">{{"NO_FILES"|translate:{fileType:'files'} }}</mat-card>
         </div>
 
         <div class="image-tasklist p-4" >
@@ -109,7 +109,7 @@
     </mat-tab>
     <mat-tab [label]="'LINKS' | translate">
         <div class="p-4 w-full text-center flex flex-row justify-center"  *ngIf="!isLinks?.project && !isLinks?.task" >
-            <mat-card class="p-3">{{"NO_FILES"|translate:{fileType:'Links'} }}</mat-card>
+            <mat-card class="p-3">{{"NO_FILES"|translate:{fileType:'links'} }}</mat-card>
         </div>
 
         <div class="image-tasklist p-4" >
