@@ -4,6 +4,7 @@ import { DbService } from '../../services/db/db.service';
 import { ActivatedRoute } from '@angular/router';
 import { ToastService } from '../../services/toast/toast.service';
 import { UtilsService } from '../../services/utils/utils.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'lib-attachment-listing-page',
@@ -17,8 +18,9 @@ export class AttachmentListingPageComponent {
   isFiles:any;
   isLinks:any;
   attachments:any;
+  selectedTab = 'image'
   constructor(private routerService:RoutingService,private db:DbService,private activatedRoute:ActivatedRoute,private toasterService:ToastService,
-    private utils: UtilsService
+    private utils: UtilsService, private translate: TranslateService
   ){
     activatedRoute.params.subscribe(param=>{
       this.getData(param['id'])
@@ -96,8 +98,13 @@ export class AttachmentListingPageComponent {
   }
 
   async removeAttachment(data:any) {
+    let message
+    this.translate.get("CONFIRMATION_ATTACHMENT_DELETE").subscribe(data => {
+      message = data
+    })
+    message = `${message}${this.selectedTab}?`
       let popupDetails= {
-        title: "CONFIRMATION_ATTACHMENT_DELETE",
+        title: message,
         actionButtons: [
           { label: "YES", action: true },
           { label: "NO", action: false}
@@ -122,6 +129,7 @@ export class AttachmentListingPageComponent {
               task.attachments.forEach((attachment: any, index: number) => {
                   if (attachment.name === data) {
                       task.attachments.splice(index, 1);
+                      task.isEdit = true
                       return;
                   }
               });
@@ -158,6 +166,10 @@ trackByItemIndex(index: number, item: any): any {
 }
 hasImageAttachments(task: any): boolean {
   return task.attachments.some((a: { type: string | string[]; }) => a.type.includes('image'));
+}
+
+onTabChange($event:any){
+  this.selectedTab = $event.tab.textLabel.toLowerCase().slice(0,-1)
 }
 
 }

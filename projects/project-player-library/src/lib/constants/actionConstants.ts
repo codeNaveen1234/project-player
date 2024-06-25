@@ -35,12 +35,12 @@ export const actions = {
         {
             label: "IMAGES",
             icon: "photo_library",
-            accept: "image/*"
+            accept: "image/jpg, image/png, image/jpeg"
           },
           {
             label: "VIDEOS",
             icon: "videocam",
-            accept: "video/*"
+            accept: "video/mp4"
           },
           {
             label: "FILES",

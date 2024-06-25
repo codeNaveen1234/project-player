@@ -76,19 +76,17 @@ export class PreviewDetailsPageComponent {
     let config = this.dataService.getConfig()
     let profileInfo = config.profileInfo
     const configForProjectId = {
-      url: `${apiUrls.GET_PROJECT_DETAILS}${this.solutionId}`,
-      payload: profileInfo
+      url: `${apiUrls.GET_PROJECT_DETAILS}?solutionId=${this.solutionId}&templateId=${this.projectDetails.externalId}`,
+      payload: { ...profileInfo, type: "improvementProject" }
     }
       this.apiService.post(configForProjectId).subscribe((res)=>{
-        return
-        this.projectDetails = res.result;
-        if(this.projectDetails){
+        if(res.result){
           let data = {
-            key: this.projectDetails._id,
-            data: this.projectDetails
+            key: res.result._id,
+            data: res.result
           }
           this.db.addData(data)
-          this.routerService.navigate(`/details/${this.solutionId}`);
+          this.routerService.navigate(`/details/${res.result._id}`);
         }
       })
   }

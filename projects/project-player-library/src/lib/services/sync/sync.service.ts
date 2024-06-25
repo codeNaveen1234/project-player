@@ -106,13 +106,14 @@ export class SyncService {
   async cloudImageUpload(fileDetails:any){
     return new Promise(async(resolve, reject) => {
       await this.db.getData(fileDetails.name).then(data=>{
+        let convertedFile = this.attachmentService.base64ToFile(data.data)
         var options = {
           headers: {
             "Content-Type": "multipart/form-data",
             "Access-Control-Allow-Origin":"*"
           }
         }
-        firstValueFrom(this.http.put(fileDetails.uploadUrl, data.data, options)).then(data=>{
+        firstValueFrom(this.http.put(fileDetails.uploadUrl, convertedFile, options)).then(data=>{
           resolve(data)
         }).catch(err=>reject(err))
       })
