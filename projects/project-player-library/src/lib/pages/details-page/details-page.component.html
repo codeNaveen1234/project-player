@@ -16,7 +16,7 @@
         <mat-card class="status-bar" >
             <mat-card-content  *ngIf="!submitted" class="status-background">
                 <h4>{{"PROGRESS" | translate}}</h4>
-                <p>{{completedCount}}/{{projectDetails?.tasks.length}} {{"TASK_COMPLETED" | translate}}</p>
+                <p>{{completedCount}}/{{tasksList.length}} {{"TASK_COMPLETED" | translate}}</p>
                 <mat-progress-bar class="progress-bar primary-icon"   mode="determinate" [value]="progressValue"></mat-progress-bar>
             </mat-card-content>
             <mat-card-content class="after-submission"  *ngIf="submitted">
@@ -84,7 +84,7 @@
               </lib-task-card>
             </div>
 
-              @if (projectDetails?.tasks.length > displayedTasks.length) {
+              @if (tasksList.length > displayedTasks.length) {
                 <div  class=" w-full my-2">
                   <button (click)="loadMoreTasks()" class="primary-button w-full" mat-flat-button color="primary">
                     {{"LOAD_MORE" | translate}}

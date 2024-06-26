@@ -24,6 +24,7 @@ export class DetailsPageComponent implements OnInit {
   projectDetails:any;
   displayedTasks:any[]=[];
   remainingTasks:any[]=[];
+  tasksList:any = []
 
   constructor(private routerService: RoutingService, private db: DbService, private activatedRoute: ActivatedRoute,
     private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService
@@ -40,29 +41,28 @@ export class DetailsPageComponent implements OnInit {
     this.db.getData(id).then(data=>{
       this.projectDetails = data.data
       this.submitted = data.data.status == statusType.submitted
+      this.tasksList = data.data.tasks
+      this.initializeTasks()
       this.getProjectTaskStatus()
       this.countCompletedTasks();
       this.calculateProgress();
       this.setActionsList()
-      this.initializeTasks()
     })
   }
-  countCompletedTasks(): number {
+  countCompletedTasks() {
     this.completedCount = 0; // Reset the count each time the method is called
 
-    if (this.projectDetails && this.projectDetails.tasks && this.projectDetails.tasks.length > 0) {
-      this.projectDetails.tasks.forEach((task: any) => {
-        if (task.status === 'completed') {
+    if (this.tasksList.length > 0) {
+      this.tasksList.forEach((task: any) => {
+        if (task.status === statusType.completed) {
           this.completedCount++;
         }
       });
     }
-
-    return this.completedCount;
   }
 
   calculateProgress(): void {
-    const totalTasks = this.projectDetails.tasks.length;
+    const totalTasks = this.tasksList.length
 
     if (totalTasks > 0 && this.completedCount > 0) {
       this.progressValue = (this.completedCount / totalTasks) * 100;
@@ -144,13 +144,21 @@ export class DetailsPageComponent implements OnInit {
     let response = await this.utils.showDialogPopup(popupDetails)
 
     if(response){
-      this.projectDetails.tasks = this.projectDetails.tasks.filter((task:any) => task._id !== id);
+      let taskIndex = this.projectDetails.tasks.findIndex((data:any)=>{
+        return data._id == id
+      })
+      this.projectDetails.tasks[taskIndex].isDeleted = true
+      this.projectDetails.tasks[taskIndex].isEdit = true
+      this.projectDetails.isEdit = true
       let finalData = {
         key: this.projectDetails._id,
         data:this.projectDetails
       }
       this.db.updateData(finalData)
       this.initializeTasks()
+      this.setActionsList()
+      this.countCompletedTasks();
+      this.calculateProgress();
       this.toasterService.showToast("TASK_DELETE_SUCCESS","success")
     }
   }
@@ -176,9 +184,12 @@ export class DetailsPageComponent implements OnInit {
   onStartObservation(){
   }
   initializeTasks(): void {
-    if (this.projectDetails.tasks && this.projectDetails.tasks.length >= 0) {
-      this.displayedTasks = this.projectDetails.tasks.slice(0, 4);
-      this.remainingTasks = this.projectDetails.tasks.slice(4);
+    this.tasksList = this.tasksList.filter((data:any)=>{
+      return !data.isDeleted
+    })
+    if (this.tasksList && this.tasksList.length > 0) {
+      this.displayedTasks = this.tasksList.slice(0, 4);
+      this.remainingTasks = this.tasksList.slice(4);
     }
   }
 
@@ -190,7 +201,7 @@ export class DetailsPageComponent implements OnInit {
   }
 
   getProjectTaskStatus(){
-    if(!this.projectDetails.tasks && this.projectDetails.tasks.length){
+    if(!this.tasksList && this.tasksList.length){
       return
     }
     let taskIdList = this.getAssessmentTypeTaskIds()
@@ -212,7 +223,7 @@ export class DetailsPageComponent implements OnInit {
 
   getAssessmentTypeTaskIds(){
     const taskIdsList = []
-    for(const task of this.projectDetails.tasks){
+    for(const task of this.tasksList){
       task.type == "assessment" || task.type == "observation" ? taskIdsList.push(task._id) : null
     }
     return taskIdsList
