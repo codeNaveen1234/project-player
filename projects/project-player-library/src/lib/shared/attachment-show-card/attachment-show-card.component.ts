@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DbService } from '../../services/db/db.service';
 import { UtilsService } from '../../services/utils/utils.service';
 import { statusType } from '../../constants/statusConstants';
+import { MatDialog } from '@angular/material/dialog';
+import { AttachmentPreviewComponent } from '../attachment-preview/attachment-preview.component';
 
 @Component({
   selector: 'lib-attachment-show-card',
@@ -15,53 +17,46 @@ export class AttachmentShowCardComponent {
   @Output() emitAttachment = new EventEmitter<any>();
   statusType = statusType;
 
-  constructor(private db: DbService,private utilService:UtilsService) {}
+  constructor(private db: DbService,private utilService:UtilsService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.getAttachment();
   }
 
-  getAttachment() {
-    this.db.getData(this.attachments.name).then((data) => {
-      this.attachment = data.data;
-    }).catch((res)=>{
-      this.attachment = this.attachments.url;
+  async getPreviewUrl(file:any) {
+    let url = ''
+    await this.db.getData(file.name).then((data) => {
+      if(data){
+        url = data.data
+      }else{
+        url = file.url
+      }
     })
+    return url
   }
 
   actionEmit(data: any) {
     this.emitAttachment.emit(data);
   }
 
-  openAttachment(data: any) {
-    if(!data.url){
-      if(data.type === 'link'){
-        let url = data.name;
-          if (!/^https?:\/\//i.test(url)) {
-              url = 'http://' + url;
-          }
-          window.open(url, '_blank');
+  async openAttachment(data: any) {
+    if(data.type.includes('image')){
+      let url = await this.getPreviewUrl(data)
+      let previewData = {type: "image", url: url}
+      this.dialog.open(AttachmentPreviewComponent,{width:'400px', data: previewData})
+    }else if(data.type.includes('video')){
+      let url = await this.getPreviewUrl(data)
+      let previewData = {type: "video", url: url}
+      this.dialog.open(AttachmentPreviewComponent,{width:'400px', data: previewData})
+    }else if(data.type.includes('application')){
+      let url = await this.getPreviewUrl(data)
+      let previewData = {type: "file", url: url}
+      this.utilService.viewFile(previewData.url)
+    }else{
+      let url = data.name;
+      if (!/^https?:\/\//i.test(url)) {
+          url = 'http://' + url;
       }
-      else {
-        this.db.getData(data.name).then((response) => {
-          if(!data.type.includes('video')){
-            this.utilService.viewFile(response.data);
-          }
-          else{
-            this.utilService.viewVideo(response.data);
-          }
-        });
-      }
-    }
-    else {
-      if(!data.type.includes('video')){
-        this.utilService.viewFile(data.url);
-      }
-      else{
-        this.utilService.viewVideo(data.url);
-      }
+      window.open(url, '_blank');
     }
   }
-
-
 }

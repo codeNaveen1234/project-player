@@ -55,6 +55,7 @@ export class ApiService {
     } else {
       if (error.status === 401) {
         this.toastService.showToast(error.error.message,"danger")
+        window.location.href = '/'
       }
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
