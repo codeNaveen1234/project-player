@@ -52,7 +52,7 @@ export class PreviewDetailsPageComponent {
   taskCardAction(event:any){
   }
   navigate(){
-    this.showStartImprovementPopup()
+    this.getProjectDetails()
   }
   onLearningResources(){
   }
