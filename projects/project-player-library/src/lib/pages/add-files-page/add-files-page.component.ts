@@ -122,7 +122,8 @@ export class AddFilesPageComponent {
 
   openLinkModal(){
     const dialogRef = this.dialog.open(AddLinkPopupComponent,{
-      width:'400px'
+      width:'400px',
+      disableClose:true,
     })
 
     dialogRef.afterClosed().subscribe(data=>{
