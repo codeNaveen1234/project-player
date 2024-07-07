@@ -105,8 +105,14 @@ export class SyncService {
 
   async cloudImageUpload(fileDetails:any){
     return new Promise(async(resolve, reject) => {
-      await this.db.getData(fileDetails.name).then(data=>{
-        let convertedFile = this.attachmentService.base64ToFile(data.data)
+      await this.db.getData(fileDetails.name).then(fileData=>{
+        let convertedFile
+        if(fileData){
+          convertedFile = this.attachmentService.base64ToFile(fileData.data)
+        }else{
+          reject()
+          return
+        }
         var options = {
           headers: {
             "Content-Type": "multipart/form-data",

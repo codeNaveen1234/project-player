@@ -51,7 +51,7 @@
     <mat-tab [label]="'TASK_DETAILS' | translate">
       <div class="tab-label-container">
         <div class="task-details">
-            <div class="no-tasks my-5" *ngIf="projectDetails?.tasks.length === 0">
+            <div class="no-tasks my-5" *ngIf="tasksList.length === 0">
                 <p class="primary-icon">{{"NO_TASKS"|translate}}</p>
             </div>
           <ng-container >
@@ -73,7 +73,7 @@
                      </ng-template>
                   </ng-container>
                   <ng-template #noLearningResources>
-                    <div (click)="moveToDetailsTask(item)" class="flex">
+                    <div (click)="moveToDetailsTask(item._id)" class="flex">
                       <span class="text-gray-500 flex items-center font-bold text-sm">
                         {{"VIEW_TASK_DETAILS" | translate}}
                       </span>
