@@ -9,6 +9,8 @@ import { statusType } from '../../constants/statusConstants';
 import { ProjectService } from '../../services/project/project.service';
 import { apiUrls } from '../../constants/urlConstants';
 import { ApiService } from '../../services/api/api.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'lib-details-page',
@@ -25,16 +27,29 @@ export class DetailsPageComponent implements OnInit {
   displayedTasks:any[]=[];
   remainingTasks:any[]=[];
   tasksList:any = []
+  private destroy$ = new Subject<void>();
 
   constructor(private routerService: RoutingService, private db: DbService, private activatedRoute: ActivatedRoute,
     private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService
   ) {
-    activatedRoute.params.subscribe(param=>{
+    console.log('Details page console called(PLAYER)')
+    // activatedRoute.params.subscribe(param=>{
+    //   console.log('Params in player: ',param)
+    //   this.getData(param['id'])
+    // })
+    activatedRoute.params
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(param => {
+      console.log('Params in player: ',param)
       this.getData(param['id'])
-    })
+    });
+    // const param = this.activatedRoute.snapshot.params;
+    // console.log('Params in player: ',param)
   }
 
   ngOnInit(): void {
+    // const param = this.activatedRoute.snapshot.params;
+    // console.log('Params in player: ',param)
   }
 
   getData(id:any){
@@ -256,6 +271,11 @@ export class DetailsPageComponent implements OnInit {
       }
       this.db.updateData(finalData)
     }
+  }
+
+  ngOnDestroy(){
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

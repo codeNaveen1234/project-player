@@ -4,7 +4,7 @@ import { ProjectPlayerLibraryComponent } from './project-player-library.componen
 import { MainPlayerComponent } from './pages/main-player/main-player.component';
 import { DetailsPageComponent } from './pages/details-page/details-page.component';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
+import { Event, NavigationEnd, NavigationStart, RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -51,9 +51,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { StartImprovementPopupComponent } from './shared/start-improvement-popup/start-improvement-popup.component';
 import { AttachmentPreviewComponent } from './shared/attachment-preview/attachment-preview.component';
+import { Router } from '@angular/router';
 
 const routes: Routes = [
-  { path: '' },
+  // { path: '' },
   { path: 'details/:id', component: DetailsPageComponent },
   { path: 'files/:id', component: AttachmentListingPageComponent },
   { path: 'task-details/:taskId/:id', component: TaskDetailsPageComponent },
@@ -153,9 +154,33 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
   ]
 })
 export class ProjectPlayerLibraryModule {
-  constructor(private translate: TranslateService) {
+  constructor(private translate: TranslateService, private router: Router) {
+    console.log('Module constructor called')
     this.setLanguage();
+    this.router.events.subscribe((event: Event) => {
+      // console.log('ROUTER EVENTS IN PLAYER 1: ',event)
+      if (event instanceof NavigationEnd) {
+        console.log('ROUTER EVENTS IN PLAYER 2: ',event)
+      }
+      if (event instanceof NavigationStart) {
+        console.log('Navigation start(PLAYER MODULE)',event)
+        if (event.navigationTrigger === 'popstate') {
+          console.log('Back button was clicked!(PLAYER MODULE)');
+        }
+      }
+    });
   }
+
+  // ngOnInit() {
+  //   console.log('Player module Onint')
+  //   this.router.events.subscribe((event: Event) => {
+  //     if (event instanceof NavigationStart) {
+  //       if (event.navigationTrigger === 'popstate') {
+  //         console.log('Back button was clicked!(PLAYER MODULE)');
+  //       }
+  //     }
+  //   });
+  // }
 
   setLanguage() {
     this.translate.setTranslation('en', require('./assets/i18n/en.json'));
