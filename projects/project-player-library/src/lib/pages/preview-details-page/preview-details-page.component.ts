@@ -52,7 +52,7 @@ export class PreviewDetailsPageComponent {
   taskCardAction(event:any){
   }
   navigate(){
-    this.getProjectDetails()
+    this.showStartImprovementPopup()
   }
   onLearningResources(){
   }
@@ -73,12 +73,16 @@ export class PreviewDetailsPageComponent {
   }
 
   getProjectDetails(){
+    console.log("this is getProjectDetails")
     let config = this.dataService.getConfig()
+    console.log("this is getProjectDetails",config)
     let profileInfo = config.profileInfo
+    console.log("this is getProjectDetails",profileInfo)
     const configForProjectId = {
       url: `${apiUrls.GET_PROJECT_DETAILS}?solutionId=${this.solutionId}&templateId=${this.projectDetails.externalId}`,
       payload: { ...profileInfo, type: "improvementProject" }
     }
+    console.log("this is getProjectDetails",configForProjectId)
       this.apiService.post(configForProjectId).subscribe((res)=>{
         if(res.result){
           let data = {
