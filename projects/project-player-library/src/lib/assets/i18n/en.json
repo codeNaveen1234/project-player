@@ -86,7 +86,7 @@
     "SUBMIT":"Submit",
     "LOAD_MORE":"Load more",
     "SUBTASK_DELETED":"Sub task deleted",
-    "SYNCING_PAGE":"Syncing page",
+    "SYNCING_PROJECT":"Syncing Project",
     "FILE_NOT_SHARED": "File not shared !",
     "FILE_SIZE_EXCEEDED_ERROR_MSG":"The file is too large and cannot be uploaded. The file you are tying to upload has exceeded the maximum file size (50 MB)",
     "FILES_CHANGES_NOT_UPDATED":"File changes not updated !",

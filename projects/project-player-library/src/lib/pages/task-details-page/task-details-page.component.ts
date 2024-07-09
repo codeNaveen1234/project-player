@@ -31,6 +31,9 @@ export class TaskDetailsPageComponent implements OnInit {
   projectId: any
   projectDetails:any
   subTaskData:any;
+  currentYear:any=new Date().getFullYear();
+  minDate:any=new Date(this.currentYear-2,0,1);
+  maxDate:any=new Date(this.currentYear+5,11,31);
 
   ngOnInit(): void {
     this.setOptionList();

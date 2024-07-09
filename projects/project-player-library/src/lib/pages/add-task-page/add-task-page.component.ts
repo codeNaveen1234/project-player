@@ -25,7 +25,10 @@ export class AddTaskPageComponent implements OnInit {
   taskTitle = ''
   taskStatus = 'notStarted'
   endDate = ''
-
+  currentYear:any=new Date().getFullYear();
+  minDate:any=new Date(this.currentYear-2,0,1);
+  maxDate:any=new Date(this.currentYear+5,11,31);
+  
   constructor(private routingService: RoutingService, private attachmentService: AttachmentService, private db: DbService,
     private dialog: MatDialog, private toastService: ToastService, private utils: UtilsService, private activatedRoute: ActivatedRoute) {
       activatedRoute.params.subscribe(param=>{
