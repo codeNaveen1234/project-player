@@ -118,6 +118,9 @@ export class TaskDetailsPageComponent implements OnInit {
   }
 
   goBack(){
+    console.log('History in task-details: ',window.history)
+    window.history.back()
+    return
     this.routingService.navigate(`/details/${this.projectDetails._id}`)
   }
 

@@ -9,6 +9,7 @@ import { DbService } from '../../services/db/db.service';
 import { RoutingService } from '../../services/routing/routing.service';
 import { PrivacyPolicyPopupComponent } from '../../shared/privacy-policy-popup/privacy-policy-popup.component';
 import { UtilsService } from '../../services/utils/utils.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'lib-add-files-page',
@@ -32,7 +33,7 @@ export class AddFilesPageComponent {
   updateDelay: any;
 
   constructor(private dialog: MatDialog, private toastService: ToastService, private attachmentService: AttachmentService,
-    private activatedRoute: ActivatedRoute, private db: DbService, private routingService: RoutingService, private utils: UtilsService) {
+    private activatedRoute: ActivatedRoute, private db: DbService, private routingService: RoutingService, private utils: UtilsService, private location: Location) {
       activatedRoute.params.subscribe(param=>{
         this.projectId = param['id']
       })
@@ -180,6 +181,10 @@ export class AddFilesPageComponent {
   }
 
   goBack(){
+    console.log('History in add-task: ',window.history,this.location)
+    // window.history.back()
+    this.location.back()
+    return
     if(this.taskId){
       this.routingService.navigate(`task-details/${this.taskId}/${this.projectId}`)
     }else{
