@@ -13,7 +13,7 @@
         <h3>{{"END_DATE"|translate}}</h3>
         <div>
             <mat-form-field class="w-full">
-                <input  matInput [matDatepicker]="picker" [(ngModel)]="task.endDate" (ngModelChange)="onDateChange($event)" [min]="startDate" [max]="endDate" disabled>
+                <input  matInput [matDatepicker]="picker" [(ngModel)]="task.endDate" (ngModelChange)="onDateChange($event)" [min]="minDate" [max]="maxDate" disabled>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker disabled="false"></mat-datepicker>
             </mat-form-field>
