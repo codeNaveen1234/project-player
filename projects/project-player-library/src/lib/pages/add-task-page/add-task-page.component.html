@@ -11,7 +11,7 @@
 
     <mat-form-field class="w-full">
         <mat-label>{{ "END_DATE" | translate }}</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="endDate" [min]="minDate" [max]="maxDate" disabled>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="endDate" [min]="minDate" [max]="maxDate" libDateValidator (click)="showCalendar(picker)" #dateInput>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker disabled="false"></mat-datepicker>
     </mat-form-field>
