@@ -2,7 +2,7 @@
     <div class="flex justify-end">
         <mat-icon fontIcon="cancel" class="cursor-pointer primary-icon" [mat-dialog-close]="false"></mat-icon>
     </div>
-    <div class="p-2 h-[20vh]">
+    <div class="p-2 h-[20vh] landscape:h-[40vh]">
         @if(data.type == 'image'){
             <img [src]="data.url" alt="" class="w-full h-full object-contain">
         }@else if(data.type == 'video'){
