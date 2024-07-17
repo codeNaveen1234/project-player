@@ -111,6 +111,7 @@ export class AddTaskPageComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data=>{
       if(data){
         if(data.isChecked && data.upload){
+          this.file.nativeElement.value = ''
           this.file.nativeElement.click()
         }else{
           this.toastService.showToast('ACCEPT_POLICY_ERROR_MSG',"danger")
