@@ -25,9 +25,6 @@ export class AddTaskPageComponent implements OnInit {
   taskTitle = ''
   taskStatus = 'notStarted'
   endDate = ''
-  currentYear:any=new Date().getFullYear();
-  minDate:any=new Date(this.currentYear-2,0,1);
-  maxDate:any=new Date(this.currentYear+5,11,31);
   
   constructor(private routingService: RoutingService, private attachmentService: AttachmentService, private db: DbService,
     private dialog: MatDialog, private toastService: ToastService, private utils: UtilsService, private activatedRoute: ActivatedRoute) {
@@ -77,9 +74,10 @@ export class AddTaskPageComponent implements OnInit {
     this.attachmentsList.splice(data.index,1)
   }
 
+
   addTask(){
     this.taskData.name = this.taskTitle
-    this.taskData.endDate = this.endDate ? new Date(this.endDate).toISOString() : ''
+    this.taskData.endDate = this.endDate
     this.taskData.status = this.taskStatus
     this.taskData.attachments = this.attachmentsList
     this.projectDetails.isEdit = true
@@ -111,11 +109,16 @@ export class AddTaskPageComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data=>{
       if(data){
         if(data.isChecked && data.upload){
+          this.file.nativeElement.value = ''
           this.file.nativeElement.click()
         }else{
           this.toastService.showToast('ACCEPT_POLICY_ERROR_MSG',"danger")
         }
       }
     })
+  }
+
+  onDateChange($event:any){
+    this.endDate = $event
   }
 }

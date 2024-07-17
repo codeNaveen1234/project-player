@@ -6,17 +6,13 @@
     <div class="task-header" (click)="editTask()">
         <h4 class="break-all">{{task.name}}</h4>
         @if (task.isDeletable) {
-            <span ><mat-icon class="primary-icon"  fontIcon="edit"></mat-icon></span>
+            <span ><mat-icon class="primary-icon min-w-6"  fontIcon="edit"></mat-icon></span>
         }
     </div>
     <div class="task-status mb-3">
         <h3>{{"END_DATE"|translate}}</h3>
         <div>
-            <mat-form-field class="w-full">
-                <input  matInput [matDatepicker]="picker" [(ngModel)]="task.endDate" (ngModelChange)="onDateChange($event)" [min]="minDate" [max]="maxDate" disabled>
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker disabled="false"></mat-datepicker>
-            </mat-form-field>
+            <lib-date-input [selectedDate]="task?.endDate" (dateEvent)="onDateChange($event)"></lib-date-input>
         </div>
     </div>
     <div class="task-status">

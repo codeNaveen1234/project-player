@@ -42,9 +42,6 @@ mat-card{
 
 .sub-task-date{
     padding-right: 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
 }
 .sub-task-body mat-form-field{
     width: 100%;
