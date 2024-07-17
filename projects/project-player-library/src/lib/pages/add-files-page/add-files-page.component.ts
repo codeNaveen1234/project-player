@@ -85,6 +85,7 @@ export class AddFilesPageComponent {
       this.openLinkModal()
     }else{
       setTimeout(() => {
+        this.file.nativeElement.value = '';
         this.file.nativeElement.click()
       }, 0);
     }
