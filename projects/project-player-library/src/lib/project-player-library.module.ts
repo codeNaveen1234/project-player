@@ -51,6 +51,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { StartImprovementPopupComponent } from './shared/start-improvement-popup/start-improvement-popup.component';
 import { AttachmentPreviewComponent } from './shared/attachment-preview/attachment-preview.component';
+import { DateValidatorDirective } from './directives/date-validator.directive';
+import { DateInputComponent } from './shared/date-input/date-input.component';
 
 const routes: Routes = [
   { path: '' },
@@ -106,7 +108,9 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     SyncPageComponent,
     LoaderComponent,
     StartImprovementPopupComponent,
-    AttachmentPreviewComponent
+    AttachmentPreviewComponent,
+    DateValidatorDirective,
+    DateInputComponent
   ],
   imports: [
     CommonModule,

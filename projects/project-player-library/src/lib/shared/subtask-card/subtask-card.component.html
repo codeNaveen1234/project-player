@@ -8,11 +8,7 @@
     </div>
     <div class="sub-task-body">
         <div class="sub-task-date">
-            <mat-form-field class="w-full">
-                <input matInput [matDatepicker]="picker" [(ngModel)]="subTask.endDate" (ngModelChange)="onDateChange($event)" [min]="minDate" [max]="maxDate" disabled>
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker disabled="false"></mat-datepicker>
-            </mat-form-field>
+            <lib-date-input [selectedDate]="subTask?.endDate" (dateEvent)="onDateChange($event)"></lib-date-input>
         </div>
         <div>
             <mat-form-field>
