@@ -9,12 +9,7 @@
         <textarea matInput [(ngModel)]="taskTitle" required cols="10"></textarea>
     </mat-form-field>
 
-    <mat-form-field class="w-full">
-        <mat-label>{{ "END_DATE" | translate }}</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="endDate" [min]="minDate" [max]="maxDate" libDateValidator (click)="showCalendar(picker)" #dateInput>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker disabled="false"></mat-datepicker>
-    </mat-form-field>
+    <lib-date-input [label]="'END_DATE'" [selectedDate]="endDate" (dateEvent)="onDateChange($event)"></lib-date-input>
 
     <mat-form-field style="width: 100%;">
         <mat-label>{{ "STATUS" | translate }}</mat-label>

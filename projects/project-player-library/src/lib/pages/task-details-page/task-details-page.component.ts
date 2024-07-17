@@ -31,9 +31,6 @@ export class TaskDetailsPageComponent implements OnInit {
   projectId: any
   projectDetails:any
   subTaskData:any;
-  currentYear:any=new Date().getFullYear();
-  minDate:any=new Date(this.currentYear-2,0,1);
-  maxDate:any=new Date(this.currentYear+5,11,31);
 
   ngOnInit(): void {
     this.setOptionList();
@@ -159,16 +156,9 @@ export class TaskDetailsPageComponent implements OnInit {
     })
   }
 
-  onDateChange(newDate: Date) {
-    let localDateString = this.formatDateToLocal(newDate);
-    this.task.endDate = localDateString;
+  onDateChange(newDate: any) {
+    this.task.endDate = newDate;
     this.updateDataInDb();
-  }
-
-  formatDateToLocal(date: Date): string {
-    let offset = date.getTimezoneOffset() * 60000;
-    let localISOTime = new Date(date.getTime() - offset).toISOString().slice(0, -1);
-    return localISOTime;
   }
 
   onLearningResources(id:any,fromDetailspage:boolean){

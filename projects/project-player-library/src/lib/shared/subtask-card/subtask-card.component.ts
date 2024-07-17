@@ -21,9 +21,6 @@ export class SubtaskCardComponent {
 @Output()  updateSubTaskStatusEvent = new EventEmitter<any>();
 subTaskOptions:TaskOption[] = [];
 @Input() task:any
-currentYear:any=new Date().getFullYear();
-minDate:any=new Date(this.currentYear-2,0,1);
-maxDate:any=new Date(this.currentYear+5,11,31);
 
 ngOnInit(): void {
   this.setOptionList();
@@ -77,16 +74,9 @@ setOptionList(){
   let options:any = actions.TASK_STATUS;
   this.subTaskOptions = options;
 }
-onDateChange(newDate: Date) {
-  let localDateString = this.formatDateToLocal(newDate);
-  this.subTask.endDate = localDateString;
+onDateChange(newDate: any) {
+  this.subTask.endDate = newDate;
   this.updateDataInDb();
-}
-
-formatDateToLocal(date: Date): string {
-  let offset = date.getTimezoneOffset() * 60000;
-  let localISOTime = new Date(date.getTime() - offset).toISOString().slice(0, -1);
-  return localISOTime;
 }
 
 updateDataInDb(){

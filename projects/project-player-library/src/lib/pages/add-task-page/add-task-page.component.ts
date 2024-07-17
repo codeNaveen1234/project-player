@@ -8,7 +8,6 @@ import { PrivacyPolicyPopupComponent } from '../../shared/privacy-policy-popup/p
 import { ToastService } from '../../services/toast/toast.service';
 import { UtilsService } from '../../services/utils/utils.service'
 import { ActivatedRoute } from '@angular/router';
-import { MatDatepicker } from '@angular/material/datepicker';
 
 @Component({
   selector: 'lib-add-task-page',
@@ -26,10 +25,6 @@ export class AddTaskPageComponent implements OnInit {
   taskTitle = ''
   taskStatus = 'notStarted'
   endDate = ''
-  currentYear:any=new Date().getFullYear();
-  minDate:any=new Date(this.currentYear-2,0,1);
-  maxDate:any=new Date(this.currentYear+5,11,31);
-  @ViewChild('dateInput') dateInput !: ElementRef;
   
   constructor(private routingService: RoutingService, private attachmentService: AttachmentService, private db: DbService,
     private dialog: MatDialog, private toastService: ToastService, private utils: UtilsService, private activatedRoute: ActivatedRoute) {
@@ -79,17 +74,11 @@ export class AddTaskPageComponent implements OnInit {
     this.attachmentsList.splice(data.index,1)
   }
 
-  showCalendar(picker: MatDatepicker<Date>) {
-    picker.open();
-    setTimeout(() => this.dateInput.nativeElement.focus());
-  }
 
   addTask(){
     this.taskData.name = this.taskTitle
-    this.taskData.endDate = this.endDate ? new Date(this.endDate).toISOString() : ''
+    this.taskData.endDate = this.endDate
     this.taskData.status = this.taskStatus
-    console.log('Task data: ',this.taskData)
-    return
     this.taskData.attachments = this.attachmentsList
     this.projectDetails.isEdit = true
     this.projectDetails.tasks.push(this.taskData)
@@ -126,5 +115,9 @@ export class AddTaskPageComponent implements OnInit {
         }
       }
     })
+  }
+
+  onDateChange($event:any){
+    this.endDate = $event
   }
 }
