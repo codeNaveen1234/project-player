@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +10,7 @@ import { UtilsService } from '../../services/utils/utils.service';
 import { PrivacyPolicyPopupComponent } from '../../shared/privacy-policy-popup/privacy-policy-popup.component';
 import { ToastService } from '../../services/toast/toast.service';
 import { statusType } from '../../constants/statusConstants';
+import { Router } from '@angular/router';
 
 interface TaskOption {
   value: any;
@@ -22,7 +23,7 @@ interface TaskOption {
 })
 export class TaskDetailsPageComponent implements OnInit {
   constructor(private route: ActivatedRoute, private dialog: MatDialog, private routingService: RoutingService,
-    private db: DbService,private utils: UtilsService,private toasterService:ToastService) {}
+    private db: DbService,private utils: UtilsService,private toasterService:ToastService, private router: Router) {}
   taskId: any;
   selectedValue!: string;
   textFormControl = new FormControl('');
@@ -33,8 +34,9 @@ export class TaskDetailsPageComponent implements OnInit {
   subTaskData:any;
 
   ngOnInit(): void {
+    console.log("Task details init")
     this.setOptionList();
-    this.route.paramMap.subscribe((params: any) => {
+    this.route.queryParamMap.subscribe((params: any) => {
       this.taskId = params.get('taskId')
       this.projectId = params.get('id')
     });
@@ -119,9 +121,17 @@ export class TaskDetailsPageComponent implements OnInit {
 
   goBack(){
     console.log('History in task-details: ',window.history)
-    window.history.back()
+    // window.history.back()
     return
     this.routingService.navigate(`/details/${this.projectDetails._id}`)
+  }
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event:any) {
+    console.log('POPSTATE in Task-Details: ',event)
+    // this.location.back();
+    // this.routingService.navigate(`/project-details/${this.projectDetails._id}`)
+    this.router.navigate([`/project-details/`],{queryParams:{type:'details',id: "667bd7cf27129a25d33143dc"}, replaceUrl:true})
   }
 
   taskStatusChange(){
@@ -151,7 +161,8 @@ export class TaskDetailsPageComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data=>{
       if(data){
         if(data.isChecked && data.upload){
-          this.routingService.navigate(`/add-files/${this.projectDetails._id}`,{taskId:this.taskId})
+          // this.routingService.navigate(`/project-details/add-files/${this.projectDetails._id}`,{taskId:this.taskId})
+          this.router.navigate([`/project-details/`],{queryParams:{type:"add-file",taskId:"8d6c4a87-5860-474b-b40a-f8a9b88d5053",projectId:"667bd7cf27129a25d33143dc"}});
         }else{
           this.toasterService.showToast('ACCEPT_POLICY_ERROR_MSG',"danger")
         }

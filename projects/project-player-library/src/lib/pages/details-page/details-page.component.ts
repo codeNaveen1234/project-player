@@ -11,6 +11,7 @@ import { apiUrls } from '../../constants/urlConstants';
 import { ApiService } from '../../services/api/api.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'lib-details-page',
@@ -30,18 +31,21 @@ export class DetailsPageComponent implements OnInit {
   private destroy$ = new Subject<void>();
 
   constructor(private routerService: RoutingService, private db: DbService, private activatedRoute: ActivatedRoute,
-    private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService
+    private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService, private router: Router
   ) {
     console.log('Details page console called(PLAYER)')
     // activatedRoute.params.subscribe(param=>{
     //   console.log('Params in player: ',param)
     //   this.getData(param['id'])
     // })
-    activatedRoute.params
+    activatedRoute.queryParams
     .pipe(takeUntil(this.destroy$))
     .subscribe(param => {
       console.log('Params in player: ',param)
-      this.getData(param['id'])
+      setTimeout(() => {
+        this.getData(param['id'])
+      }, 0);
+      
     });
     // const param = this.activatedRoute.snapshot.params;
     // console.log('Params in player: ',param)
@@ -49,10 +53,11 @@ export class DetailsPageComponent implements OnInit {
 
   ngOnInit(): void {
     // const param = this.activatedRoute.snapshot.params;
-    // console.log('Params in player: ',param)
+    console.log('Details page init')
   }
 
   getData(id:any){
+    console.log('Get data called')
     this.db.getData(id).then(data=>{
       this.projectDetails = data.data
       this.submitted = data.data.status == statusType.submitted
@@ -91,7 +96,8 @@ export class DetailsPageComponent implements OnInit {
   }
 
   navigateToNewTask() {
-    this.routerService.navigate(`/add-task/${this.projectDetails._id}`)
+    this.router.navigate([`/project-details/add-task`],{queryParams:{type:"task",projectId:this.projectDetails._id}});
+    // this.routerService.navigate(`/add-task/${this.projectDetails._id}`)
   }
 
   taskCardAction(event:any){
@@ -115,7 +121,9 @@ export class DetailsPageComponent implements OnInit {
 
   moveToDetailsTask(taskId: any) {
     if (!this.submitted) {
-      this.routerService.navigate(`/task-details/${taskId}/${this.projectDetails._id}`);
+      // this.routerService.navigate(`/task-details/${taskId}/${this.projectDetails._id}`);
+      // this.router.navigate([`/project-details/task-details/${'8d6c4a87-5860-474b-b40a-f8a9b88d5053'}/${'667bd7cf27129a25d33143dc'}`])
+      this.router.navigate([`/project-details/`],{queryParams:{type:"task",taskId:taskId,projectId:this.projectDetails._id}});
   }
   }
 
