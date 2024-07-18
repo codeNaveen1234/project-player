@@ -190,6 +190,9 @@ export class DetailsPageComponent implements OnInit {
     if (this.tasksList && this.tasksList.length > 0) {
       this.displayedTasks = this.tasksList.slice(0, 4);
       this.remainingTasks = this.tasksList.slice(4);
+    }else{
+      this.displayedTasks=[]
+      this.remainingTasks=[]
     }
   }
 
