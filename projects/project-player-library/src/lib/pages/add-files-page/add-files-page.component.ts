@@ -211,7 +211,7 @@ export class AddFilesPageComponent {
   addFiles(){
     if(this.taskId){
       if(this.isModified){
-        this.toastService.showToast("ATTACHMENT_FILES","success")
+        this.toastService.showToast("FILES_ATTACHED_SUCCESSFULLY","success")
         this.isModified=false;
       }
       this.routingService.navigate(`task-details/${this.taskId}/${this.projectId}`)
