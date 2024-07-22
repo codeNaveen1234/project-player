@@ -30,7 +30,7 @@ export class AddFilesPageComponent {
   taskIndex:any
   title:any
   updateDelay: any;
-  isModify:boolean=false;
+  isModified:boolean=false;
 
   constructor(private dialog: MatDialog, private toastService: ToastService, private attachmentService: AttachmentService,
     private activatedRoute: ActivatedRoute, private db: DbService, private routingService: RoutingService, private utils: UtilsService) {
@@ -164,7 +164,7 @@ export class AddFilesPageComponent {
   }
 
   saveDataToLocalDb(){
-    this.isModify=true;
+    this.isModified=true;
     if(this.taskId){
       this.taskDetails.remarks = this.remarks
       this.taskDetails.attachments = this.attachments
@@ -210,9 +210,9 @@ export class AddFilesPageComponent {
 
   addFiles(){
     if(this.taskId){
-      if(this.isModify){
+      if(this.isModified){
         this.toastService.showToast("ATTACHMENT_FILES","success")
-        this.isModify=false;
+        this.isModified=false;
       }
       this.routingService.navigate(`task-details/${this.taskId}/${this.projectId}`)
     }else{
