@@ -43,6 +43,7 @@
     "LINKS": "Links",
     "LEVEL_EVIDENCE":"{{ type }}  Level Evidence",
     "NO_FILES":"No {{fileType}} found for this project",
+    "ALLOW_TYPE":"Invalid file type. Please select a valid file.",
     "DELETE_ATTACHMENT":"Are you sure you want to delete this attachment ?",
     "REMOVE":"Remove",
     "CERTIFICATE":"CERTIFICATE",

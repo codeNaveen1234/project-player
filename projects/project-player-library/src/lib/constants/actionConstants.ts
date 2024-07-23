@@ -35,7 +35,7 @@ export const actions = {
         {
             label: "IMAGES",
             icon: "photo_library",
-            accept: "image/jpg, image/png, image/jpeg"
+            accept: "image/jpg,image/png,image/jpeg"
           },
           {
             label: "VIDEOS",
