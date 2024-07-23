@@ -47,6 +47,7 @@
     "REMOVE":"Remove",
     "CERTIFICATE":"CERTIFICATE",
     "ATTACHMENT_FILES":"Attachment Files",
+    "FILES_ATTACHED_SUCCESSFULLY":"Files attached successfully",
     "START_IMPROVEMENT":"Start Improvement",
     "ADD_NEW_TASK":"Add New Task",
     "ADD_TASK":"Add task",
