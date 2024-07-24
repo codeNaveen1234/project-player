@@ -45,7 +45,7 @@ export const actions = {
           {
             label: "FILES",
             icon: "picture_as_pdf",
-            accept: "application/pdf"
+            accept: "application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/csv"
           },
           {
             label: "LINKS",

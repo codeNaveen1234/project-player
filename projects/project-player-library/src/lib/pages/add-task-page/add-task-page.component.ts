@@ -17,6 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 export class AddTaskPageComponent implements OnInit {
   @ViewChild('file') file! : ElementRef
   uploadOptions = JSON.parse(JSON.stringify(actions.FILE_UPLOAD_OPTIONS))
+  allowedFileTypes:any=actions.FILE_UPLOAD_OPTIONS.flatMap(data=>data.accept.split(","))
   attachmentsList:any = []
   acceptType = ''
   taskData:any
@@ -55,6 +56,10 @@ export class AddTaskPageComponent implements OnInit {
 
   async onChange($event:any){
     let selectedFile = $event.target.files[0]
+    if(!this.allowedFileTypes.includes(selectedFile.type)){
+      this.toastService.showToast("INVALID_FILE_TYPE",'danger')
+      return
+    }
     if(this.attachmentService.isFileSizeGreater(selectedFile)){
       return
     }

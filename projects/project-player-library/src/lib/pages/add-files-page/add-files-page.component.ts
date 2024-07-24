@@ -18,7 +18,7 @@ import { UtilsService } from '../../services/utils/utils.service';
 export class AddFilesPageComponent {
   @ViewChild('file') file! : ElementRef
   uploadOptions = actions.FILE_UPLOAD_OPTIONS
-  allowTypes:any=actions.FILE_UPLOAD_OPTIONS.flatMap(data=>data.accept.split(","))
+  allowedFileTypes:any=actions.FILE_UPLOAD_OPTIONS.flatMap(data=>data.accept.split(","))
   attachments:any = []
   remarks = ''
   acceptType = ''
@@ -102,8 +102,8 @@ export class AddFilesPageComponent {
 
   async onFileSelect(event:any){
     let value = event.target.files[0]
-    if(!this.allowTypes.includes(value.type)){
-      this.toastService.showToast("ALLOW_TYPE",'danger')
+    if(!this.allowedFileTypes.includes(value.type)){
+      this.toastService.showToast("INVALID_FILE_TYPE",'danger')
       return
     }
     if(this.attachmentService.isFileSizeGreater(value)){
