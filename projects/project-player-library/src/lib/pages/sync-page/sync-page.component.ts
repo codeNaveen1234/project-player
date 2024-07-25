@@ -1,18 +1,20 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { UrlTree, Router } from '@angular/router';
 import { RoutingService } from '../../services/routing/routing.service';
 import { ToastService } from '../../services/toast/toast.service';
 import { DbService } from '../../services/db/db.service';
 import { SyncService } from '../../services/sync/sync.service';
 import { statusType } from '../../constants/statusConstants';
 import { ProjectService } from '../../services/project/project.service';
+import { Location } from '@angular/common';
+import { BackNavigationHandlerComponent } from '../../shared/back-navigation-handler/back-navigation-handler.component';
 
 @Component({
   selector: 'lib-sync-page',
   templateUrl: './sync-page.component.html',
   styleUrls: ['./sync-page.component.css']
 })
-export class SyncPageComponent {
+export class SyncPageComponent extends BackNavigationHandlerComponent {
   projectId:any
   taskId:any
   isShare:any
@@ -25,15 +27,17 @@ export class SyncPageComponent {
   retryCount = 0
   cloudUploadFailed = false
 
-  constructor(private activatedRoute: ActivatedRoute, private routingService: RoutingService, private toastService: ToastService,
-    private db: DbService, private syncService: SyncService, private projectService: ProjectService) {
-    activatedRoute.queryParams.subscribe(params=>{
+  constructor(private routingService: RoutingService, private toastService: ToastService,
+    private db: DbService, private syncService: SyncService, private projectService: ProjectService, private location: Location,
+    private router: Router) {
+      super(routingService)
+      const urlTree: UrlTree = this.router.parseUrl(this.router.url);
+      const params = urlTree.queryParams
       this.projectId = params["projectId"]
       this.isSubmission = params['isSubmission'] == 'true'
       this.taskId = params["taskId"]
       this.isShare = params["isShare"] == "true"
       this.fileName = params["fileName"]
-    })
   }
 
   ngOnInit() {
@@ -155,7 +159,7 @@ export class SyncPageComponent {
   }
 
   goBack(){
-    this.routingService.navigate(`/details/${this.projectId}`)
+    this.location.back()
   }
 
 
@@ -165,7 +169,7 @@ export class SyncPageComponent {
   }
 
   goToAttachmentsList(){
-    this.routingService.navigate(`/files/${this.projectId}`);
+    this.routingService.navigate("/project-details",{ type: "attachments", id: this.projectId }, { replaceUrl: true })
   }
 
 }

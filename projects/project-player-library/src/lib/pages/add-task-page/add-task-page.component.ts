@@ -7,14 +7,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { PrivacyPolicyPopupComponent } from '../../shared/privacy-policy-popup/privacy-policy-popup.component';
 import { ToastService } from '../../services/toast/toast.service';
 import { UtilsService } from '../../services/utils/utils.service'
-import { ActivatedRoute } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
+import { BackNavigationHandlerComponent } from '../../shared/back-navigation-handler/back-navigation-handler.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'lib-add-task-page',
   templateUrl: './add-task-page.component.html',
   styleUrls: ['./add-task-page.component.css']
 })
-export class AddTaskPageComponent implements OnInit {
+export class AddTaskPageComponent extends BackNavigationHandlerComponent implements OnInit {
   @ViewChild('file') file! : ElementRef
   uploadOptions = JSON.parse(JSON.stringify(actions.FILE_UPLOAD_OPTIONS))
   attachmentsList:any = []
@@ -27,10 +29,10 @@ export class AddTaskPageComponent implements OnInit {
   endDate = ''
   
   constructor(private routingService: RoutingService, private attachmentService: AttachmentService, private db: DbService,
-    private dialog: MatDialog, private toastService: ToastService, private utils: UtilsService, private activatedRoute: ActivatedRoute) {
-      activatedRoute.params.subscribe(param=>{
-        this.getProjectDetails(param['id'])
-      })
+    private dialog: MatDialog, private toastService: ToastService, private utils: UtilsService, private router: Router, private location: Location) {
+      super(routingService)
+      const urlTree: UrlTree = this.router.parseUrl(this.router.url);
+      this.getProjectDetails(urlTree.queryParams['id'])
     }
 
   ngOnInit(){
@@ -45,7 +47,7 @@ export class AddTaskPageComponent implements OnInit {
   }
 
   goBack(){
-    this.routingService.navigate(`/details/${this.projectDetails._id}`)
+    this.location.back()
   }
 
   uploadFile(accept:any){
