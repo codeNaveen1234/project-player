@@ -4,7 +4,7 @@ import { ProjectPlayerLibraryComponent } from './project-player-library.componen
 import { MainPlayerComponent } from './pages/main-player/main-player.component';
 import { DetailsPageComponent } from './pages/details-page/details-page.component';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
+import { Event, NavigationEnd, NavigationStart, RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -53,17 +53,21 @@ import { StartImprovementPopupComponent } from './shared/start-improvement-popup
 import { AttachmentPreviewComponent } from './shared/attachment-preview/attachment-preview.component';
 import { DateValidatorDirective } from './directives/date-validator.directive';
 import { DateInputComponent } from './shared/date-input/date-input.component';
+import { BackNavigationHandlerComponent } from './shared/back-navigation-handler/back-navigation-handler.component';
+import { HeaderComponent } from './shared/header/header.component';
 
 const routes: Routes = [
-  { path: '' },
-  { path: 'details/:id', component: DetailsPageComponent },
-  { path: 'files/:id', component: AttachmentListingPageComponent },
-  { path: 'task-details/:taskId/:id', component: TaskDetailsPageComponent },
-  { path: 'add-task/:id', component: AddTaskPageComponent },
-  { path: 'preview-details/:id', component: PreviewDetailsPageComponent},
-  { path: 'add-files/:id', component: AddFilesPageComponent },
-  { path: 'learning-resource/:taskId/:id/:fromDetailspage', component: LearningResourcesComponent},
-  { path: 'sync', component: SyncPageComponent }
+  // { path: '' },
+  // { path: 'details/:id', component: DetailsPageComponent },
+  // { path: 'files/:id', component: AttachmentListingPageComponent },
+  // { path: 'task-details/:taskId/:id', component: TaskDetailsPageComponent },
+  // { path: 'add-task/:id', component: AddTaskPageComponent },
+  // { path: 'preview-details/:id', component: PreviewDetailsPageComponent},
+  // { path: 'add-files/:id', component: AddFilesPageComponent },
+  // { path: 'learning-resource/:taskId/:id/:fromDetailspage', component: LearningResourcesComponent},
+  // { path: 'sync', component: SyncPageComponent }
+  { path: 'project-details', component: MainPlayerComponent },
+  { path: '**', redirectTo: 'project-details' }
 ];
 
 const MAT_CUSTOM_DATE_FORMATS = {
@@ -110,7 +114,9 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     StartImprovementPopupComponent,
     AttachmentPreviewComponent,
     DateValidatorDirective,
-    DateInputComponent
+    DateInputComponent,
+    BackNavigationHandlerComponent,
+    HeaderComponent
   ],
   imports: [
     CommonModule,

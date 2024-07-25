@@ -1,9 +1,19 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
 import { RoutingService } from '../../services/routing/routing.service';
 import { DbService } from '../../services/db/db.service';;
 import { DataService } from '../../services/data/data.service';
 import { ApiService } from '../../services/api/api.service';
 import { apiUrls } from '../../constants/urlConstants';
+import { NavigationEnd, Router, UrlTree } from '@angular/router';
+import { Subscription, filter } from 'rxjs';
+import { DetailsPageComponent } from '../details-page/details-page.component';
+import { TaskDetailsPageComponent } from '../task-details-page/task-details-page.component';
+import { AddFilesPageComponent } from '../add-files-page/add-files-page.component';
+import { AddTaskPageComponent } from '../add-task-page/add-task-page.component';
+import { AttachmentListingPageComponent } from '../attachment-listing-page/attachment-listing-page.component';
+import { SyncPageComponent } from '../sync-page/sync-page.component';
+import { PreviewDetailsPageComponent } from '../preview-details-page/preview-details-page.component';
+import { LearningResourcesComponent } from '../learning-resources/learning-resources.component';
 
 @Component({
   selector: 'lib-main-player',
@@ -16,36 +26,66 @@ export class MainPlayerComponent implements OnInit {
   solutionId:any;
   @Input() projectData:any;
   @Input() config: any
-  constructor(private routerService: RoutingService, private db: DbService, private apiService:ApiService, private dataService: DataService) {}
+  @ViewChild('dynamicComponent', { read: ViewContainerRef }) dynamicComponent!: ViewContainerRef;
+  private routerSubscription!: Subscription;
+  constructor(private routerService: RoutingService, private db: DbService, private apiService:ApiService, private dataService: DataService, private router: Router) {}
+
+  private componentMapper: any = {
+    details: DetailsPageComponent,
+    taskDetails: TaskDetailsPageComponent,
+    addFile: AddFilesPageComponent,
+    addTask: AddTaskPageComponent,
+    attachments: AttachmentListingPageComponent,
+    sync: SyncPageComponent,
+    template: PreviewDetailsPageComponent,
+    resources: LearningResourcesComponent
+
+  };
 
   ngOnInit() {
-    setTimeout(()=>{
+      this.routerSubscription = this.router.events.pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event:any) => {
+        const urlTree: UrlTree = this.router.parseUrl(event.urlAfterRedirects);
+        const type = urlTree.queryParams['type'];
+        this.loadComponent(type);
+      });
+  }
+
+  loadComponent(type: string) {
+    this.dynamicComponent.clear();
+    const componentType = this.componentMapper[type];
+    if (componentType) {
+      this.dynamicComponent.createComponent(componentType);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.dataService.setConfig(changes['config'].currentValue)
+    this.projectData = changes['projectData'].currentValue
+    setTimeout(() => {
       if(this.projectData._id){
         this.projectId = this.projectData._id;
       } else {
         this.solutionId = this.projectData.solutionId;
       }
       this.storeDataToLocal()
-      }, 1000)
-  }
+    }, 0);
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.dataService.setConfig(changes['config'].currentValue)
   }
 
   navigateToDetails(){
-    this.routerService.navigate(`/details/${this.projectId}`)
+    this.routerService.navigate("/project-details",{ type:'details',id: this.projectId },{ replaceUrl:true })
   }
 
   navigateToTemplate(){
-    this.routerService.navigate(`/preview-details/${this.solutionId}`)
+    this.routerService.navigate("/project-details",{ type:'template',id: this.solutionId },{ replaceUrl:true })
   }
 
   storeDataToLocal(){
     if(this.projectId){
       this.db.getData(this.projectId).then((data)=>{
         if(data){
-          this.routerService.navigate(`/details/${this.projectId}`)
+          this.navigateToDetails()
         }else{
           this.getProjectDetails()
         }      
@@ -78,6 +118,8 @@ export class MainPlayerComponent implements OnInit {
 
   ngOnDestroy(){
     this.dataService.clearConfig()
-    this.routerService.navigate('/')
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
   }
 }

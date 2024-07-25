@@ -1,7 +1,7 @@
-import { Component, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { actions } from '../../constants/actionConstants';
 import { RoutingService } from '../../services/routing/routing.service';
-import { ActivatedRoute } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { DbService } from '../../services/db/db.service';
 import { ApiService } from '../../services/api/api.service';
 import { apiUrls } from '../../constants/urlConstants';
@@ -21,13 +21,12 @@ export class PreviewDetailsPageComponent {
   remainingTasks = [];
   startImprovement: boolean = true;
   solutionId:any;
-  constructor(private routerService:RoutingService,private activatedRoute:ActivatedRoute,private db:DbService,private apiService:ApiService,private dataService: DataService,
-    private dialog: MatDialog
+  constructor(private routerService:RoutingService,private db:DbService,private apiService:ApiService,private dataService: DataService,
+    private dialog: MatDialog, private router: Router
   ){
-    activatedRoute.params.subscribe(param=>{
-     this.solutionId = param['id']
-     this.getProjectTemplate()
-    })
+    const urlTree: UrlTree = this.router.parseUrl(this.router.url);
+    this.solutionId = urlTree.queryParams['id']
+    this.getProjectTemplate()
   }
   ngOnInit(): void {
   }
@@ -86,7 +85,7 @@ export class PreviewDetailsPageComponent {
             data: res.result
           }
           this.db.addData(data)
-          this.routerService.navigate(`/details/${res.result._id}`);
+          this.routerService.navigate("/project-details",{ type: "details", id: res.result._id },{ replaceUrl: true })
         }
       })
   }

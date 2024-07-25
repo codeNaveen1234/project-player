@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { RoutingService } from '../../services/routing/routing.service';
 import { actions } from '../../constants/actionConstants';
 import { DbService } from '../../services/db/db.service';
-import { ActivatedRoute } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { ToastService } from '../../services/toast/toast.service';
 import { UtilsService } from '../../services/utils/utils.service';
 import { statusType } from '../../constants/statusConstants';
 import { ProjectService } from '../../services/project/project.service';
 import { apiUrls } from '../../constants/urlConstants';
 import { ApiService } from '../../services/api/api.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'lib-details-page',
@@ -25,13 +27,14 @@ export class DetailsPageComponent implements OnInit {
   displayedTasks:any[]=[];
   remainingTasks:any[]=[];
   tasksList:any = []
+  private destroy$ = new Subject<void>();
 
-  constructor(private routerService: RoutingService, private db: DbService, private activatedRoute: ActivatedRoute,
-    private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService
+  constructor(private routerService: RoutingService, private db: DbService,
+    private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService, private router: Router
   ) {
-    activatedRoute.params.subscribe(param=>{
-      this.getData(param['id'])
-    })
+    const urlTree: UrlTree = this.router.parseUrl(this.router.url);
+    const id = urlTree.queryParams['id'];
+    this.getData(id)
   }
 
   ngOnInit(): void {
@@ -72,11 +75,11 @@ export class DetailsPageComponent implements OnInit {
   }
 
   submitImprovement() {
-    this.routerService.navigate(`/add-files/${this.projectDetails._id}`)
+    this.routerService.navigate("/project-details",{ type:"addFile", projectId:this.projectDetails._id })
   }
 
   navigateToNewTask() {
-    this.routerService.navigate(`/add-task/${this.projectDetails._id}`)
+    this.routerService.navigate('/project-details',{ type: "addTask", id: this.projectDetails._id })
   }
 
   taskCardAction(event:any){
@@ -100,7 +103,7 @@ export class DetailsPageComponent implements OnInit {
 
   moveToDetailsTask(taskId: any) {
     if (!this.submitted) {
-      this.routerService.navigate(`/task-details/${taskId}/${this.projectDetails._id}`);
+      this.routerService.navigate('/project-details',{ type: "taskDetails", taskId: taskId, projectId: this.projectDetails._id })
   }
   }
 
@@ -121,7 +124,7 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case "sync":
-        this.routerService.navigate('/sync',{projectId:this.projectDetails._id})
+        this.routerService.navigate('/project-details',{type: "sync", projectId:this.projectDetails._id})
         break;
 
       default:
@@ -130,7 +133,7 @@ export class DetailsPageComponent implements OnInit {
   }
 
     moveToFiles() {
-    this.routerService.navigate(`/files/${this.projectDetails._id}`);
+    this.routerService.navigate('/project-details',{ type: "attachments", id: this.projectDetails._id });
   }
 
   async openDialogForDelete(id:any) {
@@ -178,7 +181,7 @@ export class DetailsPageComponent implements OnInit {
 
 
   onLearningResources(id:any,fromDetailspage:boolean){
-    this.routerService.navigate(`/learning-resource/${id}/${this.projectDetails._id}/${fromDetailspage}`)
+    this.routerService.navigate("/project-details",{ type: "resources", taskId: id, id: this.projectDetails._id })
 
   }
   onStartObservation(){
@@ -259,6 +262,11 @@ export class DetailsPageComponent implements OnInit {
       }
       this.db.updateData(finalData)
     }
+  }
+
+  ngOnDestroy(){
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }
