@@ -4,7 +4,7 @@ import { ProjectPlayerLibraryComponent } from './project-player-library.componen
 import { MainPlayerComponent } from './pages/main-player/main-player.component';
 import { DetailsPageComponent } from './pages/details-page/details-page.component';
 import { CommonModule } from '@angular/common';
-import { Event, NavigationEnd, NavigationStart, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';

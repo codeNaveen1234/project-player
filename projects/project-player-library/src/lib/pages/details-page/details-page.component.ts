@@ -9,8 +9,6 @@ import { statusType } from '../../constants/statusConstants';
 import { ProjectService } from '../../services/project/project.service';
 import { apiUrls } from '../../constants/urlConstants';
 import { ApiService } from '../../services/api/api.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'lib-details-page',
@@ -27,7 +25,6 @@ export class DetailsPageComponent implements OnInit {
   displayedTasks:any[]=[];
   remainingTasks:any[]=[];
   tasksList:any = []
-  private destroy$ = new Subject<void>();
 
   constructor(private routerService: RoutingService, private db: DbService,
     private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService, private router: Router
@@ -262,11 +259,6 @@ export class DetailsPageComponent implements OnInit {
       }
       this.db.updateData(finalData)
     }
-  }
-
-  ngOnDestroy(){
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
 }
