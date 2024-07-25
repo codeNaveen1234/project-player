@@ -8,13 +8,11 @@ export class RoutingService {
 
   constructor(private router: Router) { }
 
-  navigate(path:any,queryParams?:any){
-    if(queryParams){
-      // this.router.navigate([path],{skipLocationChange:true, queryParams: queryParams})
-      this.router.navigate([path],{queryParams: queryParams})
+  navigate(path:any,queryParams:any, options?:any){
+    if(options){
+      this.router.navigate([path],{queryParams: queryParams, ...options})
     }else{
-      // this.router.navigate([path],{skipLocationChange:true})
-      this.router.navigate([path])
+      this.router.navigate([path],{ queryParams: queryParams })
     }
     
   }

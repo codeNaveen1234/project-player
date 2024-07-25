@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { UrlTree } from '@angular/router';
 import { EditTaskCardComponent } from '../../shared/edit-task-card/edit-task-card.component';
 import { actions } from '../../constants/actionConstants';
 import { RoutingService } from '../../services/routing/routing.service';
@@ -11,6 +11,7 @@ import { PrivacyPolicyPopupComponent } from '../../shared/privacy-policy-popup/p
 import { ToastService } from '../../services/toast/toast.service';
 import { statusType } from '../../constants/statusConstants';
 import { Router } from '@angular/router';
+import { BackNavigationHandlerComponent } from '../../shared/back-navigation-handler/back-navigation-handler.component';
 
 interface TaskOption {
   value: any;
@@ -21,9 +22,11 @@ interface TaskOption {
   templateUrl: './task-details-page.component.html',
   styleUrl: './task-details-page.component.css',
 })
-export class TaskDetailsPageComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private dialog: MatDialog, private routingService: RoutingService,
-    private db: DbService,private utils: UtilsService,private toasterService:ToastService, private router: Router) {}
+export class TaskDetailsPageComponent extends BackNavigationHandlerComponent implements OnInit {
+  constructor( private dialog: MatDialog, private routingService: RoutingService,
+    private db: DbService,private utils: UtilsService,private toasterService:ToastService, private router: Router) {
+      super(routingService)
+    }
   taskId: any;
   selectedValue!: string;
   textFormControl = new FormControl('');
@@ -34,12 +37,10 @@ export class TaskDetailsPageComponent implements OnInit {
   subTaskData:any;
 
   ngOnInit(): void {
-    console.log("Task details init")
     this.setOptionList();
-    this.route.queryParamMap.subscribe((params: any) => {
-      this.taskId = params.get('taskId')
-      this.projectId = params.get('id')
-    });
+    const urlTree: UrlTree = this.router.parseUrl(this.router.url);
+    this.taskId = urlTree.queryParams['taskId']
+    this.projectId = urlTree.queryParams['projectId']
     this.getProjectDetails()
   }
 
@@ -119,20 +120,6 @@ export class TaskDetailsPageComponent implements OnInit {
     this.taskOptions = options;
   }
 
-  goBack(){
-    console.log('History in task-details: ',window.history)
-    // window.history.back()
-    return
-    this.routingService.navigate(`/details/${this.projectDetails._id}`)
-  }
-
-  @HostListener('window:popstate', ['$event'])
-  onPopState(event:any) {
-    console.log('POPSTATE in Task-Details: ',event)
-    // this.location.back();
-    // this.routingService.navigate(`/project-details/${this.projectDetails._id}`)
-    this.router.navigate([`/project-details/`],{queryParams:{type:'details',id: "667bd7cf27129a25d33143dc"}, replaceUrl:true})
-  }
 
   taskStatusChange(){
     setTimeout(()=>{
@@ -161,8 +148,7 @@ export class TaskDetailsPageComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data=>{
       if(data){
         if(data.isChecked && data.upload){
-          // this.routingService.navigate(`/project-details/add-files/${this.projectDetails._id}`,{taskId:this.taskId})
-          this.router.navigate([`/project-details/`],{queryParams:{type:"add-file",taskId:"8d6c4a87-5860-474b-b40a-f8a9b88d5053",projectId:"667bd7cf27129a25d33143dc"}});
+          this.routingService.navigate("/project-details",{ type:"addFile",taskId:this.taskId ,projectId:this.projectDetails._id })
         }else{
           this.toasterService.showToast('ACCEPT_POLICY_ERROR_MSG',"danger")
         }
@@ -183,6 +169,6 @@ export class TaskDetailsPageComponent implements OnInit {
   }
 
   onLearningResources(id:any,fromDetailspage:boolean){
-    this.routingService.navigate(`/learning-resource/${id}/${this.projectDetails._id}/${fromDetailspage}`)
+    this.routingService.navigate("/project-details",{ type: "resources", taskId: id, id: this.projectDetails._id })
   }
 }

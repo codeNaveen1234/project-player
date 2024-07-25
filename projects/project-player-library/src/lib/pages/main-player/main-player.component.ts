@@ -1,11 +1,19 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
 import { RoutingService } from '../../services/routing/routing.service';
 import { DbService } from '../../services/db/db.service';;
 import { DataService } from '../../services/data/data.service';
 import { ApiService } from '../../services/api/api.service';
 import { apiUrls } from '../../constants/urlConstants';
-import { Event, NavigationEnd, NavigationStart, Router, UrlTree } from '@angular/router';
-import { filter } from 'rxjs';
+import { NavigationEnd, Router, UrlTree } from '@angular/router';
+import { Subscription, filter } from 'rxjs';
+import { DetailsPageComponent } from '../details-page/details-page.component';
+import { TaskDetailsPageComponent } from '../task-details-page/task-details-page.component';
+import { AddFilesPageComponent } from '../add-files-page/add-files-page.component';
+import { AddTaskPageComponent } from '../add-task-page/add-task-page.component';
+import { AttachmentListingPageComponent } from '../attachment-listing-page/attachment-listing-page.component';
+import { SyncPageComponent } from '../sync-page/sync-page.component';
+import { PreviewDetailsPageComponent } from '../preview-details-page/preview-details-page.component';
+import { LearningResourcesComponent } from '../learning-resources/learning-resources.component';
 
 @Component({
   selector: 'lib-main-player',
@@ -18,120 +26,70 @@ export class MainPlayerComponent implements OnInit {
   solutionId:any;
   @Input() projectData:any;
   @Input() config: any
-  // @Input() url: any
-  constructor(private routerService: RoutingService, private db: DbService, private apiService:ApiService, private dataService: DataService,
-    private router: Router
-  ) {}
+  @ViewChild('dynamicComponent', { read: ViewContainerRef }) dynamicComponent!: ViewContainerRef;
+  private routerSubscription!: Subscription;
+  constructor(private routerService: RoutingService, private db: DbService, private apiService:ApiService, private dataService: DataService, private router: Router) {}
+
+  private componentMapper: any = {
+    details: DetailsPageComponent,
+    taskDetails: TaskDetailsPageComponent,
+    addFile: AddFilesPageComponent,
+    addTask: AddTaskPageComponent,
+    attachments: AttachmentListingPageComponent,
+    sync: SyncPageComponent,
+    template: PreviewDetailsPageComponent,
+    resources: LearningResourcesComponent
+
+  };
 
   ngOnInit() {
-    console.log('main player Init',this.projectData)
-    // setTimeout(()=>{
-    //   if(this.projectData._id){
-    //     this.projectId = this.projectData._id;
-    //   } else {
-    //     this.solutionId = this.projectData.solutionId;
-    //   }
-    //   this.storeDataToLocal()
-    //   }, 1000)
-    this.router.navigate([`/project-details/`],{queryParams:{type:'details',id: "667bd7cf27129a25d33143dc"}, replaceUrl:true})
-    // setTimeout(()=>{
-      this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationEnd)
-      )
+      this.routerSubscription = this.router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event:any) => {
-        console.log('URL WAS CHANGED (FROM PLAYER)',event)
-        // const urlObj = new URL(event, window.location.origin);
-        // const type = urlObj.searchParams.get('type');
-        // console.log('TYPE: ',type)
         const urlTree: UrlTree = this.router.parseUrl(event.urlAfterRedirects);
-        const type1 = urlTree.queryParams['type'];
-        
-        console.log('Type ONE:', type1);
-        switch (type1) {
-          case "details":
-            this.router.navigate([`/project-details/`],{queryParams:{type:'details',id: "667bd7cf27129a25d33143dc"}, replaceUrl:true})
-            break;
-          
-          case "task":
-            // this.router.navigate([`/project-details/`],{queryParams:{type:"task",taskId:"8d6c4a87-5860-474b-b40a-f8a9b88d5053",projectId:"667bd7cf27129a25d33143dc"}, replaceUrl:true});
-            // this.router.navigate([`/project-details/`],{queryParams:{type:'task',id: "667bd7cf27129a25d33143dc"}, replaceUrl:true})
-            this.router.navigate([`/project-details/task-details/${'8d6c4a87-5860-474b-b40a-f8a9b88d5053'}/${'667bd7cf27129a25d33143dc'}`],{replaceUrl:true})
-          break;
-
-          case "add-file":
-            // this.router.navigate([`/project-details/task-details/${'8d6c4a87-5860-474b-b40a-f8a9b88d5053'}/${'667bd7cf27129a25d33143dc'}`],{replaceUrl:true})
-            this.router.navigate([`/project-details/add-files/667bd7cf27129a25d33143dc`],{queryParams:{taskId:'8d6c4a87-5860-474b-b40a-f8a9b88d5053'},replaceUrl:true})
-          break;
-        
-          default:
-            console.log('Default: ',type1)
-            break;
-        }
-        
+        const type = urlTree.queryParams['type'];
+        this.loadComponent(type);
       });
-      // },0)
+  }
 
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationStart) {
-        if (event.navigationTrigger === 'popstate') {
-          // This indicates a back or forward button press
-          console.log('Back button was clicked!(PLAYER)');
-        }
-      }
-    });
+  loadComponent(type: string) {
+    this.dynamicComponent.clear();
+    const componentType = this.componentMapper[type];
+    if (componentType) {
+      this.dynamicComponent.createComponent(componentType);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('main player Onchanges',this.projectData)
-    // console.log('On changes in player called')
-    // if(changes['url'].currentValue){
-    //   console.log('Main player input Url: ',changes['url'].currentValue)
-    //   this.router.navigate([changes['url'].currentValue])
-    // }
     this.dataService.setConfig(changes['config'].currentValue)
     this.projectData = changes['projectData'].currentValue
-    if(this.projectData._id){
-      this.projectId = this.projectData._id;
-    } else {
-      this.solutionId = this.projectData.solutionId;
-    }
-    // this.router.navigate([`/project-details/`],{queryParams:{type:'details',id: "667bd7cf27129a25d33143dc"}, replaceUrl:true})
-    // setTimeout(()=>{
-    // this.storeDataToLocal()
-    // },0)
+    setTimeout(() => {
+      if(this.projectData._id){
+        this.projectId = this.projectData._id;
+      } else {
+        this.solutionId = this.projectData.solutionId;
+      }
+      this.storeDataToLocal()
+    }, 0);
+
   }
 
   navigateToDetails(){
-    // this.routerService.navigate(`/project-details/${this.projectId}`)
-    // this.router.navigate([`/details/${this.projectId}`],{skipLocationChange:true})
-    // this.router.navigate([{outlets: {testA: `/details/${this.projectId}`}}]);
-    // this.router.navigate([`/project-details/`],{queryParams:{type:'details',id: this.projectId}, replaceUrl:true})
+    this.routerService.navigate("/project-details",{ type:'details',id: this.projectId },{ replaceUrl:true })
   }
 
   navigateToTemplate(){
-    this.routerService.navigate(`/preview-details/${this.solutionId}`)
-    // this.router.navigate([`/preview-details/${this.solutionId}`],{skipLocationChange:true})
-    // this.router.navigate([`/preview-details/${this.solutionId}`])
+    this.routerService.navigate("/project-details",{ type:'template',id: this.solutionId },{ replaceUrl:true })
   }
 
   storeDataToLocal(){
-    // console.log('Store data to local called',this.projectId,this.projectData)
     if(this.projectId){
-      // console.log('YES')
       this.db.getData(this.projectId).then((data)=>{
-        // console.log('Data from local: ',data)
         if(data){
-          // this.routerService.navigate(`/project-details/${this.projectId}`)
-          // this.router.navigate([`/details/${this.projectId}`],{skipLocationChange:true})
-          // this.router.navigate([{outlets: {testA: `/details/${this.projectId}`}}]);
-          // this.router.navigate([`/project-details/`],{queryParams:{type:'details',id: this.projectId}, replaceUrl:true})
+          this.navigateToDetails()
         }else{
-          // console.log('NO ONE')
           this.getProjectDetails()
         }      
         }).catch((res)=>{
-          // console.log('NO TWO',res)
           this.getProjectDetails()
       })
     }
@@ -160,6 +118,8 @@ export class MainPlayerComponent implements OnInit {
 
   ngOnDestroy(){
     this.dataService.clearConfig()
-    // this.routerService.navigate('/')
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
   }
 }

@@ -58,7 +58,7 @@
                   </lib-task-card>
                 </div>
 
-                <div *ngIf="projectDetails?.tasks?.length > displayedTasks.length" class="w-full my-2">
+                <div *ngIf="projectDetails?.tasks?.length > displayedTasks?.length" class="w-full my-2">
                   <button (click)="loadMoreTasks()" class="primary-button w-full" mat-flat-button color="primary">
                     {{"LOAD_MORE" | translate}}
                   </button>

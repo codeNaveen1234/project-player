@@ -51,19 +51,21 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { StartImprovementPopupComponent } from './shared/start-improvement-popup/start-improvement-popup.component';
 import { AttachmentPreviewComponent } from './shared/attachment-preview/attachment-preview.component';
-import { Router } from '@angular/router';
+import { BackNavigationHandlerComponent } from './shared/back-navigation-handler/back-navigation-handler.component';
+import { HeaderComponent } from './shared/header/header.component';
 
 const routes: Routes = [
   // { path: '' },
-  { path: 'project-details', component: DetailsPageComponent },
-  // { path: 'project-details/task-details/:taskId/:id', component: TaskDetailsPageComponent },
-  { path: 'project-details/files/:id', component: AttachmentListingPageComponent },
-  { path: 'project-details/task-details/:taskId/:id', component: TaskDetailsPageComponent },
-  { path: 'project-details/add-task/:id', component: AddTaskPageComponent },
-  { path: 'project-details/preview-details/:id', component: PreviewDetailsPageComponent},
-  { path: 'project-details/add-files/:id', component: AddFilesPageComponent },
-  { path: 'project-details/learning-resource/:taskId/:id/:fromDetailspage', component: LearningResourcesComponent},
-  { path: 'project-details/sync', component: SyncPageComponent }
+  // { path: 'details/:id', component: DetailsPageComponent },
+  // { path: 'files/:id', component: AttachmentListingPageComponent },
+  // { path: 'task-details/:taskId/:id', component: TaskDetailsPageComponent },
+  // { path: 'add-task/:id', component: AddTaskPageComponent },
+  // { path: 'preview-details/:id', component: PreviewDetailsPageComponent},
+  // { path: 'add-files/:id', component: AddFilesPageComponent },
+  // { path: 'learning-resource/:taskId/:id/:fromDetailspage', component: LearningResourcesComponent},
+  // { path: 'sync', component: SyncPageComponent }
+  { path: 'project-details', component: MainPlayerComponent },
+  { path: '**', redirectTo: 'project-details' }
 ];
 
 const MAT_CUSTOM_DATE_FORMATS = {
@@ -108,7 +110,9 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     SyncPageComponent,
     LoaderComponent,
     StartImprovementPopupComponent,
-    AttachmentPreviewComponent
+    AttachmentPreviewComponent,
+    BackNavigationHandlerComponent,
+    HeaderComponent
   ],
   imports: [
     CommonModule,
@@ -155,34 +159,9 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
   ]
 })
 export class ProjectPlayerLibraryModule {
-  constructor(private translate: TranslateService, private router: Router) {
-    // console.log('Module constructor called')
+  constructor(private translate: TranslateService) {
     this.setLanguage();
-    this.router.events.subscribe((event: Event) => {
-      // console.log('ROUTER EVENTS IN PLAYER 1: ',event)
-      if (event instanceof NavigationEnd) {
-        // console.log('ROUTER EVENTS IN PLAYER 2: ',event)
-        // this.router.navigate([event.url]) //infinite loop
-      }
-      if (event instanceof NavigationStart) {
-        // console.log('Navigation start(PLAYER MODULE)',event)
-        if (event.navigationTrigger === 'popstate') {
-          // console.log('Back button was clicked!(PLAYER MODULE)');
-        }
-      }
-    });
   }
-
-  // ngOnInit() {
-  //   console.log('Player module Onint')
-  //   this.router.events.subscribe((event: Event) => {
-  //     if (event instanceof NavigationStart) {
-  //       if (event.navigationTrigger === 'popstate') {
-  //         console.log('Back button was clicked!(PLAYER MODULE)');
-  //       }
-  //     }
-  //   });
-  // }
 
   setLanguage() {
     this.translate.setTranslation('en', require('./assets/i18n/en.json'));

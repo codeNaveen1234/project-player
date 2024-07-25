@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
 import { RoutingService } from '../../services/routing/routing.service';
 import { DbService } from '../../services/db/db.service';
-import { ActivatedRoute } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { ToastService } from '../../services/toast/toast.service';
 import { UtilsService } from '../../services/utils/utils.service';
 import { TranslateService } from '@ngx-translate/core';
+import { BackNavigationHandlerComponent } from '../../shared/back-navigation-handler/back-navigation-handler.component';
 
 @Component({
   selector: 'lib-attachment-listing-page',
   templateUrl: './attachment-listing-page.component.html',
   styleUrl: './attachment-listing-page.component.css'
 })
-export class AttachmentListingPageComponent {
+export class AttachmentListingPageComponent extends BackNavigationHandlerComponent {
   projectData:any ;
   isImages:any;
   isVideos:any;
@@ -19,12 +20,12 @@ export class AttachmentListingPageComponent {
   isLinks:any;
   attachments:any;
   selectedTab = 'image'
-  constructor(private routerService:RoutingService,private db:DbService,private activatedRoute:ActivatedRoute,private toasterService:ToastService,
-    private utils: UtilsService, private translate: TranslateService
+  constructor(private routerService:RoutingService,private db:DbService,private toasterService:ToastService,
+    private utils: UtilsService, private translate: TranslateService, private router: Router
   ){
-    activatedRoute.params.subscribe(param=>{
-      this.getData(param['id'])
-    })
+    super(routerService)
+    const urlTree: UrlTree = this.router.parseUrl(this.router.url);
+    this.getData(urlTree.queryParams['id'])
   }
 
   getData(id:any){
@@ -144,9 +145,6 @@ export class AttachmentListingPageComponent {
         this.db.deleteData(data);
         this.toasterService.showToast("ATTACHMENT_REMOVED_SUCCESS","success")
         this.getData(this.projectData._id);
-  }
-  moveToHomePage(){
-    this.routerService.navigate(`/details/${this.projectData._id}`);
   }
   isFirstAttachment(attachments: any[], itemIndex: number, attachmentType: string): boolean {
     const firstAttachmentIndex = attachments.findIndex(a => a.type.includes(attachmentType));

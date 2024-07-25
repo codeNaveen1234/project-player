@@ -1,7 +1,4 @@
-<div class="flex items-center ml-3 gap-x-3">
-    <mat-icon fontIcon="arrow_back " class="cursor-pointer text-black" (click)="goBack()"></mat-icon>
-     <span class="text-black text-xl font-bold">{{"TASK_DETAILS" | translate}}</span>
-</div>
+<lib-header [title]="'TASK_DETAILS'"></lib-header>
 <div class="task-details">
     <div class="task-header" (click)="editTask()">
         <h4 class="break-all">{{task.name}}</h4>

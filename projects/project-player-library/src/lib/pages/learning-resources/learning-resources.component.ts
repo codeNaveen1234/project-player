@@ -1,28 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { DbService } from '../../services/db/db.service';
 import { RoutingService } from '../../services/routing/routing.service';
+import { Router, UrlTree } from '@angular/router';
+import { BackNavigationHandlerComponent } from '../../shared/back-navigation-handler/back-navigation-handler.component';
 
 @Component({
   selector: 'lib-learning-resources',
   templateUrl: './learning-resources.component.html',
   styleUrls: ['./learning-resources.component.css']
 })
-export class LearningResourcesComponent implements OnInit {
+export class LearningResourcesComponent extends BackNavigationHandlerComponent implements OnInit {
   taskId: any;
   id: any;
-  fromDetailspage!: boolean;
   learningResources: any;
 
-  constructor(private route: ActivatedRoute, private db: DbService, private routerService: RoutingService) {}
+  constructor(private db: DbService, private routerService: RoutingService, private router: Router) {
+    super(routerService)
+  }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params: any) => {
-      this.taskId = params.get('taskId');
-      this.id = params.get('id');
-      this.fromDetailspage = params.get('fromDetailspage') === 'true';
-      this.getProjectDetails();
-    });
+    const urlTree: UrlTree = this.router.parseUrl(this.router.url);
+    this.taskId = urlTree.queryParams['taskId']
+    this.id = urlTree.queryParams['id']
+    this.getProjectDetails();
   }
 
   getProjectDetails() {
@@ -37,13 +37,6 @@ export class LearningResourcesComponent implements OnInit {
     this.learningResources = task.learningResources;
   }
 
-  goBack() {
-    if (!this.fromDetailspage) {
-      this.routerService.navigate(`/task-details/${this.taskId}/${this.id}`);
-    } else {
-      this.routerService.navigate(`/details/${this.id}`);
-    }
-  }
 
   openResource(data: any) {
     window.open(data.link, '_blank');
