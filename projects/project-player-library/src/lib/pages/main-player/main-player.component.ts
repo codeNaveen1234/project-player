@@ -69,7 +69,7 @@ export class MainPlayerComponent implements OnInit {
         this.solutionId = this.projectData.solutionId;
       }
       this.storeDataToLocal()
-    }, 0);
+    }, 100);
 
   }
 
