@@ -10,6 +10,7 @@ import { UtilsService } from '../../services/utils/utils.service'
 import { Router, UrlTree } from '@angular/router';
 import { BackNavigationHandlerComponent } from '../../shared/back-navigation-handler/back-navigation-handler.component';
 import { Location } from '@angular/common';
+import { statusType } from '../../constants/statusConstants';
 
 @Component({
   selector: 'lib-add-task-page',
@@ -83,6 +84,8 @@ export class AddTaskPageComponent extends BackNavigationHandlerComponent impleme
     this.taskData.status = this.taskStatus
     this.taskData.attachments = this.attachmentsList
     this.projectDetails.isEdit = true
+    this.projectDetails.status = this.projectDetails.status ? this.projectDetails.status : statusType.notStarted;
+    this.projectDetails.status = this.projectDetails.status == statusType.notStarted ? statusType.inProgress : this.projectDetails.status;
     this.projectDetails.tasks.push(this.taskData)
     this.attachmentsList.map(async(attachment:any)=>{
       let convertedFile = await this.attachmentService.convertTobase64(attachment.selectedFile)

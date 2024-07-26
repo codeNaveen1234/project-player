@@ -130,6 +130,9 @@ export class TaskDetailsPageComponent extends BackNavigationHandlerComponent imp
   updateDataInDb(){
     this.task.isEdit = true
     this.projectDetails.isEdit = true
+    this.projectDetails.status =  this.projectDetails.status ? this.projectDetails.status : statusType.notStarted;
+    this.projectDetails.status =  this.projectDetails.status == statusType.notStarted ? statusType.inProgress:this.projectDetails.status;
+    this.projectDetails = this.utils.setStatusForProject(this.projectDetails);
     let finalData = {
       key:this.projectDetails._id,
       data:this.projectDetails
