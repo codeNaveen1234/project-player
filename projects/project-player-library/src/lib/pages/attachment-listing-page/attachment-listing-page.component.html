@@ -1,8 +1,5 @@
-<div class="flex p-3  items-center gap-x-3 ">
-    <mat-icon class="cursor-pointer text-black"  fontIcon="arrow_back" (click)="moveToHomePage()"></mat-icon>
-    <span class="text-black text-xl font-bold">{{"ATTACHMENTS" | translate}}</span>
-</div>
-<mat-tab-group dynamicHeight (selectedTabChange)="onTabChange($event)">
+<lib-header [title]="'ATTACHMENTS'"></lib-header>
+<mat-tab-group dynamicHeight (selectedTabChange)="onTabChange($event)" class="pt-3">
     <mat-tab [label]="'IMAGES' | translate">
         <div class="p-4 w-full text-center flex flex-row justify-center" *ngIf="!isImages?.project && !isImages?.task">
             <mat-card class="p-3">{{ "NO_FILES" | translate:{ fileType: 'images' } }}</mat-card>

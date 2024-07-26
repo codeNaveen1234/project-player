@@ -26,7 +26,7 @@ export class ProjectService {
       let response = await this.utils.showDialogPopup(popupDetails)
       if(response){
         if(project.isEdit){
-          this.routerService.navigate('/sync',{projectId: project._id, taskId: taskId, isShare: true, fileName: name})
+          this.routerService.navigate('/project-details',{type: "sync", projectId: project._id, taskId: taskId, isShare: true, fileName: name})
         }else{
           taskId ? this.getPdfUrl(name, project._id, taskId) : this.getPdfUrl(name, project._id)
         }
