@@ -124,6 +124,10 @@ export class DetailsPageComponent implements OnInit {
         this.routerService.navigate('/sync',{projectId:this.projectDetails._id})
         break;
 
+        case "certificate":
+        this.routerService.navigate('/certificate',{projectId:this.projectDetails._id,solutionId:this.projectDetails.solutionId})
+        break;
+
       default:
         break;
     }
@@ -171,6 +175,9 @@ export class DetailsPageComponent implements OnInit {
     }
     if(this.submitted){
       options.pop()
+      // if(this.projectDetails.certificate){
+        options.push(actions.CERTIFICATE_ACTION)
+      // }
     }
     this.projectActions = options;
     this.actionsList = optionList;

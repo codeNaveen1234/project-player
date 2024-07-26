@@ -53,6 +53,7 @@ import { StartImprovementPopupComponent } from './shared/start-improvement-popup
 import { AttachmentPreviewComponent } from './shared/attachment-preview/attachment-preview.component';
 import { DateValidatorDirective } from './directives/date-validator.directive';
 import { DateInputComponent } from './shared/date-input/date-input.component';
+import { ShowCertificateComponent } from './pages/show-certificate/show-certificate.component';
 
 const routes: Routes = [
   { path: '' },
@@ -63,7 +64,8 @@ const routes: Routes = [
   { path: 'preview-details/:id', component: PreviewDetailsPageComponent},
   { path: 'add-files/:id', component: AddFilesPageComponent },
   { path: 'learning-resource/:taskId/:id/:fromDetailspage', component: LearningResourcesComponent},
-  { path: 'sync', component: SyncPageComponent }
+  { path: 'sync', component: SyncPageComponent },
+  { path : 'certificate', component: ShowCertificateComponent }
 ];
 
 const MAT_CUSTOM_DATE_FORMATS = {
@@ -110,7 +112,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     StartImprovementPopupComponent,
     AttachmentPreviewComponent,
     DateValidatorDirective,
-    DateInputComponent
+    DateInputComponent,
+    ShowCertificateComponent
   ],
   imports: [
     CommonModule,
