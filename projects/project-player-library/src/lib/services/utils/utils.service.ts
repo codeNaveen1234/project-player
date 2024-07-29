@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DailogPopupComponent } from '../../shared/dialog-popup/dailog-popup.component';
 import { firstValueFrom } from 'rxjs';
 import { LoaderComponent } from '../../shared/loader/loader.component';
+import { statusType } from '../../constants/statusConstants';
 
 @Injectable({
   providedIn: 'root'
@@ -82,4 +83,42 @@ export class UtilsService {
     w.document.body.style.overflow = 'hidden';
     w.document.body.appendChild(video);
 }
+
+  setStatusForProject(project: any){
+    const projectData = { ...project };
+    for (const task of projectData.tasks) {
+      const activeSubTask = task.children.filter((d:any) => !d.isDeleted)
+      task.status = activeSubTask.length
+        ? this.calculateStatus(task.children)
+        : task.status;
+    }
+    let projectStatus = this.calculateStatus(projectData.tasks);
+    if (projectData.status) {
+      if (projectData.status == statusType.inProgress && projectStatus == statusType.notStarted) {
+        projectData.status = statusType.inProgress;
+      }else{
+        projectData.status = projectStatus;
+      }
+    } else {
+      projectData.status = statusType.notStarted;
+    }
+    return projectData;
+  }
+
+  calculateStatus(childArray:any) {
+    let status;
+    const items = [...childArray];
+    const completedList = items.filter((d:any) => !d.isDeleted && d.status === statusType.completed)
+    const inProgressList = items.filter((d:any) => !d.isDeleted && d.status === statusType.inProgress)
+    const validchildArray = items.filter((d:any) => !d.isDeleted)
+    if (completedList.length === validchildArray.length) {
+      status = statusType.completed;
+    } else if (inProgressList.length || completedList.length) {
+      status = statusType.inProgress;
+    } else {
+      status = statusType.notStarted;
+    }
+    return validchildArray.length ? status : statusType.notStarted;
+  }
+
 }
