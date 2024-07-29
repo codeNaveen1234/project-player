@@ -1,21 +1,24 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddLinkPopupComponent } from '../../shared/add-link-popup/add-link-popup.component';
 import { actions } from '../../constants/actionConstants';
 import { ToastService } from '../../services/toast/toast.service';
 import { AttachmentService } from '../../services/attachment/attachment.service';
-import { ActivatedRoute } from '@angular/router';
+import { UrlTree } from '@angular/router';
 import { DbService } from '../../services/db/db.service';
 import { RoutingService } from '../../services/routing/routing.service';
 import { PrivacyPolicyPopupComponent } from '../../shared/privacy-policy-popup/privacy-policy-popup.component';
 import { UtilsService } from '../../services/utils/utils.service';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { BackNavigationHandlerComponent } from '../../shared/back-navigation-handler/back-navigation-handler.component';
 
 @Component({
   selector: 'lib-add-files-page',
   templateUrl: './add-files-page.component.html',
   styleUrls: ['./add-files-page.component.css']
 })
-export class AddFilesPageComponent {
+export class AddFilesPageComponent extends BackNavigationHandlerComponent {
   @ViewChild('file') file! : ElementRef
   uploadOptions = actions.FILE_UPLOAD_OPTIONS
   allowedFileTypes:any=actions.FILE_UPLOAD_OPTIONS.flatMap(data=>data.accept.split(","))
@@ -34,13 +37,12 @@ export class AddFilesPageComponent {
   isModified:boolean=false;
 
   constructor(private dialog: MatDialog, private toastService: ToastService, private attachmentService: AttachmentService,
-    private activatedRoute: ActivatedRoute, private db: DbService, private routingService: RoutingService, private utils: UtilsService) {
-      activatedRoute.params.subscribe(param=>{
-        this.projectId = param['id']
-      })
-      activatedRoute.queryParams.subscribe(queryParam=>{
-        this.taskId = queryParam['taskId']
-      })
+    private db: DbService, private routingService: RoutingService, private utils: UtilsService, private location: Location,
+    private router: Router) {
+    super(routingService)
+      const url: UrlTree = this.router.parseUrl(this.router.url);
+      this.projectId = url.queryParams["projectId"]
+      this.taskId = url.queryParams["taskId"]
     }
 
   ngOnInit(){
@@ -188,14 +190,6 @@ export class AddFilesPageComponent {
     this.db.updateData(data)
   }
 
-  goBack(){
-    if(this.taskId){
-      this.routingService.navigate(`task-details/${this.taskId}/${this.projectId}`)
-    }else{
-      this.routingService.navigate(`/details/${this.projectId}`)
-    }
-  }
-
   showPrivacyPolicyPopup(option:any){
     const dialogRef = this.dialog.open(PrivacyPolicyPopupComponent,{
       width:'400px',
@@ -219,7 +213,7 @@ export class AddFilesPageComponent {
         this.toastService.showToast("FILES_ATTACHED_SUCCESSFULLY","success")
         this.isModified=false;
       }
-      this.routingService.navigate(`task-details/${this.taskId}/${this.projectId}`)
+      this.location.back()
     }else{
       this.showConfirmationPopup()
     }
@@ -235,7 +229,7 @@ export class AddFilesPageComponent {
     }
     let response = await this.utils.showDialogPopup(dialogData)
     if(response){
-      this.routingService.navigate('/sync',{projectId:this.projectId, isSubmission: true})
+      this.routingService.navigate('/project-details',{ type: "sync", projectId:this.projectId, isSubmission: true },{ replaceUrl: true })
     }
   }
 }

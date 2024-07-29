@@ -30,7 +30,7 @@ export class TaskCardComponent {
 
   moveToDetailsTask(data: any) {
     if (!this.submittedImprovement && !this.startImprovement) {
-      this.routerService.navigate(`/task-details/${data}/${this.projectId}`);
+      this.routerService.navigate(`/project-details`,{type:'taskDetails', taskId: data, projectId: this.projectId});
     }
     else if(!this.submittedImprovement && this.startImprovement){
       this.startImprovementEvent.emit(data);
