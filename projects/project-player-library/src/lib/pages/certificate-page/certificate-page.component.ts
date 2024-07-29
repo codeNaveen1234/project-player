@@ -129,13 +129,4 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
     img.src = url;
   }
 
-  getFormattedDate(dateString: any): string {
-    const options: Intl.DateTimeFormatOptions = {
-      year: '2-digit',
-      month: 'short',
-      day: 'numeric',
-    };
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', options).replace(/, /g, '-');
-  }
 }
