@@ -8,7 +8,7 @@
         <div class="flex justify-between items-center">
             <div>
                 <h4 >{{projectDetails?.title}}</h4>
-                <p *ngIf="projectDetails?.certificate?.issuedOn">{{ getFormattedDate(projectDetails?.certificate?.issuedOn) }}</p>
+                <p *ngIf="projectDetails?.certificate?.issuedOn">{{ ( projectDetails?.certificate?.issuedOn | date : 'MMM dd, YY')  }}</p>
             </div>
             <div>
                 <button mat-flat-button class="!rounded-2xl primary-button" [matMenuTriggerFor]="menu"><mat-icon fontIcon="cloud_download"></mat-icon>{{"DOWNLOAD"| translate}}</button>
