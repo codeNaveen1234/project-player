@@ -125,7 +125,7 @@ export class DetailsPageComponent implements OnInit {
         break;
 
         case "certificate":
-        this.routerService.navigate('/certificate',{projectId:this.projectDetails._id,solutionId:this.projectDetails.solutionId})
+        this.routerService.navigate('/project-details',{type: "certificate",projectId:this.projectDetails._id,solutionId:this.projectDetails.solutionId})
         break;
 
       default:
@@ -175,9 +175,9 @@ export class DetailsPageComponent implements OnInit {
     }
     if(this.submitted){
       options.pop()
-      // if(this.projectDetails.certificate){
+      if(this.projectDetails.certificate){
         options.push(actions.CERTIFICATE_ACTION)
-      // }
+      }
     }
     this.projectActions = options;
     this.actionsList = optionList;

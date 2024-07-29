@@ -1,0 +1,28 @@
+
+<div class="">
+
+    <div class="flex items-center">
+        <div class="text-lg font-bold">{{ "CERTIFICATE" | translate }}</div>
+    </div>
+    <div *ngIf="projectDetails.certificate.eligible"  class="mt-4">
+        <div class="flex justify-between items-center">
+            <div>
+                <h4 >{{projectDetails?.title}}</h4>
+                <p *ngIf="projectDetails?.certificate?.issuedOn">{{ getFormattedDate(projectDetails?.certificate?.issuedOn) }}</p>
+            </div>
+            <div>
+                <button mat-flat-button class="!rounded-2xl primary-button" [matMenuTriggerFor]="menu"><mat-icon fontIcon="cloud_download"></mat-icon>{{"DOWNLOAD"| translate}}</button>
+                <mat-menu #menu="matMenu" >
+                    <button (click)="download('pdf')" mat-menu-item>{{"PDF"| translate}}</button>
+                    <button (click)="download('png')" mat-menu-item>{{"PNG"| translate}}</button>
+                </mat-menu>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="!projectDetails.certificate.eligible" class="mt-4">
+        <p>{{"CERTIFICATE_ERROR_MSG"|translate}}</p>
+    </div>
+
+    <div  class="mt-4" #certificateContainer>
+    </div>
+</div>
