@@ -14,6 +14,7 @@ import { AttachmentListingPageComponent } from '../attachment-listing-page/attac
 import { SyncPageComponent } from '../sync-page/sync-page.component';
 import { PreviewDetailsPageComponent } from '../preview-details-page/preview-details-page.component';
 import { LearningResourcesComponent } from '../learning-resources/learning-resources.component';
+import { ShowCertificateComponent } from '../show-certificate/show-certificate.component';
 
 @Component({
   selector: 'lib-main-player',
@@ -38,7 +39,8 @@ export class MainPlayerComponent implements OnInit {
     attachments: AttachmentListingPageComponent,
     sync: SyncPageComponent,
     template: PreviewDetailsPageComponent,
-    resources: LearningResourcesComponent
+    resources: LearningResourcesComponent,
+    certificate:ShowCertificateComponent
 
   };
 
@@ -88,7 +90,7 @@ export class MainPlayerComponent implements OnInit {
           this.navigateToDetails()
         }else{
           this.getProjectDetails()
-        }      
+        }
         }).catch((res)=>{
           this.getProjectDetails()
       })
