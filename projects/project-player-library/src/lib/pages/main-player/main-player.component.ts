@@ -14,6 +14,7 @@ import { AttachmentListingPageComponent } from '../attachment-listing-page/attac
 import { SyncPageComponent } from '../sync-page/sync-page.component';
 import { PreviewDetailsPageComponent } from '../preview-details-page/preview-details-page.component';
 import { LearningResourcesComponent } from '../learning-resources/learning-resources.component';
+import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
   selector: 'lib-main-player',
@@ -28,7 +29,9 @@ export class MainPlayerComponent implements OnInit {
   @Input() config: any
   @ViewChild('dynamicComponent', { read: ViewContainerRef }) dynamicComponent!: ViewContainerRef;
   private routerSubscription!: Subscription;
-  constructor(private routerService: RoutingService, private db: DbService, private apiService:ApiService, private dataService: DataService, private router: Router) {}
+  constructor(private routerService: RoutingService, private db: DbService, private apiService:ApiService, private dataService: DataService, private router: Router,
+    private utils: UtilsService
+  ) {}
 
   private componentMapper: any = {
     details: DetailsPageComponent,
@@ -62,14 +65,23 @@ export class MainPlayerComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     this.dataService.setConfig(changes['config'].currentValue)
     this.projectData = changes['projectData'].currentValue
-    setTimeout(() => {
-      if(this.projectData._id){
-        this.projectId = this.projectData._id;
-      } else {
-        this.solutionId = this.projectData.solutionId;
-      }
-      this.storeDataToLocal()
-    }, 100);
+    if(this.utils.isLoggedIn()){
+      setTimeout(() => {
+        if(this.projectData.referenceFrom == "library"){
+          this.routerService.navigate("/project-details",{ type:'template' },{ replaceUrl:true, state: this.projectData })
+          return
+        }
+        let id = this.projectData?._id || this.projectData?.projectId
+        if(id){
+          this.projectId = id;
+        } else {
+          this.solutionId = this.projectData.solutionId;
+        }
+        this.storeDataToLocal()
+      }, 100);
+    }else{
+      this.routerService.navigate("/project-details",{ type:'template',id: this.projectData.link },{ replaceUrl:true, state: this.projectData })
+    }
 
   }
 
@@ -78,7 +90,7 @@ export class MainPlayerComponent implements OnInit {
   }
 
   navigateToTemplate(){
-    this.routerService.navigate("/project-details",{ type:'template',id: this.solutionId },{ replaceUrl:true })
+    this.routerService.navigate("/project-details",{ type:'template',id: this.solutionId },{ replaceUrl:true, state: this.projectData })
   }
 
   storeDataToLocal(){

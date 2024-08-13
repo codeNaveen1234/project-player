@@ -50,22 +50,23 @@ export class ApiService {
 
   private handleError=(error: HttpErrorResponse): Observable<never> => {
     let errorMessage = 'Unknown error!';
+    this.toastService.showToast(error.error.message,"danger")
     if (error.error instanceof ErrorEvent) {
       errorMessage = `Error: ${error.error.message}`;
     } else {
       if (error.status === 401) {
-        this.toastService.showToast(error.error.message,"danger")
         window.location.href = '/'
       }
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    return throwError(() => new Error(errorMessage));
+    return throwError(() => new Error(error.error));
   }
 
   setHeaders(){
     let config = this.dataService.getConfig()
-    this.token = config.accessToken
     this.baseUrl = config.baseUrl
+    if(!config.accessToken) return
+    this.token = config.accessToken
     this.headers = {
       'Authorization': `Bearer ${config.accessToken}`,
       'x-auth-token': config.accessToken,
