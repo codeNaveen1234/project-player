@@ -25,6 +25,12 @@ export const actions = {
         action: "synced",
         color: "green"
     },
+    CERTIFICATE_ACTION :{
+        title: "CERTIFICATE",
+        icon: "workspace_premium",
+        action: "certificate",
+        color: "green"
+    },
     DOWNLOADED_ACTION : {
         title: "DOWNLOADED",
         icon: "check_circle",
