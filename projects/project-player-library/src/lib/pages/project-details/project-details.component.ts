@@ -12,8 +12,10 @@ panelOpenStateForResources = false;
 validationTexts!: string[];
 learningResources: any[] = [];
 ngOnInit(): void {
-  this.getCertificateCriteria();
   this.learningResources = this.projectDetails?.learningResources;
+  setTimeout(()=>{
+    this.getCertificateCriteria();
+  },1000)
 }
 getCategoryLabels(): string {
   return this.projectDetails.categories.map((item: { label: any; }) => item.label).join(', ');
@@ -22,12 +24,15 @@ getCategoryLabels(): string {
 getCertificateCriteria(): string[] {
   this.validationTexts = []; // Initialize validationTexts as an empty array
 
-  const conditions = this.projectDetails?.certificate.criteria.conditions;
-
-  for (const conditionKey in conditions) {
-    if (Object.prototype.hasOwnProperty.call(conditions, conditionKey)) {
-      const validationText = conditions[conditionKey].validationText;
-      this.validationTexts.push(validationText);
+  const conditions = this.projectDetails?.certificate?.criteria?.conditions;
+  if (conditions) {
+    for (const conditionKey in conditions) {
+      if (Object.prototype.hasOwnProperty.call(conditions, conditionKey)) {
+        const condition = conditions[conditionKey];
+        if (condition.validationText) {
+          this.validationTexts.push(condition.validationText);
+        }
+      }
     }
   }
   return this.validationTexts;

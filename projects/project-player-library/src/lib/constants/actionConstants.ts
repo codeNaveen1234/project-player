@@ -26,7 +26,7 @@ export const actions = {
         color: "green"
     },
     CERTIFICATE_ACTION :{
-        title: "CERTIFICATE_LABEL",
+        title: "CERTIFICATE",
         icon: "workspace_premium",
         action: "certificate",
         color: "green"
