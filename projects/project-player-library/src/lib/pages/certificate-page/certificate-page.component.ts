@@ -6,6 +6,7 @@ import jsPDF from 'jspdf';
 import { apiUrls } from '../../constants/urlConstants';
 import { ApiService } from '../../services/api/api.service';
 import { BackNavigationHandlerComponent } from '../../shared/back-navigation-handler/back-navigation-handler.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'lib-certificate-page',
@@ -27,7 +28,8 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
     private db: DbService,
     private routingService: RoutingService,
     private renderer: Renderer2,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private http: HttpClient
   ) {
     super(routingService);
     const url: UrlTree = this.router.parseUrl(this.router.url);
@@ -44,23 +46,28 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
       url: `${apiUrls.GET_PROJECT_DETAILS}/${this.projectId}?&&solutionId=${this.solutionId}`,
       payload: {},
     };
+
     this.apiService.post(configForProject).subscribe((res) => {
       this.projectDetails = res.result;
       if (this.projectDetails.certificate) {
-        if (this.certificateContainer) {
-          this.renderer.setProperty(
-            this.certificateContainer.nativeElement,
-            'innerHTML',
-            this.certificateUrl
-          );
+        if(this.projectDetails.certificate.eligible){
+          const svgUrl = this.projectDetails.certificate.svgUrl;
+          this.http.get(svgUrl, { responseType: 'text' }).subscribe((res) => {
+            this.certificateUrl = res;
+            if (this.certificateContainer) {
+              this.renderer.setProperty(
+                this.certificateContainer.nativeElement,
+                'innerHTML',
+                this.certificateUrl
+              );
 
-          const svgElement =
-            this.certificateContainer.nativeElement.querySelector('svg');
-          if (svgElement) {
-            this.renderer.setStyle(svgElement, 'object-fit', 'contain');
-            this.renderer.setStyle(svgElement, 'width', '100%');
-            this.renderer.setStyle(svgElement, 'height', '100%');
-          }
+              const svgElement = this.certificateContainer.nativeElement.querySelector('svg');
+              if (svgElement) {
+                this.renderer.setStyle(svgElement, 'object-fit', 'contain');
+                this.renderer.setStyle(svgElement, 'width', '100%');
+              }
+            }
+          });
         }
       }
     });
@@ -128,5 +135,4 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
     };
     img.src = url;
   }
-
 }
