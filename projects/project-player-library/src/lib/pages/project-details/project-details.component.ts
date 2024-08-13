@@ -1,21 +1,21 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'lib-project-details',
   templateUrl: './project-details.component.html',
   styleUrl: './project-details.component.css'
 })
-export class ProjectDetailsComponent {
+export class ProjectDetailsComponent implements OnChanges {
 @Input()projectDetails: any = {};
 panelOpenStateForCertificate = false;
 panelOpenStateForResources = false;
 validationTexts!: string[];
 learningResources: any[] = [];
-ngOnInit(): void {
-  this.learningResources = this.projectDetails?.learningResources;
-  setTimeout(()=>{
+ngOnChanges(changes: SimpleChanges): void {
+  if (changes['projectDetails']) {
+    this.learningResources = this.projectDetails?.learningResources || [];
     this.getCertificateCriteria();
-  },1000)
+  }
 }
 getCategoryLabels(): string {
   return this.projectDetails.categories.map((item: { label: any; }) => item.label).join(', ');
