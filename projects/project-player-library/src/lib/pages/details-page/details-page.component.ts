@@ -125,7 +125,7 @@ export class DetailsPageComponent implements OnInit {
         break;
 
         case "certificate":
-        this.routerService.navigate('/project-details',{type: "certificate",projectId:this.projectDetails._id,solutionId:this.projectDetails.solutionId})
+        this.routerService.navigate('/project-details',{type: "certificate",projectId:this.projectDetails._id})
         break;
 
       default:
