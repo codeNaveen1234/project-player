@@ -5,6 +5,7 @@ import { DailogPopupComponent } from '../../shared/dialog-popup/dailog-popup.com
 import { firstValueFrom } from 'rxjs';
 import { LoaderComponent } from '../../shared/loader/loader.component';
 import { statusType } from '../../constants/statusConstants';
+import { DataService } from '../data/data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { statusType } from '../../constants/statusConstants';
 export class UtilsService {
   loader: any
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private dataService: DataService) { }
 
   getMetaData() {
     let metaData = {
@@ -119,6 +120,12 @@ export class UtilsService {
       status = statusType.notStarted;
     }
     return validchildArray.length ? status : statusType.notStarted;
+  }
+
+  isLoggedIn(){
+    let config = this.dataService.getConfig()
+    let token = config.accessToken
+    return token ? true : false
   }
 
 }

@@ -108,6 +108,7 @@
     "FILE_UPLOAD_ERROR_MSG": "Some files seem to be corrupted or deleted. Re-upload files to proceed.",
     "VIEW": "View",
     "FILE_CORRUPTED": "File corrupted",
+    "USER_NOT_LOGGEDIN_MSG":"Please login to access this content",
     "PDF":"Pdf",
     "PNG":"Png",
     "CERTIFICATE_CRITERIA_BEFORE_SUBMITTING":"Please ensure you have met the certificate criteria for this improvement project before submitting.",
