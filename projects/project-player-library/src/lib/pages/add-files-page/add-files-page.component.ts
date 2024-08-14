@@ -21,6 +21,7 @@ import { BackNavigationHandlerComponent } from '../../shared/back-navigation-han
 export class AddFilesPageComponent extends BackNavigationHandlerComponent {
   @ViewChild('file') file! : ElementRef
   uploadOptions = actions.FILE_UPLOAD_OPTIONS
+  allowedFileTypes:any=actions.FILE_UPLOAD_OPTIONS.flatMap(data=>data.accept.split(","))
   attachments:any = []
   remarks = ''
   acceptType = ''
@@ -103,6 +104,10 @@ export class AddFilesPageComponent extends BackNavigationHandlerComponent {
 
   async onFileSelect(event:any){
     let value = event.target.files[0]
+    if(!this.allowedFileTypes.includes(value.type)){
+      this.toastService.showToast("INVALID_FILE_TYPE",'danger')
+      return
+    }
     if(this.attachmentService.isFileSizeGreater(value)){
       return
     }
