@@ -55,6 +55,7 @@ import { DateValidatorDirective } from './directives/date-validator.directive';
 import { DateInputComponent } from './shared/date-input/date-input.component';
 import { BackNavigationHandlerComponent } from './shared/back-navigation-handler/back-navigation-handler.component';
 import { HeaderComponent } from './shared/header/header.component';
+import { CertificatePageComponent } from './pages/certificate-page/certificate-page.component';
 
 const routes: Routes = [
   // { path: '' },
@@ -66,6 +67,7 @@ const routes: Routes = [
   // { path: 'add-files/:id', component: AddFilesPageComponent },
   // { path: 'learning-resource/:taskId/:id/:fromDetailspage', component: LearningResourcesComponent},
   // { path: 'sync', component: SyncPageComponent }
+  // { path : 'certificate', component: CertificatePageComponent }
   { path: 'project-details', component: MainPlayerComponent },
   { path: '**', redirectTo: 'project-details' }
 ];
@@ -115,6 +117,7 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     AttachmentPreviewComponent,
     DateValidatorDirective,
     DateInputComponent,
+    CertificatePageComponent,
     BackNavigationHandlerComponent,
     HeaderComponent
   ],

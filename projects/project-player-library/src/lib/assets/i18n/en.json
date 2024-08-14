@@ -46,7 +46,7 @@
     "INVALID_FILE_TYPE":"Invalid file type. Please select a valid file.",
     "DELETE_ATTACHMENT":"Are you sure you want to delete this attachment ?",
     "REMOVE":"Remove",
-    "CERTIFICATE":"CERTIFICATE",
+    "CERTIFICATE":"Certificate",
     "ATTACHMENT_FILES":"Attachment Files",
     "FILES_ATTACHED_SUCCESSFULLY":"Files attached successfully",
     "START_IMPROVEMENT":"Start Improvement",
@@ -107,5 +107,9 @@
     "FILE_UPLOAD_ERROR": "Error in uploading files",
     "FILE_UPLOAD_ERROR_MSG": "Some files seem to be corrupted or deleted. Re-upload files to proceed.",
     "VIEW": "View",
-    "FILE_CORRUPTED": "File corrupted"
+    "FILE_CORRUPTED": "File corrupted",
+    "PDF":"Pdf",
+    "PNG":"Png",
+    "CERTIFICATE_CRITERIA_BEFORE_SUBMITTING":"Please ensure you have met the certificate criteria for this improvement project before submitting.",
+    "CERTIFICATE_ERROR_MSG":"Sorry ! You have not met the certificate criteria for this Improvement Project."
 }
