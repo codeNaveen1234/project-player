@@ -102,7 +102,7 @@ export class PreviewDetailsPageComponent {
       payload = { ...payload, ...extraPayload }
     }
     const configForProjectId = {
-      url: `${apiUrls.GET_PROJECT_DETAILS}?solutionId=${this.id}&templateId=${this.projectDetails.externalId}`,
+      url: extraPayload ? `${apiUrls.GET_PROJECT_DETAILS}?solutionId=${this.id}` : `${apiUrls.GET_PROJECT_DETAILS}?solutionId=${this.id}&templateId=${this.projectDetails.externalId}`,
       payload: payload
     }
       this.apiService.post(configForProjectId).subscribe((res)=>{

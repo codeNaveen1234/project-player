@@ -69,6 +69,11 @@ export class MainPlayerComponent implements OnInit {
     this.projectData = changes['projectData'].currentValue
     if(this.utils.isLoggedIn()){
       setTimeout(() => {
+        if(this.projectData.referenceFrom == "certificate"){
+          let urlQueryParams = this.getQueryParams(window.location.search)
+          this.routerService.navigate(window.location.pathname, urlQueryParams, { replaceUrl: true })
+          return
+        }
         if(this.projectData.referenceFrom == "library"){
           this.routerService.navigate("/project-details",{ type:'template' },{ replaceUrl:true, state: this.projectData })
           return
@@ -135,5 +140,21 @@ export class MainPlayerComponent implements OnInit {
     if (this.routerSubscription) {
       this.routerSubscription.unsubscribe();
     }
+  }
+
+  getQueryParams(queryParams:any){
+    const queryObj: any = {}
+
+    if (queryParams.startsWith('?')) {
+      queryParams = queryParams.substring(1);
+    }
+
+    const queryArray = queryParams.split('&');
+
+    queryArray.forEach((query:any) => {
+        const [key, value] = query.split('=');
+        queryObj[key] = value 
+    });
+    return queryObj;
   }
 }
