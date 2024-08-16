@@ -32,7 +32,7 @@
       </mat-expansion-panel>
     </mat-accordion>
   }
-  @if (validationTexts) {
+  @if (validationTexts.length) {
     <mat-accordion >
       <mat-expansion-panel  style="box-shadow: #8577778e 5px 5px 4px; border-radius: 10px; margin: 12px 0;"  (opened)="panelOpenStateForCertificate=true" (closed)="panelOpenStateForCertificate = false">
         <mat-expansion-panel-header class="flex justify-between py-2">
