@@ -21,7 +21,7 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <ng-container *ngFor="let item of projectDetails?.learningResources">
-            <mat-card class="cursor-pointer" style="box-shadow: #8577778e 5px 5px 4px;border-radius: 10px;">
+            <mat-card class="cursor-pointer mb-2" style="box-shadow: #8577778e 5px 5px 4px;border-radius: 10px;">
               <div class="flex justify-between items-center px-4 py-2" (click)="openResource(item)">
                 <p class="text-base text-gray-700 font-bold">{{item.name}}</p>
                 <span class="flex justify-center items-center "><mat-icon class="arrow-expansion"  class="primary-icon" fontIcon="play_circle"></mat-icon></span>
