@@ -1,6 +1,7 @@
 
 <lib-header [title]="'CERTIFICATE'"></lib-header>
-<div >
+@if(projectDetails?.certificate){
+<div>
     @if (projectDetails?.certificate?.eligible) {
         <div class="mt-4 m-3">
             <div class="flex justify-between items-center">
@@ -25,8 +26,9 @@
             </mat-card>
         </div>
     }
-    <div class="mt-4 m-3 flex justify-center">
-        <div  class=" w-[100%] sm:w-[80%]" #certificateContainer>
-        </div>
+</div>
+}
+<div class="mt-4 m-3 flex justify-center">
+    <div  class=" w-[100%] sm:w-[80%]" #certificateContainer>
     </div>
-<div>
+</div>
