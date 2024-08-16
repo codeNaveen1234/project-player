@@ -16,7 +16,6 @@ import { HttpClient } from '@angular/common/http';
 export class CertificatePageComponent extends BackNavigationHandlerComponent {
   projectId: any;
   projectDetails: any;
-  solutionId: any;
   certificateUrl:any;
 
   @ViewChild('certificateContainer', { static: true }) certificateContainer:
@@ -34,7 +33,6 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
     super(routingService);
     const url: UrlTree = this.router.parseUrl(this.router.url);
     this.projectId = url.queryParams['projectId'];
-    this.solutionId = url.queryParams['solutionId'];
   }
 
   ngOnInit() {
@@ -43,7 +41,7 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
 
   getProjectDetails() {
     const configForProject = {
-      url: `${apiUrls.GET_PROJECT_DETAILS}/${this.projectId}?&&solutionId=${this.solutionId}`,
+      url: `${apiUrls.GET_PROJECT_DETAILS}/${this.projectId}`,
       payload: {},
     };
 
