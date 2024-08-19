@@ -24,7 +24,7 @@ getCategoryLabels(): string {
 getCertificateCriteria(): string[] {
   this.validationTexts = []; // Initialize validationTexts as an empty array
 
-  const conditions = this.projectDetails?.certificate?.criteria?.conditions;
+  const conditions = this.projectDetails?.certificate ? this.projectDetails?.certificate?.criteria?.conditions : this.projectDetails?.criteria?.conditions
   if (conditions) {
     for (const conditionKey in conditions) {
       if (Object.prototype.hasOwnProperty.call(conditions, conditionKey)) {
