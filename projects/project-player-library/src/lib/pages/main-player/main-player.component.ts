@@ -153,7 +153,7 @@ export class MainPlayerComponent implements OnInit {
 
     queryArray.forEach((query:any) => {
         const [key, value] = query.split('=');
-        queryObj[key] = value
+        queryObj[key] = value 
     });
     return queryObj;
   }
