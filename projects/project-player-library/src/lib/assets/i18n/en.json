@@ -112,5 +112,6 @@
     "PDF":"Pdf",
     "PNG":"Png",
     "CERTIFICATE_CRITERIA_BEFORE_SUBMITTING":"Please ensure you have met the certificate criteria for this improvement project before submitting.",
-    "CERTIFICATE_ERROR_MSG":"Sorry ! You have not met the certificate criteria for this Improvement Project."
+    "CERTIFICATE_ERROR_MSG":"Sorry ! You have not met the certificate criteria for this Improvement Project.",
+    "CERTIFICATE_DOWNLOAD_SUCCESS":"Certificate is getting downloaded"
 }
