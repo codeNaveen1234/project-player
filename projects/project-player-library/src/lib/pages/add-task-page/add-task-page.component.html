@@ -3,7 +3,7 @@
 <div class="mt-5 m-2">
     <mat-form-field style="width: 100%;">
         <mat-label>{{ "TASK_DESCRIPTION" | translate }}</mat-label>
-        <textarea matInput [(ngModel)]="taskTitle" required cols="10"></textarea>
+        <textarea matInput [(ngModel)]="taskTitle" required cols="10" style="resize: none;"></textarea>
     </mat-form-field>
 
     <lib-date-input [label]="'END_DATE'" [selectedDate]="endDate" (dateEvent)="onDateChange($event)"></lib-date-input>
