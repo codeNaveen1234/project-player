@@ -7,6 +7,7 @@ import { apiUrls } from '../../constants/urlConstants';
 import { ApiService } from '../../services/api/api.service';
 import { BackNavigationHandlerComponent } from '../../shared/back-navigation-handler/back-navigation-handler.component';
 import { HttpClient } from '@angular/common/http';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'lib-certificate-page',
@@ -28,7 +29,8 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
     private routingService: RoutingService,
     private renderer: Renderer2,
     private apiService: ApiService,
-    private http: HttpClient
+    private http: HttpClient,
+    private toasterService: ToastService
   ) {
     super(routingService);
     const url: UrlTree = this.router.parseUrl(this.router.url);
