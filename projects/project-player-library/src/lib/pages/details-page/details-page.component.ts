@@ -110,8 +110,8 @@ export class DetailsPageComponent implements OnInit {
   }
   }
   sendMessage(data:any) {
-    const event = new CustomEvent('customEvent', { detail: data });
-    window.dispatchEvent(event);
+    const message = { type: 'SHARE_LINK', url: data };
+    window.postMessage(message, '*');
   }
 
   iconListAction(event: any) {
