@@ -121,7 +121,6 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
         pdf.addImage(imgData, 'PNG', 0, 0, width, height);
         pdf.save(`${this.projectDetails.title}.pdf`);
         URL.revokeObjectURL(url);
-            this.toasterService.showToast("CERTIFICATE_DOWNLOAD_SUCCESS", "success");
       } else {
         canvas.toBlob((blob) => {
           if (blob) {
@@ -130,10 +129,10 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
             link.download = `${this.projectDetails.title}.png`;
             link.click();
             URL.revokeObjectURL(url);
-              this.toasterService.showToast("CERTIFICATE_DOWNLOAD_SUCCESS", "success");
           }
         }, 'image/png');
       }
+      this.toasterService.showToast("CERTIFICATE_DOWNLOAD_SUCCESS", "success");
     };
     img.src = url;
   }
