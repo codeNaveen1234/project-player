@@ -1,6 +1,6 @@
 {
   "name": "project-player",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Web component to render project-player",
   "main": "project-player-component.js",
   "scripts": {

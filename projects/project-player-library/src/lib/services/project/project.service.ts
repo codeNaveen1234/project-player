@@ -14,7 +14,7 @@ export class ProjectService {
 
   constructor(private utils: UtilsService, private toastService: ToastService, private apiService: ApiService, private routerService: RoutingService) { }
 
-  async showSyncSharePopup(type:string, name:string, project:any, taskId?:string){
+  async showSyncSharePopup(type:string, name:string, project:any, taskId?:string): Promise<string | undefined> {
     let popupDetails= {
       title: "SHAREABLE_FILE",
       actionButtons: [
@@ -27,47 +27,38 @@ export class ProjectService {
       if(response){
         if(project.isEdit){
           this.routerService.navigate('/project-details',{type: "sync", projectId: project._id, taskId: taskId, isShare: true, fileName: name})
+                return undefined;
         }else{
-          taskId ? this.getPdfUrl(name, project._id, taskId) : this.getPdfUrl(name, project._id)
+                return await this.getPdfUrl(name, project._id, taskId);
         }
       }else{
         this.toastService.showToast("FILE_NOT_SHARED","danger")
+            return undefined;
       }
     }else{
-      taskId ? this.getPdfUrl(name, project._id, taskId) : this.getPdfUrl(name, project._id)
+        return await this.getPdfUrl(name, project._id, taskId);
     }
   }
 
-  getPdfUrl(name:string, projectId:string, taskId?:string){
+  getPdfUrl(name:string, projectId:string, taskId?:string): Promise<string | undefined>{
     let url = taskId ? `${apiUrls.SHARE}/${projectId}?tasks=${taskId}` : `${apiUrls.SHARE}/${projectId}`
     const config = {
       url: url
     }
     this.utils.startLoader()
-    firstValueFrom(this.apiService.get(config)).then(response=>{
+    return firstValueFrom(this.apiService.get(config))
+        .then(response => {
       this.utils.stopLoader()
-      if(response.result && response.result.data && response.result.data.downloadUrl){
-        this.downloadFile(response.result.data.downloadUrl, name)
+      if(response.result && response.result.downloadUrl){
+                return response.result.downloadUrl;
       }else{
         this.toastService.showToast("ERROR_IN_DOWNLOADING_MSG","danger")
+            return undefined;  // Return undefined if downloadUrl is not available
       }
     }).catch(error=>{
       this.utils.stopLoader()
       this.toastService.showToast("ERROR_IN_DOWNLOADING_MSG","danger")
-    })
-  }
-
-  downloadFile(url:any, name: string){
-    let fileName = name.length > 40 ? name.slice(0,40) + '...' : name
-    fetch(url).then(resp => resp.blob()).then(blob => {
-      const convertedUrl = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = convertedUrl
-      a.download = fileName
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      window.URL.revokeObjectURL(convertedUrl)
+            return undefined;  // Return undefined if an error occurs
     })
   }
 }
