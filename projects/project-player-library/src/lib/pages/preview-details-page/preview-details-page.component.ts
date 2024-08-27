@@ -136,7 +136,20 @@ export class PreviewDetailsPageComponent {
     })
   }
 
-  startProject(){
+
+
+   checkProject(){
+    if(this.stateData?.referenceFrom == "link" && !this.stateData?.isATargetedSolution){
+      let payload = { referenceFrom: "link", link: this.stateData.link }
+      this.getProjectDetails(payload)
+    }else if(this.stateData?.referenceFrom == "library"){
+      this.importFromLibrary()
+    }else{
+      this.getProjectDetails()
+    }
+  }
+
+ async startProject(){
     if(!this.utils.isLoggedIn()){
       this.toastService.showToast("USER_NOT_LOGGEDIN_MSG","danger")
       setTimeout(() => {
@@ -145,14 +158,24 @@ export class PreviewDetailsPageComponent {
       }, 1000);
       return
     }
-
-    if(this.stateData?.referenceFrom == "link" && !this.stateData?.isATargetedSolution){
-      let payload = { referenceFrom: "link", link: this.stateData.link }
-      this.getProjectDetails(payload)
-    }else if(this.stateData?.referenceFrom == "library"){
-      this.importFromLibrary()
-    }else{
-      this.getProjectDetails()
+    if(this.projectDetails.certificateTemplateId){
+      let dialogData= {
+        content :"CERTIFICATE_NAME_CONFIRMATION_MSG",
+        actionButtons: [
+          { label: "CONFIRM", action: true },
+          { label: "EDIT", action: false }
+        ]
+      }
+      let response = await this.utils.showDialogPopup(dialogData)
+      if(response === true){
+        this.checkProject();
+      }
+      else if(response === false){
+        window.location.href = "/profile-edit"
+      }
+    }
+    else {
+      this.checkProject();
     }
   }
 
