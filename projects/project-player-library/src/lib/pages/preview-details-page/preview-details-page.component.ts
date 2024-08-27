@@ -138,7 +138,7 @@ export class PreviewDetailsPageComponent {
 
 
 
-   checkProject(){
+   start(){
     if(this.stateData?.referenceFrom == "link" && !this.stateData?.isATargetedSolution){
       let payload = { referenceFrom: "link", link: this.stateData.link }
       this.getProjectDetails(payload)
@@ -168,14 +168,14 @@ export class PreviewDetailsPageComponent {
       }
       let response = await this.utils.showDialogPopup(dialogData)
       if(response === true){
-        this.checkProject();
+        this.start();
       }
       else if(response === false){
         window.location.href = "/profile-edit"
       }
     }
     else {
-      this.checkProject();
+      this.start();
     }
   }
 
