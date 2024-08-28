@@ -88,7 +88,9 @@ export class DetailsPageComponent implements OnInit {
       case 'share':
         this.projectService.showSyncSharePopup('task', event.name, this.projectDetails, event._id)
               .then(data => {
+                if(data){
                   this.sendMessage(data)
+                }
               })
               .catch(error => {
                   console.error("Error in sharing:", error);
@@ -125,7 +127,9 @@ export class DetailsPageComponent implements OnInit {
       case "share":
         this.projectService.showSyncSharePopup('project', this.projectDetails.title, this.projectDetails)
               .then(data => {
+                if(data){
                   this.sendMessage(data)
+                }
               })
               .catch(error => {
                   console.error("Error in sharing:", error);
