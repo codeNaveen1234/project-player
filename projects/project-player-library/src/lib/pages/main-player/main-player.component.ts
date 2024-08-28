@@ -137,6 +137,7 @@ export class MainPlayerComponent implements OnInit {
 
   ngOnDestroy(){
     this.dataService.clearConfig()
+    this.routerService.navigate('/',{},{skipLocationChange: true})
     if (this.routerSubscription) {
       this.routerSubscription.unsubscribe();
     }
