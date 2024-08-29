@@ -1,9 +1,11 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { DataService } from '../data/data.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../toast/toast.service';
+import { NetworkServiceService } from 'network-service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +20,24 @@ export class ApiService {
     'Content-Type': 'application/json',
     'x-app-ver':''
   }
-
-  constructor(private http: HttpClient, private dataService: DataService, private router: Router, private toastService: ToastService) {
+  private onlineStatus:any;
+  constructor(private http: HttpClient,private dataService: DataService,private router: Router,private toastService: ToastService,private network:NetworkServiceService) {
+    this.network.isOnline$.subscribe((status)=>{
+      this.onlineStatus=status
+    })
+  }
+  private handleOfflineError(): Observable<never> {
+    this.toastService.showToast("OFFLINE_MSG",'danger')
+    return throwError(() => ({
+      status: 0,
+      error:{message: 'You are offline'},
+    }));
   }
 
   get(config:any): Observable<any> {
+    if (!this.onlineStatus) {
+      return this.handleOfflineError();
+    }
     this.setHeaders()
     return this.http.get(`${this.baseUrl}/${config.url}`,{headers: this.headers}).pipe(
       catchError(this.handleError)
@@ -30,6 +45,9 @@ export class ApiService {
   }
 
   post(config: any): Observable<any> {
+    if (!this.onlineStatus) {
+      return this.handleOfflineError();
+    }
     this.setHeaders()
     return this.http.post(`${this.baseUrl}/${config.url}`, config.payload, {headers: this.headers}).pipe(
       catchError(this.handleError)
@@ -37,12 +55,18 @@ export class ApiService {
   }
 
   put(config: any): Observable<any> {
+    if (!this.onlineStatus) {
+      return this.handleOfflineError()
+    }
     return this.http.put(`${this.baseUrl}/${config.url}`, config.payload, {headers: this.headers}).pipe(
       catchError(this.handleError)
     );
   }
 
   delete(config:any): Observable<any> {
+    if (!this.onlineStatus) {
+      return this.handleOfflineError();
+    }
     return this.http.delete(`${this.baseUrl}/${config.url}`,{headers: this.headers}).pipe(
       catchError(this.handleError)
     );

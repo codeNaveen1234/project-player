@@ -9,6 +9,7 @@ import { statusType } from '../../constants/statusConstants';
 import { ProjectService } from '../../services/project/project.service';
 import { apiUrls } from '../../constants/urlConstants';
 import { ApiService } from '../../services/api/api.service';
+import { NetworkServiceService } from 'network-service';
 
 @Component({
   selector: 'lib-details-page',
@@ -26,10 +27,14 @@ export class DetailsPageComponent implements OnInit {
   remainingTasks:any[]=[];
   tasksList:any = []
   selectedTabIndex:any = 0
+  isOnline:any;
 
   constructor(private routerService: RoutingService, private db: DbService,
-    private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService, private router: Router
+    private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService, private router: Router,private network:NetworkServiceService
   ) {
+    this.network.isOnline$.subscribe((status)=>{
+      this.isOnline=status
+    })
     const urlTree: UrlTree = this.router.parseUrl(this.router.url);
     const id = urlTree.queryParams['id'];
     this.selectedTabIndex = urlTree.queryParams['tab'] || 0
@@ -88,15 +93,11 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case 'share':
+        if(!this.isOnline){
+          this.toasterService.showToast("OFFLINE_MSG",'danger')
+          return
+        }
         this.projectService.showSyncSharePopup('task', event.name, this.projectDetails, event._id)
-              .then(data => {
-                if(data){
-                  this.sendMessage(data)
-                }
-              })
-              .catch(error => {
-                  console.error("Error in sharing:", error);
-              });
         break;
 
       case 'delete':
@@ -113,10 +114,6 @@ export class DetailsPageComponent implements OnInit {
       this.routerService.navigate('/project-details',{ type: "taskDetails", taskId: taskId, projectId: this.projectDetails._id })
   }
   }
-  sendMessage(data:any) {
-    const message = { type: 'SHARE_LINK', url: data };
-    window.postMessage(message, '*');
-  }
 
   iconListAction(event: any) {
     switch (event.action) {
@@ -127,15 +124,11 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case "share":
+        if(!this.isOnline){
+          this.toasterService.showToast("OFFLINE_MSG",'danger')
+          return
+        }
         this.projectService.showSyncSharePopup('project', this.projectDetails.title, this.projectDetails)
-              .then(data => {
-                if(data){
-                  this.sendMessage(data)
-                }
-              })
-              .catch(error => {
-                  console.error("Error in sharing:", error);
-              });
         break;
 
       case "files":
@@ -143,6 +136,10 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case "sync":
+        if(!this.isOnline){
+          this.toasterService.showToast("OFFLINE_MSG",'danger')
+          return
+        }
         this.routerService.navigate('/project-details',{type: "sync", projectId:this.projectDetails._id})
         break;
 
