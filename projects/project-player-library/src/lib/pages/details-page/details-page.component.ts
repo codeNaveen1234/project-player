@@ -134,7 +134,7 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case "share":
-        if(this.isOnline){
+        if(!this.isOnline){
           this.toasterService.showToast("OFFLINE_MSG",'danger')
           return
         }
@@ -154,7 +154,7 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case "sync":
-        if(this.isOnline){
+        if(!this.isOnline){
           this.toasterService.showToast("OFFLINE_MSG",'danger')
           return
         }
