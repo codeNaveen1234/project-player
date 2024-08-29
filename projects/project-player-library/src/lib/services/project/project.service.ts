@@ -40,12 +40,15 @@ export class ProjectService {
     }
   }
 
-  getPdfUrl(name:string, projectId:string, taskId?:string): Promise<string | undefined>{
+  getPdfUrl(name:string, projectId:string, taskId?:string,Loader?:any): Promise<string | undefined>{
     let url = taskId ? `${apiUrls.SHARE}/${projectId}?tasks=${taskId}` : `${apiUrls.SHARE}/${projectId}`
     const config = {
       url: url
     }
-    this.utils.startLoader()
+    let showLoader = Loader ? false : true ;
+    if(showLoader){
+      this.utils.startLoader()
+    }
     return firstValueFrom(this.apiService.get(config))
         .then(response => {
       this.utils.stopLoader()
@@ -60,5 +63,10 @@ export class ProjectService {
       this.toastService.showToast("ERROR_IN_DOWNLOADING_MSG","danger")
             return undefined;  // Return undefined if an error occurs
     })
+  }
+
+  sendMessage(data:any) {
+    const message = { type: 'SHARE_LINK', url: data };
+    window.postMessage(message, '*');
   }
 }

@@ -134,7 +134,7 @@ export class SyncPageComponent extends BackNavigationHandlerComponent {
     return this.syncService.removeKeys(payload,['isNew','isEdit'])
   }
 
-  updateDataToDb(){
+  async updateDataToDb(){
     let data = {
       key : this.projectId,
       data : this.projectDetails
@@ -146,7 +146,10 @@ export class SyncPageComponent extends BackNavigationHandlerComponent {
     }
     this.showToastMessage()
     if(this.isShare){
-      this.projectService.getPdfUrl(this.fileName,this.projectId,this.taskId)
+    let res = await this.projectService.getPdfUrl(this.fileName,this.projectId,this.taskId,true)
+    if(res){
+      this.projectService.sendMessage(res)
+    }
     }
     this.goBack()
 
@@ -164,8 +167,16 @@ export class SyncPageComponent extends BackNavigationHandlerComponent {
 
 
   showToastMessage() {
-    let toastMessage = this.projectDetails.status === statusType.submitted ? "PROJECT_SUBMISSION_SUCCESSFUL_MSG" : "PROJECT_SYNC_SUCCESSFUL_MSG"
+    let toastMessage:any;
+    if(this.isShare){
+      toastMessage = this.projectDetails.status === statusType.submitted ? "PROJECT_SUBMISSION_SUCCESSFUL_MSG" : null
+    }
+    else{
+      toastMessage = this.projectDetails.status === statusType.submitted ? "PROJECT_SUBMISSION_SUCCESSFUL_MSG" : "PROJECT_SYNC_SUCCESSFUL_MSG"
+    }
+    if(toastMessage){
     this.toastService.showToast(toastMessage,"success")
+    }
   }
 
   goToAttachmentsList(){
