@@ -128,9 +128,9 @@ export class DetailsPageComponent implements OnInit {
   iconListAction(event: any) {
     switch (event.action) {
       case "download":
-          this.projectDetails.downloaded = true
-          this.setActionsList()
-          this.toasterService.showToast("PROJECT_DOWNLOADING_SUCCESS","success")
+        this.projectDetails.downloaded = true
+        this.setActionsList()
+        this.toasterService.showToast("PROJECT_DOWNLOADING_SUCCESS","success")
         break;
 
       case "share":
@@ -138,9 +138,9 @@ export class DetailsPageComponent implements OnInit {
           this.toasterService.showToast("OFFLINE_MSG",'danger')
           return
         }
-          this.projectService.showSyncSharePopup('project', this.projectDetails.title, this.projectDetails)
-          .then(data => {
-            if(data){
+        this.projectService.showSyncSharePopup('project', this.projectDetails.title, this.projectDetails)
+        .then(data => {
+          if(data){
               this.sendMessage(data)
             }
           })
