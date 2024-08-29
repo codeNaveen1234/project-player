@@ -35,7 +35,7 @@ export class ApiService {
 
   get(config:any): Observable<any> {
     if (!this.onlineStatus) {
-      this.toastService.showToast("NO_INTERNET",'danger')
+      this.toastService.showToast("OFFLINE_MSG",'danger')
       return this.handleOfflineError();
     }
     this.setHeaders()
@@ -46,7 +46,7 @@ export class ApiService {
 
   post(config: any): Observable<any> {
     if (!this.onlineStatus) {
-      this.toastService.showToast("NO_INTERNET",'danger')
+      this.toastService.showToast("OFFLINE_MSG",'danger')
       return this.handleOfflineError();
     }
     this.setHeaders()
@@ -57,7 +57,7 @@ export class ApiService {
 
   put(config: any): Observable<any> {
     if (!this.onlineStatus) {
-      this.toastService.showToast("NO_INTERNET",'danger')
+      this.toastService.showToast("OFFLINE_MSG",'danger')
       return this.handleOfflineError()
     }
     return this.http.put(`${this.baseUrl}/${config.url}`, config.payload, {headers: this.headers}).pipe(
@@ -67,7 +67,7 @@ export class ApiService {
 
   delete(config: any): Observable<any> {
     if (!this.onlineStatus) {
-      this.toastService.showToast("NO_INTERNET",'danger')
+      this.toastService.showToast("OFFLINE_MSG",'danger')
       return this.handleOfflineError();
     }
     return this.http.delete(`${this.baseUrl}/${config.url}`,{headers: this.headers}).pipe(

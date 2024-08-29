@@ -116,5 +116,5 @@
     "CERTIFICATE_DOWNLOAD_SUCCESS":"Certificate is getting downloaded",
     "CERTIFICATE_NAME_CONFIRMATION_MSG":"Confirm that your name and details below are correct. These will be printed on your certificate and cannot be changed later.",
     "CONFIRM":"Confirm",
-    "NO_INTERNET":"You are offline"
+    "OFFLINE_MSG":"You are offline"
 }

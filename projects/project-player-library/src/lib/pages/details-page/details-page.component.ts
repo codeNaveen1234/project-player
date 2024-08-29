@@ -91,7 +91,10 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case 'share':
-        if(this.isOnline){
+        if(!this.isOnline){
+          this.toasterService.showToast("OFFLINE_MSG",'danger')
+          return
+        }
           this.projectService.showSyncSharePopup('task', event.name, this.projectDetails, event._id)
           .then(data => {
             if(data){
@@ -101,9 +104,6 @@ export class DetailsPageComponent implements OnInit {
           .catch(error => {
               console.error("Error in sharing:", error);
           });
-        }else{
-          this.toasterService.showToast("NO_INTERNET",'danger')
-        }
         break;
 
       case 'delete':
@@ -128,17 +128,16 @@ export class DetailsPageComponent implements OnInit {
   iconListAction(event: any) {
     switch (event.action) {
       case "download":
-        if(this.isOnline){
           this.projectDetails.downloaded = true
           this.setActionsList()
           this.toasterService.showToast("PROJECT_DOWNLOADING_SUCCESS","success")
-        }else{
-          this.toasterService.showToast("NO_INTERNET",'danger')
-        }
         break;
 
       case "share":
         if(this.isOnline){
+          this.toasterService.showToast("OFFLINE_MSG",'danger')
+          return
+        }
           this.projectService.showSyncSharePopup('project', this.projectDetails.title, this.projectDetails)
           .then(data => {
             if(data){
@@ -148,9 +147,6 @@ export class DetailsPageComponent implements OnInit {
           .catch(error => {
               console.error("Error in sharing:", error);
           });
-        }else{
-          this.toasterService.showToast("NO_INTERNET",'danger')
-        }
         break;
 
       case "files":
@@ -158,11 +154,11 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case "sync":
-          if(this.isOnline){
-            this.routerService.navigate('/project-details',{type: "sync", projectId:this.projectDetails._id})
-          }else{
-            this.toasterService.showToast("NO_INTERNET",'danger')
-          }
+        if(this.isOnline){
+          this.toasterService.showToast("OFFLINE_MSG",'danger')
+          return
+        }
+        this.routerService.navigate('/project-details',{type: "sync", projectId:this.projectDetails._id})
         break;
         case "certificate":
         this.routerService.navigate('/project-details',{type: "certificate",projectId:this.projectDetails._id})
