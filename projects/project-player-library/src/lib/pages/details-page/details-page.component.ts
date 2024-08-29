@@ -9,6 +9,7 @@ import { statusType } from '../../constants/statusConstants';
 import { ProjectService } from '../../services/project/project.service';
 import { apiUrls } from '../../constants/urlConstants';
 import { ApiService } from '../../services/api/api.service';
+import { NetworkServiceService } from 'network-service';
 
 @Component({
   selector: 'lib-details-page',
@@ -25,10 +26,14 @@ export class DetailsPageComponent implements OnInit {
   displayedTasks:any[]=[];
   remainingTasks:any[]=[];
   tasksList:any = []
+  isOnline:any;
 
   constructor(private routerService: RoutingService, private db: DbService,
-    private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService, private router: Router
+    private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService, private router: Router,private network:NetworkServiceService
   ) {
+    this.network.isOnline$.subscribe((status)=>{
+      this.isOnline=status
+    })
     const urlTree: UrlTree = this.router.parseUrl(this.router.url);
     const id = urlTree.queryParams['id'];
     this.getData(id)
@@ -86,15 +91,19 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case 'share':
-        this.projectService.showSyncSharePopup('task', event.name, this.projectDetails, event._id)
-              .then(data => {
-                if(data){
-                  this.sendMessage(data)
-                }
-              })
-              .catch(error => {
-                  console.error("Error in sharing:", error);
-              });
+        if(this.isOnline){
+          this.projectService.showSyncSharePopup('task', event.name, this.projectDetails, event._id)
+          .then(data => {
+            if(data){
+              this.sendMessage(data)
+            }
+          })
+          .catch(error => {
+              console.error("Error in sharing:", error);
+          });
+        }else{
+          this.toasterService.showToast("NO_INTERNET",'danger')
+        }
         break;
 
       case 'delete':
@@ -119,21 +128,29 @@ export class DetailsPageComponent implements OnInit {
   iconListAction(event: any) {
     switch (event.action) {
       case "download":
-        this.projectDetails.downloaded = true
-        this.setActionsList()
-        this.toasterService.showToast("PROJECT_DOWNLOADING_SUCCESS","success")
+        if(this.isOnline){
+          this.projectDetails.downloaded = true
+          this.setActionsList()
+          this.toasterService.showToast("PROJECT_DOWNLOADING_SUCCESS","success")
+        }else{
+          this.toasterService.showToast("NO_INTERNET",'danger')
+        }
         break;
 
       case "share":
-        this.projectService.showSyncSharePopup('project', this.projectDetails.title, this.projectDetails)
-              .then(data => {
-                if(data){
-                  this.sendMessage(data)
-                }
-              })
-              .catch(error => {
-                  console.error("Error in sharing:", error);
-              });
+        if(this.isOnline){
+          this.projectService.showSyncSharePopup('project', this.projectDetails.title, this.projectDetails)
+          .then(data => {
+            if(data){
+              this.sendMessage(data)
+            }
+          })
+          .catch(error => {
+              console.error("Error in sharing:", error);
+          });
+        }else{
+          this.toasterService.showToast("NO_INTERNET",'danger')
+        }
         break;
 
       case "files":
@@ -141,9 +158,12 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case "sync":
-        this.routerService.navigate('/project-details',{type: "sync", projectId:this.projectDetails._id})
+          if(this.isOnline){
+            this.routerService.navigate('/project-details',{type: "sync", projectId:this.projectDetails._id})
+          }else{
+            this.toasterService.showToast("NO_INTERNET",'danger')
+          }
         break;
-
         case "certificate":
         this.routerService.navigate('/project-details',{type: "certificate",projectId:this.projectDetails._id})
         break;
