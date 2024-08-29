@@ -87,14 +87,6 @@ export class DetailsPageComponent implements OnInit {
 
       case 'share':
         this.projectService.showSyncSharePopup('task', event.name, this.projectDetails, event._id)
-              .then(data => {
-                if(data){
-                  this.projectService.sendMessage(data)
-                }
-              })
-              .catch(error => {
-                  console.error("Error in sharing:", error);
-              });
         break;
 
       case 'delete':
@@ -122,14 +114,6 @@ export class DetailsPageComponent implements OnInit {
 
       case "share":
         this.projectService.showSyncSharePopup('project', this.projectDetails.title, this.projectDetails)
-              .then(data => {
-                if(data){
-                  this.projectService.sendMessage(data)
-                }
-              })
-              .catch(error => {
-                  console.error("Error in sharing:", error);
-              });
         break;
 
       case "files":

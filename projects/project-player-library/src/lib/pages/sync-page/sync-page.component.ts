@@ -144,13 +144,10 @@ export class SyncPageComponent extends BackNavigationHandlerComponent {
     if(this.cloudUploadFailed){
       return
     }
-    this.showToastMessage()
     if(this.isShare){
-    let res = await this.projectService.getPdfUrl(this.fileName,this.projectId,this.taskId,true)
-    if(res){
-      this.projectService.sendMessage(res)
-    }
-    }
+      await this.projectService.getPdfUrl(this.fileName,this.projectId,this.taskId,true)
+      }
+      this.showToastMessage()
     this.goBack()
 
   }
@@ -167,16 +164,8 @@ export class SyncPageComponent extends BackNavigationHandlerComponent {
 
 
   showToastMessage() {
-    let toastMessage:any;
-    if(this.isShare){
-      toastMessage = this.projectDetails.status === statusType.submitted ? "PROJECT_SUBMISSION_SUCCESSFUL_MSG" : null
-    }
-    else{
-      toastMessage = this.projectDetails.status === statusType.submitted ? "PROJECT_SUBMISSION_SUCCESSFUL_MSG" : "PROJECT_SYNC_SUCCESSFUL_MSG"
-    }
-    if(toastMessage){
-    this.toastService.showToast(toastMessage,"success")
-    }
+      let toastMessage = this.projectDetails.status === statusType.submitted ? "PROJECT_SUBMISSION_SUCCESSFUL_MSG" : "PROJECT_SYNC_SUCCESSFUL_MSG"
+      this.toastService.showToast(toastMessage,"success")
   }
 
   goToAttachmentsList(){
