@@ -26,6 +26,7 @@ export class DetailsPageComponent implements OnInit {
   displayedTasks:any[]=[];
   remainingTasks:any[]=[];
   tasksList:any = []
+  selectedTabIndex:any = 0
   isOnline:any;
 
   constructor(private routerService: RoutingService, private db: DbService,
@@ -36,6 +37,7 @@ export class DetailsPageComponent implements OnInit {
     })
     const urlTree: UrlTree = this.router.parseUrl(this.router.url);
     const id = urlTree.queryParams['id'];
+    this.selectedTabIndex = urlTree.queryParams['tab'] || 0
     this.getData(id)
   }
 
@@ -285,4 +287,18 @@ export class DetailsPageComponent implements OnInit {
     }
   }
 
+  onTabChange(tabIndex:any){
+    this.selectedTabIndex = tabIndex
+    switch (tabIndex) {
+      case 0:
+        this.routerService.navigate('',{ tab: null },{queryParamsHandling: 'merge', replaceUrl: true})
+        break;
+      case 1:
+        this.routerService.navigate('',{ tab: 1 },{queryParamsHandling: 'merge', replaceUrl: true})
+        break;
+    
+      default:
+        break;
+    }
+  }
 }

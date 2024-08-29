@@ -37,7 +37,7 @@
       </mat-card-actions>
 </mat-card>
 
-<mat-tab-group dynamicHeight>
+<mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="onTabChange($event)" dynamicHeight>
     <mat-tab [label]="'PROJECT_DETAILS' | translate" >
       <div class="tab-label-container">
         <div class="p-[8px] mt-2">

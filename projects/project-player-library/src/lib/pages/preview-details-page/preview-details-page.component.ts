@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { StartImprovementPopupComponent } from '../../shared/start-improvement-popup/start-improvement-popup.component';
 import { UtilsService } from '../../services/utils/utils.service';
 import { ToastService } from '../../services/toast/toast.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'lib-preview-details-page',
@@ -25,7 +26,7 @@ export class PreviewDetailsPageComponent {
   id:any;
   stateData:any
   constructor(private routerService:RoutingService,private db:DbService,private apiService:ApiService,private dataService: DataService,
-    private dialog: MatDialog, private router: Router, private utils: UtilsService, private toastService: ToastService
+    private dialog: MatDialog, private router: Router, private utils: UtilsService, private toastService: ToastService, private translate: TranslateService
   ){
     const urlTree: UrlTree = this.router.parseUrl(this.router.url);
     this.id = urlTree.queryParams['id']
@@ -107,6 +108,12 @@ export class PreviewDetailsPageComponent {
     }
       this.apiService.post(configForProjectId).subscribe((res)=>{
         if(res.result){
+          if(this.stateData?.referenceFrom == "link"){
+            let tab = this.stateData?.isATargetedSolution ? "ASSIGNED_TO_ME_TAB" : "DISCOVERED_BY_ME_TAB"
+            this.translate.get(["PROJECT_AVAILABLE_UNDER_TAB_MSG",tab]).subscribe(data => {
+              this.toastService.showToast(`${data["PROJECT_AVAILABLE_UNDER_TAB_MSG"]} ${data[tab]}`,"success")
+            })
+          }
           let data = {
             key: res.result._id,
             data: res.result
@@ -182,7 +189,7 @@ export class PreviewDetailsPageComponent {
   importFromLibrary(){
     const config = {
       url: `${apiUrls.IMPORT_LIBRARY}${this.projectDetails._id}`,
-      payload: { hasAcceptedTAndC: this.projectDetails.hasAcceptedTAndC || false }
+      payload: { hasAcceptedTAndC: this.projectDetails.hasAcceptedTAndC || false, referenceFrom: "fromLibrary" }
     }
     this.apiService.post(config).subscribe((res)=>{
       if(res.result){

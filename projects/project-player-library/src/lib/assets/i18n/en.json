@@ -116,5 +116,8 @@
     "CERTIFICATE_DOWNLOAD_SUCCESS":"Certificate is getting downloaded",
     "CERTIFICATE_NAME_CONFIRMATION_MSG":"Confirm that your name and details below are correct. These will be printed on your certificate and cannot be changed later.",
     "CONFIRM":"Confirm",
+    "PROJECT_AVAILABLE_UNDER_TAB_MSG":"Your project will now be available under",
+    "ASSIGNED_TO_ME_TAB":"assigned to me tab",
+    "DISCOVERED_BY_ME_TAB":"discovered by me tab",
     "OFFLINE_MSG":"You are offline"
 }
