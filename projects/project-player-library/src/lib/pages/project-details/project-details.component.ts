@@ -18,7 +18,7 @@ ngOnChanges(changes: SimpleChanges): void {
   }
 }
 getCategoryLabels(): string {
-  return this.projectDetails.categories.map((item: { label: any; }) => item.label).join(', ');
+  return this.projectDetails.categories.map((item: { name: any; }) => item.name).join(', ');
 }
 
 getCertificateCriteria(): string[] {

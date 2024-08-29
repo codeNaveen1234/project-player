@@ -14,7 +14,7 @@ export class ProjectService {
 
   constructor(private utils: UtilsService, private toastService: ToastService, private apiService: ApiService, private routerService: RoutingService) { }
 
-  async showSyncSharePopup(type:string, name:string, project:any, taskId?:string): Promise<string | undefined> {
+async showSyncSharePopup(type:string, name:string, project:any, taskId?:string){
     let popupDetails= {
       title: "SHAREABLE_FILE",
       actionButtons: [
@@ -27,38 +27,42 @@ export class ProjectService {
       if(response){
         if(project.isEdit){
           this.routerService.navigate('/project-details',{type: "sync", projectId: project._id, taskId: taskId, isShare: true, fileName: name})
-                return undefined;
         }else{
-                return await this.getPdfUrl(name, project._id, taskId);
+          taskId ? this.getPdfUrl(name, project._id, taskId) : this.getPdfUrl(name, project._id)
         }
       }else{
         this.toastService.showToast("FILE_NOT_SHARED","danger")
-            return undefined;
       }
     }else{
-        return await this.getPdfUrl(name, project._id, taskId);
+      taskId ? this.getPdfUrl(name, project._id, taskId) : this.getPdfUrl(name, project._id)
     }
   }
 
-  getPdfUrl(name:string, projectId:string, taskId?:string): Promise<string | undefined>{
+    getPdfUrl(name:string, projectId:string, taskId?:string,loader?:any){
     let url = taskId ? `${apiUrls.SHARE}/${projectId}?tasks=${taskId}` : `${apiUrls.SHARE}/${projectId}`
     const config = {
       url: url
     }
-    this.utils.startLoader()
+    let showLoader = loader ? false : true ;
+    if(showLoader){
+      this.utils.startLoader()
+    }
     return firstValueFrom(this.apiService.get(config))
-        .then(response => {
+        .then(async response => {
       this.utils.stopLoader()
       if(response.result && response.result.downloadUrl){
-                return response.result.downloadUrl;
+          await this.sendMessage(response.result.downloadUrl);
       }else{
         this.toastService.showToast("ERROR_IN_DOWNLOADING_MSG","danger")
-            return undefined;  // Return undefined if downloadUrl is not available
       }
     }).catch(error=>{
       this.utils.stopLoader()
       this.toastService.showToast("ERROR_IN_DOWNLOADING_MSG","danger")
-            return undefined;  // Return undefined if an error occurs
     })
+  }
+
+  sendMessage(data:any) {
+    const message = { type: 'SHARE_LINK', url: data };
+    window.postMessage(message, '*');
   }
 }

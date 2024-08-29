@@ -96,14 +96,6 @@ export class DetailsPageComponent implements OnInit {
           return
         }
         this.projectService.showSyncSharePopup('task', event.name, this.projectDetails, event._id)
-              .then(data => {
-                if(data){
-                  this.sendMessage(data)
-                }
-              })
-              .catch(error => {
-                  console.error("Error in sharing:", error);
-              });
         break;
 
       case 'delete':
@@ -120,10 +112,6 @@ export class DetailsPageComponent implements OnInit {
       this.routerService.navigate('/project-details',{ type: "taskDetails", taskId: taskId, projectId: this.projectDetails._id })
   }
   }
-  sendMessage(data:any) {
-    const message = { type: 'SHARE_LINK', url: data };
-    window.postMessage(message, '*');
-  }
 
   iconListAction(event: any) {
     switch (event.action) {
@@ -139,14 +127,6 @@ export class DetailsPageComponent implements OnInit {
           return
         }
         this.projectService.showSyncSharePopup('project', this.projectDetails.title, this.projectDetails)
-              .then(data => {
-                if(data){
-                  this.sendMessage(data)
-                }
-              })
-              .catch(error => {
-                  console.error("Error in sharing:", error);
-              });
         break;
 
       case "files":
