@@ -9,6 +9,7 @@ import { statusType } from '../../constants/statusConstants';
 import { ProjectService } from '../../services/project/project.service';
 import { apiUrls } from '../../constants/urlConstants';
 import { ApiService } from '../../services/api/api.service';
+import { NetworkServiceService } from 'network-service';
 
 @Component({
   selector: 'lib-details-page',
@@ -25,10 +26,14 @@ export class DetailsPageComponent implements OnInit {
   displayedTasks:any[]=[];
   remainingTasks:any[]=[];
   tasksList:any = []
+  isOnline:any;
 
   constructor(private routerService: RoutingService, private db: DbService,
-    private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService, private router: Router
+    private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService, private router: Router,private network:NetworkServiceService
   ) {
+    this.network.isOnline$.subscribe((status)=>{
+      this.isOnline=status
+    })
     const urlTree: UrlTree = this.router.parseUrl(this.router.url);
     const id = urlTree.queryParams['id'];
     this.getData(id)
@@ -86,6 +91,10 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case 'share':
+        if(!this.isOnline){
+          this.toasterService.showToast("OFFLINE_MSG",'danger')
+          return
+        }
         this.projectService.showSyncSharePopup('task', event.name, this.projectDetails, event._id)
               .then(data => {
                 if(data){
@@ -125,6 +134,10 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case "share":
+        if(!this.isOnline){
+          this.toasterService.showToast("OFFLINE_MSG",'danger')
+          return
+        }
         this.projectService.showSyncSharePopup('project', this.projectDetails.title, this.projectDetails)
               .then(data => {
                 if(data){
@@ -141,6 +154,10 @@ export class DetailsPageComponent implements OnInit {
         break;
 
       case "sync":
+        if(!this.isOnline){
+          this.toasterService.showToast("OFFLINE_MSG",'danger')
+          return
+        }
         this.routerService.navigate('/project-details',{type: "sync", projectId:this.projectDetails._id})
         break;
 
