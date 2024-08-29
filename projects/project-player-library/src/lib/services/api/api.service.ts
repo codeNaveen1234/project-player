@@ -65,7 +65,7 @@ export class ApiService {
     );
   }
 
-  delete(config: any): Observable<any> {
+  delete(config:any): Observable<any> {
     if (!this.onlineStatus) {
       this.toastService.showToast("OFFLINE_MSG",'danger')
       return this.handleOfflineError();
