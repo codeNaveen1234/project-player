@@ -119,5 +119,5 @@
     "PROJECT_AVAILABLE_UNDER_TAB_MSG":"Your project will now be available under",
     "ASSIGNED_TO_ME_TAB":"assigned to me tab",
     "DISCOVERED_BY_ME_TAB":"discovered by me tab",
-    "OFFLINE_MSG":"You are offline"
+    "OFFLINE_MSG":"You are offline,please connect to a network"
 }
