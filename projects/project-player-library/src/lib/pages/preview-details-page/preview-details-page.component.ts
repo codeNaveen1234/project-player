@@ -114,6 +114,7 @@ export class PreviewDetailsPageComponent {
               this.toastService.showToast(`${data["PROJECT_AVAILABLE_UNDER_TAB_MSG"]} ${data[tab]}`,"success")
             })
           }
+          res.result.hasAcceptedTAndC = this.projectDetails.hasAcceptedTAndC
           let data = {
             key: res.result._id,
             data: res.result
@@ -143,16 +144,22 @@ export class PreviewDetailsPageComponent {
     })
   }
 
-
-
-   start(){
-    if(this.stateData?.referenceFrom == "link" && !this.stateData?.isATargetedSolution){
-      let payload = { referenceFrom: "link", link: this.stateData.link }
-      this.getProjectDetails(payload)
-    }else if(this.stateData?.referenceFrom == "library"){
-      this.importFromLibrary()
-    }else{
-      this.getProjectDetails()
+  async start() {
+    const isLinkReference = this.stateData?.referenceFrom === "link" && !this.stateData?.isATargetedSolution;
+    const isLibraryReference = this.stateData?.referenceFrom === "library";
+  
+    if (isLinkReference || isLibraryReference) {
+      const response = await this.utils.showPopupWithCheckbox("projectShare");
+      if(!response) return
+      this.projectDetails.hasAcceptedTAndC = response.buttonAction
+      if (isLinkReference) {
+        const payload = { referenceFrom: "link", link: this.stateData.link };
+        this.getProjectDetails(payload);
+      } else if (isLibraryReference) {
+        this.importFromLibrary();
+      }
+    } else {
+      this.getProjectDetails();
     }
   }
 
@@ -193,6 +200,7 @@ export class PreviewDetailsPageComponent {
     }
     this.apiService.post(config).subscribe((res)=>{
       if(res.result){
+        res.result.hasAcceptedTAndC = this.projectDetails.hasAcceptedTAndC
         let data = {
           key: res.result._id,
           data: res.result

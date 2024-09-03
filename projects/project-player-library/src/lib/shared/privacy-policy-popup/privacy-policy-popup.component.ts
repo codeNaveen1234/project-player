@@ -8,13 +8,16 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class PrivacyPolicyPopupComponent {
   isChecked:boolean = false
+  popupData:any
 
-  constructor(public popupRef: MatDialogRef<PrivacyPolicyPopupComponent>, @Inject(MAT_DIALOG_DATA)public data: any){}
+  constructor(public popupRef: MatDialogRef<PrivacyPolicyPopupComponent>, @Inject(MAT_DIALOG_DATA)public data: any){
+    this.popupData = data
+  }
 
   closePopup(data:any){
     let returnData = {
       isChecked: this.isChecked,
-      upload: data
+      buttonAction: data
     }
     this.popupRef.close(returnData)
   }

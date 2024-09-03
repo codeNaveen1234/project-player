@@ -4,7 +4,6 @@ import { AttachmentService } from '../../services/attachment/attachment.service'
 import { actions } from '../../constants/actionConstants';
 import { DbService } from '../../services/db/db.service';
 import { MatDialog } from '@angular/material/dialog';
-import { PrivacyPolicyPopupComponent } from '../../shared/privacy-policy-popup/privacy-policy-popup.component';
 import { ToastService } from '../../services/toast/toast.service';
 import { UtilsService } from '../../services/utils/utils.service'
 import { Router, UrlTree } from '@angular/router';
@@ -52,9 +51,17 @@ export class AddTaskPageComponent extends BackNavigationHandlerComponent impleme
     this.location.back()
   }
 
-  uploadFile(accept:any){
+  async uploadFile(accept:any){
     this.acceptType = accept
-    this.showPrivacyPolicyPopup()
+    let response = await this.utils.showPopupWithCheckbox("evidence")
+    if(response){
+      if(response.isChecked && response.buttonAction){
+        this.file.nativeElement.value = ''
+        this.file.nativeElement.click()
+      }else{
+        this.toastService.showToast('ACCEPT_POLICY_ERROR_MSG',"danger")
+      }
+    }
   }
 
   async onChange($event:any){
@@ -108,24 +115,6 @@ export class AddTaskPageComponent extends BackNavigationHandlerComponent impleme
     this.db.updateData(finalData)
     this.goBack()
     this.toastService.showToast("NEW_TASK_ADDED_SUCCESSFULLY_MSG","success")
-  }
-
-  showPrivacyPolicyPopup(){
-    const dialogRef = this.dialog.open(PrivacyPolicyPopupComponent,{
-      width:'400px',
-      minHeight:'150px'
-    })
-
-    dialogRef.afterClosed().subscribe(data=>{
-      if(data){
-        if(data.isChecked && data.upload){
-          this.file.nativeElement.value = ''
-          this.file.nativeElement.click()
-        }else{
-          this.toastService.showToast('ACCEPT_POLICY_ERROR_MSG',"danger")
-        }
-      }
-    })
   }
 
   onDateChange($event:any){

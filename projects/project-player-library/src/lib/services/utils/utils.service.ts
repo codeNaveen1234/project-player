@@ -6,6 +6,8 @@ import { firstValueFrom } from 'rxjs';
 import { LoaderComponent } from '../../shared/loader/loader.component';
 import { statusType } from '../../constants/statusConstants';
 import { DataService } from '../data/data.service';
+import { privacyPolicyPopupData, shareProjectPopupData } from '../../constants/dataConstants';
+import { PrivacyPolicyPopupComponent } from '../../shared/privacy-policy-popup/privacy-policy-popup.component';
 
 @Injectable({
   providedIn: 'root'
@@ -126,6 +128,17 @@ export class UtilsService {
     let config = this.dataService.getConfig()
     let token = config.accessToken
     return token ? true : false
+  }
+
+  async showPopupWithCheckbox(type:any){
+    let popupData = type == "evidence" ? privacyPolicyPopupData : shareProjectPopupData
+    const dialogRef = this.dialog.open(PrivacyPolicyPopupComponent, {
+      width:'400px',
+      minHeight:'150px',
+      data: popupData
+    });
+    let response = await firstValueFrom(dialogRef.afterClosed())
+    return response
   }
 
 }

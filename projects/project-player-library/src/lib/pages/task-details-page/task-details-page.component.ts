@@ -7,7 +7,6 @@ import { actions } from '../../constants/actionConstants';
 import { RoutingService } from '../../services/routing/routing.service';
 import { DbService } from '../../services/db/db.service';
 import { UtilsService } from '../../services/utils/utils.service';
-import { PrivacyPolicyPopupComponent } from '../../shared/privacy-policy-popup/privacy-policy-popup.component';
 import { ToastService } from '../../services/toast/toast.service';
 import { statusType } from '../../constants/statusConstants';
 import { Router } from '@angular/router';
@@ -142,21 +141,15 @@ export class TaskDetailsPageComponent extends BackNavigationHandlerComponent imp
     this.toasterService.showToast("FILES_CHANGES_UPDATED","success")
   }
 
-  addFiles(){
-    const dialogRef = this.dialog.open(PrivacyPolicyPopupComponent,{
-      width:'400px',
-      minHeight:'150px'
-    })
-
-    dialogRef.afterClosed().subscribe(data=>{
-      if(data){
-        if(data.isChecked && data.upload){
-          this.routingService.navigate("/project-details",{ type:"addFile",taskId:this.taskId ,projectId:this.projectDetails._id })
-        }else{
-          this.toasterService.showToast('ACCEPT_POLICY_ERROR_MSG',"danger")
-        }
+  async addFiles(){
+    let response = await this.utils.showPopupWithCheckbox("evidence")
+    if(response){
+      if(response.isChecked && response.buttonAction){
+        this.routingService.navigate("/project-details",{ type:"addFile",taskId:this.taskId ,projectId:this.projectDetails._id })
+      }else{
+        this.toasterService.showToast('ACCEPT_POLICY_ERROR_MSG',"danger")
       }
-    })
+    }
   }
 
   onDateChange(newDate: any) {

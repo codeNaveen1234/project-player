@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddLinkPopupComponent } from '../../shared/add-link-popup/add-link-popup.component';
 import { actions } from '../../constants/actionConstants';
@@ -7,7 +7,6 @@ import { AttachmentService } from '../../services/attachment/attachment.service'
 import { UrlTree } from '@angular/router';
 import { DbService } from '../../services/db/db.service';
 import { RoutingService } from '../../services/routing/routing.service';
-import { PrivacyPolicyPopupComponent } from '../../shared/privacy-policy-popup/privacy-policy-popup.component';
 import { UtilsService } from '../../services/utils/utils.service';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
@@ -190,21 +189,15 @@ export class AddFilesPageComponent extends BackNavigationHandlerComponent {
     this.db.updateData(data)
   }
 
-  showPrivacyPolicyPopup(option:any){
-    const dialogRef = this.dialog.open(PrivacyPolicyPopupComponent,{
-      width:'400px',
-      minHeight:'150px'
-    })
-
-    dialogRef.afterClosed().subscribe(data=>{
-      if(data){
-        if(data.isChecked && data.upload){
-          this.uploadFiles(option)
-        }else{
-          this.toastService.showToast('ACCEPT_POLICY_ERROR_MSG',"danger")
-        }
+  async showPrivacyPolicyPopup(option:any){
+    let response = await this.utils.showPopupWithCheckbox("evidence")
+    if(response){
+      if(response.isChecked && response.buttonAction){
+        this.uploadFiles(option)
+      }else{
+        this.toastService.showToast('ACCEPT_POLICY_ERROR_MSG',"danger")
       }
-    })
+    }
   }
 
   addFiles(){
