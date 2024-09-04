@@ -42,6 +42,31 @@
       <div class="tab-label-container">
         <div class="p-[8px] mt-2">
           <lib-project-details [projectDetails]="projectDetails"></lib-project-details>
+          @if(projectDetails?.status !== statusConstant.submitted &&
+          ((projectDetails?.referenceFrom == "link" && projectDetails?.isAPrivateProgram) || projectDetails?.referenceFrom == "fromLibrary")){
+            <mat-accordion>
+              <mat-expansion-panel  style="box-shadow: #8577778e 5px 5px 4px; border-radius: 10px; margin: 12px 0;"
+              [expanded]="showProjectShareControl" (opened)="showProjectShareControl=true" (closed)="closeShareControl()">
+                <mat-expansion-panel-header class="flex justify-between py-2">
+                  <mat-panel-title class=" text-lg text-gray-400 font-bold">{{"SHARE_PROJECT_DETAILS" | translate}}</mat-panel-title>
+                  <mat-panel-description class=" justify-end !mr-0">
+                    <mat-icon class="arrow-expansion" *ngIf="showProjectShareControl" class="primary-icon">arrow_circle_up</mat-icon>
+                    <mat-icon class="arrow-expansion" *ngIf="!showProjectShareControl" class="primary-icon">arrow_circle_down</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div>
+                  <p class="text-gray-500 font-bold ml-2 mb-3">{{ "PROJECT_DATA_SHARING_INFO" | translate:{"preference": projectShare ? "agreed" : "not agreed"} }}</p>
+                  <mat-radio-group [(ngModel)]="projectShare">
+                    <mat-radio-button [value]="true">{{ "SHARE_PROJECT_DETAILS" | translate }}</mat-radio-button><br/>
+                    <mat-radio-button [value]="false">{{ "DO_NOT_SHARE_PROJECT_DETAILS" | translate }}</mat-radio-button>
+                  </mat-radio-group>
+                  <div class="flex flex-row justify-center">
+                    <button mat-flat-button class="primary-button" (click)="saveShareOption()">{{ "SAVE" | translate}}</button>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          }
         </div>
       </div>
     </mat-tab>

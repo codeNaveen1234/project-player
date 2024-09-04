@@ -28,6 +28,9 @@ export class DetailsPageComponent implements OnInit {
   tasksList:any = []
   selectedTabIndex:any = 0
   isOnline:any;
+  showProjectShareControl = false
+  projectShare = false
+  statusConstant = statusType
 
   constructor(private routerService: RoutingService, private db: DbService,
     private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService, private router: Router,private network:NetworkServiceService
@@ -49,6 +52,7 @@ export class DetailsPageComponent implements OnInit {
       this.projectDetails = data.data
       this.submitted = data.data.status == statusType.submitted
       this.tasksList = data.data.tasks
+      this.projectShare = data.data.hasAcceptedTAndC || false
       this.initializeTasks()
       this.getProjectTaskStatus()
       this.countCompletedTasks();
@@ -300,5 +304,23 @@ export class DetailsPageComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  saveShareOption(){
+    if(this.projectDetails.hasAcceptedTAndC !== this.projectShare){
+      this.projectDetails.isEdit = true
+      this.projectDetails.hasAcceptedTAndC = this.projectShare
+      let data = {
+        key: this.projectDetails._id,
+        data:this.projectDetails
+      }
+      this.db.updateData(data)
+      this.setActionsList()
+    }
+    this.showProjectShareControl = false
+  }
+
+  closeShareControl(){
+    this.projectShare = this.projectDetails.hasAcceptedTAndC
   }
 }

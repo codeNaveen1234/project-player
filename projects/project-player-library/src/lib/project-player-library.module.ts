@@ -56,6 +56,7 @@ import { DateInputComponent } from './shared/date-input/date-input.component';
 import { BackNavigationHandlerComponent } from './shared/back-navigation-handler/back-navigation-handler.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { CertificatePageComponent } from './pages/certificate-page/certificate-page.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 const routes: Routes = [
   // { path: '' },
@@ -150,7 +151,8 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     MatCheckboxModule,
     MatExpansionModule,
     MatDatepickerModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatRadioModule
   ],
   exports: [RouterModule],
   providers: [

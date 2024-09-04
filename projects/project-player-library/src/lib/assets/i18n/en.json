@@ -119,5 +119,12 @@
     "PROJECT_AVAILABLE_UNDER_TAB_MSG":"Your project will now be available under",
     "ASSIGNED_TO_ME_TAB":"assigned to me tab",
     "DISCOVERED_BY_ME_TAB":"discovered by me tab",
-    "OFFLINE_MSG":"You are offline,please connect to a network"
+    "OFFLINE_MSG":"You are offline, please connect to a network",
+    "SHARE_PROJECT_DETAILS": "Share project details",
+    "SHARE_PROJECT_DETAILS_MSG1": "I confirm that this content complies with prescribed guidelines, inclusing the ",
+    "TERMS_AND_CONTENT_POLICY": "Terms of Use and Content Policy",
+    "SHARE_PROJECT_DETAILS_MSG2": "I have not shared any personal or sensitive information and have made sure that I do not violate other's privacy rights and third party rights including intellectual property rights.",
+    "DO_NOT_SHARE": "Do not share",
+    "DO_NOT_SHARE_PROJECT_DETAILS": "Do not share project details",
+    "PROJECT_DATA_SHARING_INFO": "You have {{preference}} to share your project details with the administrator"
 }

@@ -133,3 +133,11 @@ margin-bottom: 8px;
 .task-buttons{
   box-shadow: rgba(133, 119, 119, 0.555) 3px 3px 2px;
 }
+
+::ng-deep .mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:checked+.mdc-radio__background .mdc-radio__outer-circle {
+  border-color: var(--primary-color) !important
+}
+
+::ng-deep .mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled+.mdc-radio__background .mdc-radio__inner-circle {
+  border-color: var(--primary-color) !important
+}
