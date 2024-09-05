@@ -15,10 +15,14 @@ ngOnChanges(changes: SimpleChanges): void {
   if (changes['projectDetails']) {
     this.learningResources = this.projectDetails?.learningResources || [];
     this.getCertificateCriteria();
+    this.getRecommendedFor();
   }
 }
 getCategoryLabels(): string {
   return this.projectDetails.categories.map((item: { name: any; }) => item.name).join(', ');
+}
+getRecommendedFor(): string {
+  return this.projectDetails.recommendedFor.map((item: any) => item).join(', ');
 }
 
 getCertificateCriteria(): string[] {
