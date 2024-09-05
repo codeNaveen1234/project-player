@@ -15,7 +15,6 @@ ngOnChanges(changes: SimpleChanges): void {
   if (changes['projectDetails']) {
     this.learningResources = this.projectDetails?.learningResources || [];
     this.getCertificateCriteria();
-    this.getRecommendedFor();
   }
 }
 getCategoryLabels(): string {
