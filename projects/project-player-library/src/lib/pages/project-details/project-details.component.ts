@@ -11,7 +11,7 @@ panelOpenStateForCertificate = false;
 panelOpenStateForResources = false;
 validationTexts!: string[];
 learningResources: any[] = [];
-categoryLabels:any;
+categories:any;
 recommendedFor:any
 ngOnChanges(changes: SimpleChanges): void {
   if (changes['projectDetails']) {
@@ -23,7 +23,7 @@ ngOnChanges(changes: SimpleChanges): void {
 }
 getCategoryLabels(): any {
   if (this.projectDetails?.categories) {
-      this.categoryLabels = this.projectDetails.categories.map((item: { name: any; }) => item.name).join(', ');
+      this.categories = this.projectDetails.categories.map((item: { name: any; }) => item.name).join(', ');
     }
 }
 getRecommendedFor(): any {
