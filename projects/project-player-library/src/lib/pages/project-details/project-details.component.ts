@@ -11,17 +11,25 @@ panelOpenStateForCertificate = false;
 panelOpenStateForResources = false;
 validationTexts!: string[];
 learningResources: any[] = [];
+categoryLabels:any;
+recommendedFor:any
 ngOnChanges(changes: SimpleChanges): void {
   if (changes['projectDetails']) {
     this.learningResources = this.projectDetails?.learningResources || [];
     this.getCertificateCriteria();
+    this.getRecommendedFor();
+    this.getCategoryLabels();
   }
 }
-getCategoryLabels(): string {
-  return this.projectDetails.categories.map((item: { name: any; }) => item.name).join(', ');
+getCategoryLabels(): any {
+  if (this.projectDetails?.categories) {
+      this.categoryLabels = this.projectDetails.categories.map((item: { name: any; }) => item.name).join(', ');
+    }
 }
-getRecommendedFor(): string {
-  return this.projectDetails.recommendedFor.map((item: any) => item).join(', ');
+getRecommendedFor(): any {
+  if (this.projectDetails?.recommendedFor) {
+    this.recommendedFor = this.projectDetails.recommendedFor.map((item: any) => item).join(', ');
+  }
 }
 
 getCertificateCriteria(): string[] {
