@@ -1,5 +1,5 @@
 <div class="p-5">
-    <div class="flex justify-between mb-6">
+    <div class="flex justify-between sm:mb-6 mb-1">
         <div class="text-lg font-bold">{{ "ADD_LINK" | translate }}</div>
         <mat-icon fontIcon="cancel" class="cursor-pointer" (click)="addLink(false)"></mat-icon>
     </div>
@@ -9,7 +9,7 @@
         (input)="onChange($event)" (paste)="pasteLink($event)" style="resize: none;"></textarea>
     </mat-form-field>
 
-    <div class="flex flex-row mt-3">
+    <div class="flex flex-row sm:mt-3 mt-0">
         <button  mat-flat-button (click)="addLink(false)" class="w-full mr-3 !rounded-2xl primary-button-outline">
             {{ "CANCEL" | translate }}
         </button>

@@ -132,6 +132,7 @@ export class AddFilesPageComponent extends BackNavigationHandlerComponent {
     const dialogRef = this.dialog.open(AddLinkPopupComponent,{
       width:'400px',
       disableClose:true,
+      autoFocus: false 
     })
 
     dialogRef.afterClosed().subscribe(data=>{
