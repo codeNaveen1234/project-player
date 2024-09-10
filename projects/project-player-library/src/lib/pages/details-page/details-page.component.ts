@@ -30,7 +30,6 @@ export class DetailsPageComponent implements OnInit {
   isOnline:any;
   showProjectShareControl = false
   projectShare = false
-  statusConstant = statusType
 
   constructor(private routerService: RoutingService, private db: DbService,
     private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService, private router: Router,private network:NetworkServiceService

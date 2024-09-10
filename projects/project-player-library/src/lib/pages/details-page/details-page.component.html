@@ -42,8 +42,7 @@
       <div class="tab-label-container">
         <div class="p-[8px] mt-2">
           <lib-project-details [projectDetails]="projectDetails"></lib-project-details>
-          @if(projectDetails?.status !== statusConstant.submitted &&
-          ((projectDetails?.referenceFrom == "link" && projectDetails?.isAPrivateProgram) || projectDetails?.referenceFrom == "fromLibrary")){
+          @if(!submitted && ((projectDetails?.referenceFrom == "link" && projectDetails?.isAPrivateProgram) || projectDetails?.referenceFrom == "fromLibrary")){
             <mat-accordion>
               <mat-expansion-panel  style="box-shadow: #8577778e 5px 5px 4px; border-radius: 10px; margin: 12px 0;"
               [expanded]="showProjectShareControl" (opened)="showProjectShareControl=true" (closed)="closeShareControl()">
@@ -96,12 +95,14 @@
                      </ng-template>
                   </ng-container>
                   <ng-template #noLearningResources>
+                    @if(!submitted){
                     <div (click)="moveToDetailsTask(item._id)" class="flex">
                       <span class="text-gray-500 flex items-center font-bold text-sm">
                         {{"VIEW_TASK_DETAILS" | translate}}
                       </span>
                       <mat-icon class="icon-details text-gray-500 text-sm font-bold items-center" aria-hidden="false" aria-label="Example arrow_forward_ios icon" fontIcon="arrow_forward_ios"></mat-icon>
                     </div>
+                    }
                   </ng-template>
                 </div>
               </lib-task-card>
