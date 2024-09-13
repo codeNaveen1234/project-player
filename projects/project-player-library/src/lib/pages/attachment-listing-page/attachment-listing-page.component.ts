@@ -25,7 +25,7 @@ export class AttachmentListingPageComponent extends BackNavigationHandlerCompone
   ){
     super(routerService)
     const urlTree: UrlTree = this.router.parseUrl(this.router.url);
-    this.getData(urlTree.queryParams['id'])
+    this.getData(urlTree.queryParams['projectId'])
   }
 
   getData(id:any){
