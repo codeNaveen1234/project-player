@@ -67,6 +67,10 @@ export class MainPlayerComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     this.dataService.setConfig(changes['config'].currentValue)
     this.projectData = changes['projectData'].currentValue
+    if(!this.projectData){
+      let urlQueryParams = this.getQueryParams(window.location.search)
+      this.projectData = urlQueryParams
+    }
     if(this.utils.isLoggedIn()){
       setTimeout(() => {
         if(this.projectData.referenceFrom == "certificate"){
@@ -75,7 +79,7 @@ export class MainPlayerComponent implements OnInit {
           return
         }
         if(this.projectData.referenceFrom == "library"){
-          this.routerService.navigate("/project-details",{ type:'template' },{ replaceUrl:true, state: this.projectData })
+          this.routerService.navigate("/project-details",{ type:'template', ...this.projectData },{ replaceUrl:true })
           return
         }
         let id = this.projectData?._id || this.projectData?.projectId
@@ -87,24 +91,25 @@ export class MainPlayerComponent implements OnInit {
         this.storeDataToLocal()
       }, 100);
     }else{
-      this.routerService.navigate("/project-details",{ type:'template',id: this.projectData.link },{ replaceUrl:true, state: this.projectData })
+      this.routerService.navigate("/project-details",{ type:'template',id: this.projectData.link, ...this.projectData },{ replaceUrl:true })
     }
 
   }
 
-  navigateToDetails(){
-    this.routerService.navigate("/project-details",{ type:'details',id: this.projectId },{ replaceUrl:true })
+  navigateToDetails(type:string){
+    let pageType = type ? type : "details"
+    this.routerService.navigate("/project-details",{ type: pageType,id: this.projectId, ...this.projectData },{ replaceUrl:true })
   }
 
   navigateToTemplate(){
-    this.routerService.navigate("/project-details",{ type:'template',id: this.solutionId },{ replaceUrl:true, state: this.projectData })
+    this.routerService.navigate("/project-details",{ type:'template',id: this.solutionId, ...this.projectData },{ replaceUrl:true })
   }
 
   storeDataToLocal(){
     if(this.projectId){
       this.db.getData(this.projectId).then((data)=>{
         if(data){
-          this.navigateToDetails()
+          this.navigateToDetails(this.projectData.type)
         }else{
           this.getProjectDetails()
         }
@@ -130,7 +135,7 @@ export class MainPlayerComponent implements OnInit {
             data: this.projectDetails
           }
           this.db.addData(data)
-          this.navigateToDetails()
+          this.navigateToDetails(this.projectData.type)
         }
       })
   }

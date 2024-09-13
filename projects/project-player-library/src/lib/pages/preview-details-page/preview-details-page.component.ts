@@ -24,13 +24,14 @@ export class PreviewDetailsPageComponent {
   remainingTasks = [];
   startImprovement: boolean = true;
   id:any;
-  stateData:any
+  stateData:any = {}
   constructor(private routerService:RoutingService,private db:DbService,private apiService:ApiService,private dataService: DataService,
     private dialog: MatDialog, private router: Router, private utils: UtilsService, private toastService: ToastService, private translate: TranslateService
   ){
     const urlTree: UrlTree = this.router.parseUrl(this.router.url);
     this.id = urlTree.queryParams['id']
-    this.stateData = this.router.getCurrentNavigation()?.extras.state
+    this.stateData = urlTree.queryParams
+    this.stateData["isATargetedSolution"] = this.stateData.isATargetedSolution ? this.stateData.isATargetedSolution == "true" : null
     if(this.utils.isLoggedIn()){
       if(this.stateData.referenceFrom == "library"){
         this.getTemplateByExternalId()
@@ -120,7 +121,7 @@ export class PreviewDetailsPageComponent {
             data: res.result
           }
           this.db.addData(data)
-          this.routerService.navigate("/project-details",{ type: "details", id: res.result._id },{ replaceUrl: true })
+          this.routerService.navigate("/project-details",{ type: "details", id: res.result._id, projectId: res.result._id },{ replaceUrl: true })
         }
       })
   }
@@ -206,7 +207,7 @@ export class PreviewDetailsPageComponent {
           data: res.result
         }
         this.db.addData(data)
-        this.routerService.navigate("/project-details",{ type: "details", id: res.result._id },{ replaceUrl: true })
+        this.routerService.navigate("/project-details",{ type: "details", id: res.result._id, projectId: res.result._id },{ replaceUrl: true })
       }
     })
   }
