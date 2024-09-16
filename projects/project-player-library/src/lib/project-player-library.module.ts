@@ -30,7 +30,7 @@ import {
   TranslateService,
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { EditTaskCardComponent } from './shared/edit-task-card/edit-task-card.component';
 import { AttachmentCardComponent } from './shared/attachment-card/attachment-card.component';
 import { AttachmentShowCardComponent } from './shared/attachment-show-card/attachment-show-card.component';
@@ -57,6 +57,8 @@ import { BackNavigationHandlerComponent } from './shared/back-navigation-handler
 import { HeaderComponent } from './shared/header/header.component';
 import { CertificatePageComponent } from './pages/certificate-page/certificate-page.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { ApiInterceptor } from './services/api-interceptor/api-interceptor.interceptor';
+
 
 const routes: Routes = [
   // { path: '' },
@@ -163,6 +165,11 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     {
       provide: LOCALE_ID,
       useValue: 'en-in',
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
+      multi: true
     },
     provideNativeDateAdapter()
   ]
