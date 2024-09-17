@@ -78,15 +78,14 @@ projectData = <projectData>;
    - **profileInfo**: Any additional profile-related information.
 
 2. **projectData**:
-   - This object having the `projectId` or `solutionId` keys used to hit the API for fetching the project data consumed by the player.
+   - This object contains data that is used to support various functionalities throughout the project player.
 
 ### Global Styling for the Player
+This section contains the global styles that should be added to the application's global styles file (e.g., `global.scss`). These styles will be used to define the visual appearance and theme for the player.
 
-This file defines the global styles for the player, using Ionic core styles and Material Design theme integration.
 ```css
 :root {
     --primary-color: #832215;
     --disabled-btn-bg: #0000001f;
     --disabled-btn-text: #00000061;
 }
-```
