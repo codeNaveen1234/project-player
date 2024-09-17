@@ -21,11 +21,32 @@ In-case the changes have been done in the library, after successful build by `np
 
 ## Webcomponent
 
-The Webcomponent can be downloaded by running `npm i project-player`
+## Steps to Include Web Component in Angular Project
 
-In our angular.json file, we have included the published web component script under the "scripts" section (projects -> project-player-library -> architect -> build). This script is responsible for adding the questionnaire player web component functionality to our demo application `node_modules/project-player/project-player-component.js`
+1. **Download the Web Component**
+   - Run the following command to install the web component:
+     ```bash
+     npm i project-player
+     ```
 
-To include the npm published styles of the webcomponent in the demo app, use `node_modules/project-player/styles.css` in the "styles" section (projects -> project-player-library -> architect -> build in angular.json)'.
+2. **Include the Web Component Script**
+   - Open the `angular.json` file.
+   - Navigate to the `"scripts"` section under `projects -> project-player-library -> architect -> build`.
+   - Add the path to the web component script:
+     ```json
+     "scripts": [
+       "node_modules/project-player/project-player-component.js"
+     ]
+     ```
+
+3. **Include the Web Component Styles**
+   - In the same `angular.json` file, go to the `"styles"` section under `projects -> project-player-library -> architect -> build`.
+   - Add the path to the web component's CSS file:
+     ```json
+     "styles": [
+       "node_modules/project-player/styles.css"
+     ]
+     ```
 
 
 ## Steps to Consume the Project Web Component
@@ -48,12 +69,16 @@ config = {
 projectData = <projectData>;
 ```
 
-config: This object contains necessary settings like:
-	•	maxFileSize: The maximum size of the file (number)which will be in MB.
-	•	baseUrl: The base URL for the project.
-	•	accessToken: The access token for authentication.
-	•	profileInfo: Any additional profile information.
-projectData: This is the projectId or solutionId used to hit the API for fetching project   data that will be consumed by the player.
+## Configuration and Project Data
+
+1. **config**: This object contains the necessary settings for the player:
+   - **maxFileSize**: The maximum size of the file (number), specified in MB.
+   - **baseUrl**: The base URL for the project.
+   - **accessToken**: The access token used for authentication.
+   - **profileInfo**: Any additional profile-related information.
+
+2. **projectData**:
+   - This object having the `projectId` or `solutionId` keys used to hit the API for fetching the project data consumed by the player.
 
 ### Global Styling for the Player
 
@@ -65,4 +90,3 @@ This file defines the global styles for the player, using Ionic core styles and 
     --disabled-btn-text: #00000061;
 }
 ```
-This allows you to control the visual appearance of the web component and ensure it aligns with your application's design.
