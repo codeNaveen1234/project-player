@@ -85,7 +85,8 @@ This section contains the global styles that should be added to the application'
 
 ```css
 :root {
-    --primary-color: #832215;
-    --disabled-btn-bg: #0000001f;
-    --disabled-btn-text: #00000061;
+    --primary-color: <color>;
+    --disabled-btn-bg: <color>;
+    --disabled-btn-text: <color>;
 }
+```
