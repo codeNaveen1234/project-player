@@ -21,7 +21,7 @@ export class LearningResourcesComponent extends BackNavigationHandlerComponent i
   ngOnInit(): void {
     const urlTree: UrlTree = this.router.parseUrl(this.router.url);
     this.taskId = urlTree.queryParams['taskId']
-    this.id = urlTree.queryParams['id']
+    this.id = urlTree.queryParams['projectId']
     this.getProjectDetails();
   }
 

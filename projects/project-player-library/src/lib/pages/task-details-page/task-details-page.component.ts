@@ -158,6 +158,6 @@ export class TaskDetailsPageComponent extends BackNavigationHandlerComponent imp
   }
 
   onLearningResources(id:any,fromDetailspage:boolean){
-    this.routingService.navigate("/project-details",{ type: "resources", taskId: id, id: this.projectDetails._id })
+    this.routingService.navigate("/project-details",{ type: "resources", taskId: id, projectId: this.projectDetails._id })
   }
 }

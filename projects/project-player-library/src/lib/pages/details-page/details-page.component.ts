@@ -30,7 +30,6 @@ export class DetailsPageComponent implements OnInit {
   isOnline:any;
   showProjectShareControl = false
   projectShare = false
-  statusConstant = statusType
 
   constructor(private routerService: RoutingService, private db: DbService,
     private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService, private router: Router,private network:NetworkServiceService
@@ -87,7 +86,7 @@ export class DetailsPageComponent implements OnInit {
   }
 
   navigateToNewTask() {
-    this.routerService.navigate('/project-details',{ type: "addTask", id: this.projectDetails._id })
+    this.routerService.navigate('/project-details',{ type: "addTask", projectId: this.projectDetails._id })
   }
 
   taskCardAction(event:any){
@@ -157,7 +156,7 @@ export class DetailsPageComponent implements OnInit {
   }
 
     moveToFiles() {
-    this.routerService.navigate('/project-details',{ type: "attachments", id: this.projectDetails._id });
+    this.routerService.navigate('/project-details',{ type: "attachments", projectId: this.projectDetails._id });
   }
 
   async openDialogForDelete(id:any) {
@@ -208,7 +207,7 @@ export class DetailsPageComponent implements OnInit {
 
 
   onLearningResources(id:any,fromDetailspage:boolean){
-    this.routerService.navigate("/project-details",{ type: "resources", taskId: id, id: this.projectDetails._id })
+    this.routerService.navigate("/project-details",{ type: "resources", taskId: id, projectId: this.projectDetails._id})
 
   }
   onStartObservation(){

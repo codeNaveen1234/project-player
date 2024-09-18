@@ -169,7 +169,7 @@ export class SyncPageComponent extends BackNavigationHandlerComponent {
   }
 
   goToAttachmentsList(){
-    this.routingService.navigate("/project-details",{ type: "attachments", id: this.projectId }, { replaceUrl: true })
+    this.routingService.navigate("/project-details",{ type: "attachments", projectId: this.projectId }, { replaceUrl: true })
   }
 
 }

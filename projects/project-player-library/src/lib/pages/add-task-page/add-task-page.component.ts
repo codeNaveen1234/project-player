@@ -33,7 +33,7 @@ export class AddTaskPageComponent extends BackNavigationHandlerComponent impleme
     private dialog: MatDialog, private toastService: ToastService, private utils: UtilsService, private router: Router, private location: Location) {
       super(routingService)
       const urlTree: UrlTree = this.router.parseUrl(this.router.url);
-      this.getProjectDetails(urlTree.queryParams['id'])
+      this.getProjectDetails(urlTree.queryParams['projectId'])
     }
 
   ngOnInit(){
