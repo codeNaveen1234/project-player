@@ -70,15 +70,15 @@ projectData = <projectData>;
 ```
 
 ## Configuration and Project Data
-
-1. **config**: This object contains the necessary settings for the player:
-   - **maxFileSize**: The maximum size of the file (number), specified in MB.
-   - **baseUrl**: The base URL for the project.
-   - **accessToken**: The access token used for authentication.
-   - **profileInfo**: Any additional profile-related information.
+1. **config**: This object contains the key settings for the player:
+   - **maxFileSize**: The maximum file size (in MB) allowed for attachments at both the project and task levels.
+   - **baseUrl**: The base URL for hitting APIs that retrieve project info and sync the project.
+   - **accessToken**: Used for authentication and securing API calls that require a token.
+   - **profileInfo**: Any additional user profile-related data.
 
 2. **projectData**:
-   - This object contains data that is used to support various functionalities throughout the project player.
+   - This object holds data to enable various functionalities within the project player.
+   - [Example projectData object]() for more details.
 
 ### Global Styling for the Player
 This section contains the global styles that should be added to the application's global styles file (e.g., `global.scss`). These styles will be used to define the visual appearance and theme for the player.
