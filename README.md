@@ -78,7 +78,11 @@ projectData = <projectData>;
 
 2. **projectData**:
    - This object holds data to enable various functionalities within the project player.
-   - [Example projectData object]() for more details.
+   - The unique identifier for the project.
+   - Used to retrieve project-related data from the server's API.
+   - Helps the web component load and interact with specific project data.
+
+   - [Example projectData object](https://docs.google.com/document/d/1qF9Z-4omKjDtgF0tMIrCHF7CsyAx5hTWT8PT9R5rHpM/edit?usp=sharing) for more details.
 
 ### Global Styling for the Player
 This section contains the global styles that should be added to the application's global styles file (e.g., `global.scss`). These styles will be used to define the visual appearance and theme for the player.
