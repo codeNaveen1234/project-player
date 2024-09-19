@@ -11,6 +11,7 @@ import { StartImprovementPopupComponent } from '../../shared/start-improvement-p
 import { UtilsService } from '../../services/utils/utils.service';
 import { ToastService } from '../../services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'lib-preview-details-page',
@@ -26,7 +27,8 @@ export class PreviewDetailsPageComponent {
   id:any;
   stateData:any = {}
   constructor(private routerService:RoutingService,private db:DbService,private apiService:ApiService,private dataService: DataService,
-    private dialog: MatDialog, private router: Router, private utils: UtilsService, private toastService: ToastService, private translate: TranslateService
+    private dialog: MatDialog, private router: Router, private utils: UtilsService, private toastService: ToastService, private translate: TranslateService,
+    private location: Location
   ){
     const urlTree: UrlTree = this.router.parseUrl(this.router.url);
     this.id = urlTree.queryParams['id']
@@ -49,10 +51,17 @@ export class PreviewDetailsPageComponent {
     let config = {
       url: isLink ? `${apiUrls.GET_TEMPLATE_BY_LINK}?link=${this.id}` : `${apiUrls.GET_TEMPLATE_BY_LINK}/${this.stateData.externalId}`
     }
-    this.apiService.get(config).subscribe((response:any)=>{
-      this.projectDetails = response.result;
-      this.setActionsList();
-      this.initializeTasks()
+    this.apiService.get(config).subscribe({
+      next: (response:any) => {
+        this.projectDetails = response.result;
+        this.setActionsList();
+        this.initializeTasks()
+      },
+      error: (error:any) => {
+        setTimeout(() => {
+          this.location.back()
+        }, 1000);
+      }
     })
   }
 
