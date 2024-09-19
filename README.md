@@ -7,7 +7,8 @@ Angular 17, Nodejs 18.20.7
 
 ## Setup
 
-Run `npm install` after cloning the repo in local to install the necessary dependencies
+* clone this [repository](https://github.com/ELEVATE-Project/project-player/tree/release-1.0.0)
+* Run `npm install` after cloning the repo in local to install the necessary dependencies
 
 ## Build ProjectPlayer and generate the webcomponent
 
