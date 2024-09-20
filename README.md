@@ -48,8 +48,16 @@ In-case the changes have been done in the library, after successful build by `np
        "node_modules/project-player/styles.css"
      ]
      ```
-
-
+4. **Include this in global index.html file**
+    - Add the path inside the `<head>`:
+       ```html
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"     rel="stylesheet">
+     ```
+5. **Include Schemas in the module.ts file**
+    - Add this in the @NgModule({})
+        ```json
+        schemas:[CUSTOM_ELEMENTS_SCHEMA]
+     ```
 ## Steps to Consume the Project Web Component
 
 ###  Adding the Web Component Tag to an HTML File
