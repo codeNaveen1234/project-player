@@ -51,7 +51,7 @@ In-case the changes have been done in the library, after successful build by `np
      ```
 
 4. **Include Schemas in the module.ts file**
-    - Add this in the @NgModule({})
+    - Add the below schema in the module file of the angular application
     ```
     schemas:[CUSTOM_ELEMENTS_SCHEMA]
     ```
