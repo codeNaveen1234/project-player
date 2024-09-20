@@ -1,3 +1,4 @@
+
 # ProjectPlayer
 
 The Project Player is a flexible Angular-based Web component for project consumption. Easily adaptable for various frameworks or vanilla JS apps. Enhance user experiences seamlessly built with the help of angular version 17.
@@ -50,14 +51,14 @@ In-case the changes have been done in the library, after successful build by `np
      ```
 4. **Include this in global index.html file**
     - Add the path inside the `<head>`:
-       ```html
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"     rel="stylesheet">
-     ```
+    ```html
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons rel="stylesheet">
+    ```
 5. **Include Schemas in the module.ts file**
     - Add this in the @NgModule({})
-        ```json
-        schemas:[CUSTOM_ELEMENTS_SCHEMA]
-     ```
+    ```
+    schemas:[CUSTOM_ELEMENTS_SCHEMA]
+    ```
 ## Steps to Consume the Project Web Component
 
 ###  Adding the Web Component Tag to an HTML File
