@@ -3,7 +3,7 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
 @include mat.core();
 
 $my-primary: mat.define-palette(mat.$indigo-palette);
