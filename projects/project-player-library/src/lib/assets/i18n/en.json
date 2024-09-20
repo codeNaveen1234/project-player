@@ -126,5 +126,6 @@
     "SHARE_PROJECT_DETAILS_MSG2": "I have not shared any personal or sensitive information and have made sure that I do not violate other's privacy rights and third party rights including intellectual property rights.",
     "DO_NOT_SHARE": "Do not share",
     "DO_NOT_SHARE_PROJECT_DETAILS": "Do not share project details",
-    "PROJECT_DATA_SHARING_INFO": "You have {{preference}} to share your project details with the administrator"
+    "PROJECT_DATA_SHARING_INFO": "You have {{preference}} to share your project details with the administrator",
+    "NO_SOLUTION_FOUND": "No solution found"
 }

@@ -16,6 +16,8 @@ import { PreviewDetailsPageComponent } from '../preview-details-page/preview-det
 import { LearningResourcesComponent } from '../learning-resources/learning-resources.component';
 import { UtilsService } from '../../services/utils/utils.service';
 import { CertificatePageComponent } from '../certificate-page/certificate-page.component';
+import { ToastService } from '../../services/toast/toast.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'lib-main-player',
@@ -31,7 +33,7 @@ export class MainPlayerComponent implements OnInit {
   @ViewChild('dynamicComponent', { read: ViewContainerRef }) dynamicComponent!: ViewContainerRef;
   private routerSubscription!: Subscription;
   constructor(private routerService: RoutingService, private db: DbService, private apiService:ApiService, private dataService: DataService, private router: Router,
-    private utils: UtilsService
+    private utils: UtilsService, private toastService: ToastService, private location: Location
   ) {}
 
   private componentMapper: any = {
@@ -91,7 +93,15 @@ export class MainPlayerComponent implements OnInit {
         this.storeDataToLocal()
       }, 100);
     }else{
-      this.routerService.navigate("/project-details",{ type:'template',id: this.projectData.link, ...this.projectData },{ replaceUrl:true })
+      if(this.projectData.referenceFrom == "link"){
+        this.routerService.navigate("/project-details",{ type:'template',id: this.projectData.link, ...this.projectData },{ replaceUrl:true })
+      }else{
+        this.toastService.showToast("USER_NOT_LOGGEDIN_MSG","danger")
+        setTimeout(() => {
+          history.replaceState(null, '', '/');
+          window.location.href = '/'
+        }, 1000);
+      }
     }
 
   }
@@ -128,6 +138,13 @@ export class MainPlayerComponent implements OnInit {
       payload: {}
     }
       this.apiService.post(configForProjectId).subscribe((res)=>{
+        if(!res.result._id){
+          this.toastService.showToast("NO_SOLUTION_FOUND","danger")
+          setTimeout(() => {
+            this.location.back()
+          },1000);
+          return
+        }
         this.projectDetails = res.result;
         if(this.projectDetails){
           let data = {
