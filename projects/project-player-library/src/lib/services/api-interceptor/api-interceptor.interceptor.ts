@@ -4,15 +4,14 @@ import { Observable, catchError, fromEvent, map, merge, startWith, throwError } 
 import { ToastService } from '../toast/toast.service';
 import { DataService } from '../data/data.service';
 import { TranslateService } from '@ngx-translate/core';
+import { NetworkServiceService } from 'network-service';
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
   private onlineStatus: boolean = true;
-  constructor(private toastService:ToastService,private dataService:DataService,private translate:TranslateService){
-    const onlineEvent = fromEvent(window, 'online').pipe(map(() => true));
-    const offlineEvent = fromEvent(window, 'offline').pipe(map(() => false));
-    merge(onlineEvent, offlineEvent).pipe(startWith(navigator.onLine)).subscribe(isOnline => {
-      this.onlineStatus = isOnline;
-    });
+  constructor(private toastService:ToastService,private dataService:DataService,private translate:TranslateService,private network:NetworkServiceService){
+    this.network.isOnline$.subscribe((status)=>{
+      this.onlineStatus=status
+    })
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
