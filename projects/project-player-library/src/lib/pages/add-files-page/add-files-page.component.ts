@@ -11,6 +11,7 @@ import { UtilsService } from '../../services/utils/utils.service';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { BackNavigationHandlerComponent } from '../../shared/back-navigation-handler/back-navigation-handler.component';
+import { NetworkServiceService } from 'network-service';
 
 @Component({
   selector: 'lib-add-files-page',
@@ -34,14 +35,19 @@ export class AddFilesPageComponent extends BackNavigationHandlerComponent {
   title:any
   updateDelay: any;
   isModified:boolean=false;
+  isOnline:boolean=false;
 
   constructor(private dialog: MatDialog, private toastService: ToastService, private attachmentService: AttachmentService,
     private db: DbService, private routingService: RoutingService, private utils: UtilsService, private location: Location,
-    private router: Router) {
+    private router: Router,private network:NetworkServiceService) {
+
     super(routingService)
       const url: UrlTree = this.router.parseUrl(this.router.url);
       this.projectId = url.queryParams["projectId"]
       this.taskId = url.queryParams["taskId"]
+      this.network.isOnline$.subscribe((status)=>{
+        this.isOnline=status
+      })
     }
 
   ngOnInit(){
@@ -223,6 +229,10 @@ export class AddFilesPageComponent extends BackNavigationHandlerComponent {
     }
     let response = await this.utils.showDialogPopup(dialogData)
     if(response){
+      if(!this.isOnline){
+        this.toastService.showToast("OFFLINE_MSG",'danger')
+        return
+      }
       this.routingService.navigate('/project-details',{ type: "sync", projectId:this.projectId, isSubmission: true },{ replaceUrl: true })
     }
   }
