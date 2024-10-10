@@ -33,7 +33,7 @@ export const actions = {
     },
     DOWNLOADED_ACTION : {
         title: "DOWNLOADED",
-        icon: "check_circle",
+        icon: "cloud_download",
         action: "downloaded",
         color: "green"
     },
@@ -98,11 +98,5 @@ export const actions = {
             icon: "cloud_download",
             action: "download",
             color: "primary-icon"
-    },
-    PROJECT_DOWNLOADED : {
-        title: "DOWNLOADED",
-        icon: "cloud_download",
-        action: "downloaded",
-        color: "green"
-}
+    }
 }
