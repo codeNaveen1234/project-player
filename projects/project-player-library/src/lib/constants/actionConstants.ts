@@ -92,5 +92,17 @@ export const actions = {
             action:"delete",
             color: "primary-icon"
         },
-    ]
+    ],
+    PROJECT_DOWNLOAD : {
+            title: "DOWNLOAD",
+            icon: "cloud_download",
+            action: "download",
+            color: "primary-icon"
+    },
+    PROJECT_DOWNLOADED : {
+        title: "DOWNLOADED",
+        icon: "cloud_download",
+        action: "downloaded",
+        color: "green"
+}
 }
