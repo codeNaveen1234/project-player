@@ -207,16 +207,8 @@ export class DetailsPageComponent implements OnInit {
       }
     }
     else {
-      const downloadIndex = options.indexOf(actions.PROJECT_DOWNLOAD);
-      const downloadedIndex = options.indexOf(actions.DOWNLOADED_ACTION);
-      if (downloadIndex > -1) {
-        options.splice(downloadIndex, 1);
-      }
-      if (downloadedIndex > -1) {
-        options.splice(downloadedIndex, 1);
-      }
       options.unshift(
-        this.projectDetails.isDownload ? actions.DOWNLOADED_ACTION : actions.PROJECT_DOWNLOAD
+        this.projectDetails.isDownload ? actions.DOWNLOADED_ACTION : null
       );
     }
     this.projectActions = options;
