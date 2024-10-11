@@ -207,10 +207,8 @@ export class DetailsPageComponent implements OnInit {
         options.push(actions.CERTIFICATE_ACTION)
       }
     }
-    else {
-      if(this.projectDetails.isDownload){
-        options[0] = actions.DOWNLOADED_ACTION
-      }
+    if(this.projectDetails.isDownload){
+      options[0] = actions.DOWNLOADED_ACTION
     }
     this.projectActions = options;
     this.actionsList = optionList;
