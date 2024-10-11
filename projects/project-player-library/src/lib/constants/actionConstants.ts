@@ -39,7 +39,7 @@ export const actions = {
     },
     DOWNLOADED_ACTION : {
         title: "DOWNLOADED",
-        icon: "cloud_download",
+        icon: "check_circle",
         action: "downloaded",
         color: "green"
     },

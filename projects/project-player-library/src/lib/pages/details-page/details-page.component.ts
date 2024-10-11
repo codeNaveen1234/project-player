@@ -201,15 +201,16 @@ export class DetailsPageComponent implements OnInit {
       options[options.length-1] = actions.SYNCED_ACTION
     }
     if(this.submitted){
+      options.shift();
       options.pop()
       if(this.projectDetails.certificate){
         options.push(actions.CERTIFICATE_ACTION)
       }
     }
     else {
-      options.unshift(
-        this.projectDetails.isDownload ? actions.DOWNLOADED_ACTION : null
-      );
+      if(this.projectDetails.isDownload){
+        options[0] = actions.DOWNLOADED_ACTION
+      }
     }
     this.projectActions = options;
     this.actionsList = optionList;
