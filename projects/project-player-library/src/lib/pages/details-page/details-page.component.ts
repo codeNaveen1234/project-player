@@ -121,7 +121,12 @@ export class DetailsPageComponent implements OnInit {
   iconListAction(event: any) {
     switch (event.action) {
       case "download":
-        this.projectDetails.downloaded = true
+        this.projectDetails.isDownload = true;
+        let data = {
+          key: this.projectDetails._id,
+          data:this.projectDetails,
+        }
+        this.db.updateData(data)
         this.setActionsList()
         this.toasterService.showToast("PROJECT_DOWNLOADING_SUCCESS","success")
         break;
@@ -196,10 +201,14 @@ export class DetailsPageComponent implements OnInit {
       options[options.length-1] = actions.SYNCED_ACTION
     }
     if(this.submitted){
+      options.shift();
       options.pop()
       if(this.projectDetails.certificate){
         options.push(actions.CERTIFICATE_ACTION)
       }
+    }
+    if(this.projectDetails.isDownload){
+      options[0] = actions.DOWNLOADED_ACTION
     }
     this.projectActions = options;
     this.actionsList = optionList;
