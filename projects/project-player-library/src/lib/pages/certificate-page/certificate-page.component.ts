@@ -1,6 +1,5 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router, UrlTree } from '@angular/router';
-import { DbService } from '../../services/db/db.service';
+import { Router, UrlTree } from '@angular/router';
 import { RoutingService } from '../../services/routing/routing.service';
 import jsPDF from 'jspdf';
 import { apiUrls } from '../../constants/urlConstants';
@@ -25,7 +24,6 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
 
   constructor(
     private router: Router,
-    private db: DbService,
     private routingService: RoutingService,
     private renderer: Renderer2,
     private apiService: ApiService,

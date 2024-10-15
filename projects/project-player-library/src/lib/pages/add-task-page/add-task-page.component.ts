@@ -3,7 +3,6 @@ import { RoutingService } from '../../services/routing/routing.service';
 import { AttachmentService } from '../../services/attachment/attachment.service';
 import { actions } from '../../constants/actionConstants';
 import { DbService } from '../../services/db/db.service';
-import { MatDialog } from '@angular/material/dialog';
 import { ToastService } from '../../services/toast/toast.service';
 import { UtilsService } from '../../services/utils/utils.service'
 import { Router, UrlTree } from '@angular/router';
@@ -30,7 +29,7 @@ export class AddTaskPageComponent extends BackNavigationHandlerComponent impleme
   endDate = ''
   
   constructor(private routingService: RoutingService, private attachmentService: AttachmentService, private db: DbService,
-    private dialog: MatDialog, private toastService: ToastService, private utils: UtilsService, private router: Router, private location: Location) {
+    private toastService: ToastService, private utils: UtilsService, private router: Router, private location: Location) {
       super(routingService)
       const urlTree: UrlTree = this.router.parseUrl(this.router.url);
       this.getProjectDetails(urlTree.queryParams['projectId'])

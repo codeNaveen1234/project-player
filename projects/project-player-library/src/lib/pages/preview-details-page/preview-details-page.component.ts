@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { actions } from '../../constants/actionConstants';
-import { RoutingService } from '../../services/routing/routing.service';
 import { Router, UrlTree } from '@angular/router';
-import { DbService } from '../../services/db/db.service';
 import { ApiService } from '../../services/api/api.service';
 import { apiUrls } from '../../constants/urlConstants';
 import { DataService } from '../../services/data/data.service';
@@ -10,8 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { StartImprovementPopupComponent } from '../../shared/start-improvement-popup/start-improvement-popup.component';
 import { UtilsService } from '../../services/utils/utils.service';
 import { ToastService } from '../../services/toast/toast.service';
-import { TranslateService } from '@ngx-translate/core';
 import { Location } from '@angular/common';
+import { PreviewStrategyFactory } from '../../services/strategy/preview-strategy.service';
 
 @Component({
   selector: 'lib-preview-details-page',
@@ -26,9 +24,10 @@ export class PreviewDetailsPageComponent {
   startImprovement: boolean = true;
   id:any;
   stateData:any = {}
-  constructor(private routerService:RoutingService,private db:DbService,private apiService:ApiService,private dataService: DataService,
-    private dialog: MatDialog, private router: Router, private utils: UtilsService, private toastService: ToastService, private translate: TranslateService,
-    private location: Location
+  private strategy: any
+  constructor(private apiService:ApiService,private dataService: DataService,
+    private dialog: MatDialog, private router: Router, private utils: UtilsService, private toastService: ToastService,
+    private location: Location, private previewStrategyFactory: PreviewStrategyFactory
   ){
     const urlTree: UrlTree = this.router.parseUrl(this.router.url);
     this.id = urlTree.queryParams['id']
@@ -105,36 +104,6 @@ export class PreviewDetailsPageComponent {
     }
   }
 
-  getProjectDetails(extraPayload?:any){
-    let config = this.dataService.getConfig()
-    let profileInfo = config.profileInfo
-    let payload = { ...profileInfo, type: "improvementProject" }
-    if(extraPayload){
-      payload = { ...payload, ...extraPayload }
-    }
-    const configForProjectId = {
-      url: extraPayload ? `${apiUrls.GET_PROJECT_DETAILS}?solutionId=${this.id}` : `${apiUrls.GET_PROJECT_DETAILS}?solutionId=${this.id}&templateId=${this.projectDetails.externalId}`,
-      payload: payload
-    }
-      this.apiService.post(configForProjectId).subscribe((res)=>{
-        if(res.result){
-          if(this.stateData?.referenceFrom == "link"){
-            let tab = this.stateData?.isATargetedSolution ? "ASSIGNED_TO_ME_TAB" : "DISCOVERED_BY_ME_TAB"
-            this.translate.get(["PROJECT_AVAILABLE_UNDER_TAB_MSG",tab]).subscribe(data => {
-              this.toastService.showToast(`${data["PROJECT_AVAILABLE_UNDER_TAB_MSG"]} ${data[tab]}`,"success")
-            })
-          }
-          res.result.hasAcceptedTAndC = this.projectDetails.hasAcceptedTAndC
-          let data = {
-            key: res.result._id,
-            data: res.result
-          }
-          this.db.addData(data)
-          this.routerService.navigate("/project-details",{ type: "details", id: res.result._id, projectId: res.result._id },{ replaceUrl: true })
-        }
-      })
-  }
-
   startImprovementProgram(data:Event){
     if(data){
       this.navigate();
@@ -154,25 +123,6 @@ export class PreviewDetailsPageComponent {
     })
   }
 
-  async start() {
-    const isLinkReference = this.stateData?.referenceFrom === "link" && !this.stateData?.isATargetedSolution;
-    const isLibraryReference = this.stateData?.referenceFrom === "library";
-  
-    if (isLinkReference || isLibraryReference) {
-      const response = await this.utils.showPopupWithCheckbox("projectShare");
-      if(!response) return
-      this.projectDetails.hasAcceptedTAndC = response.buttonAction
-      if (isLinkReference) {
-        const payload = { referenceFrom: "link", link: this.stateData.link };
-        this.getProjectDetails(payload);
-      } else if (isLibraryReference) {
-        this.importFromLibrary();
-      }
-    } else {
-      this.getProjectDetails();
-    }
-  }
-
  async startProject(){
     if(!this.utils.isLoggedIn()){
       this.toastService.showToast("USER_NOT_LOGGEDIN_MSG","danger")
@@ -182,42 +132,14 @@ export class PreviewDetailsPageComponent {
       }, 1000);
       return
     }
-    if(this.projectDetails.certificateTemplateId){
-      let dialogData= {
-        content :"CERTIFICATE_NAME_CONFIRMATION_MSG",
-        actionButtons: [
-          { label: "CONFIRM", action: true },
-          { label: "EDIT", action: false }
-        ]
-      }
-      let response = await this.utils.showDialogPopup(dialogData)
-      if(response === true){
-        this.start();
-      }
-      else if(response === false){
-        window.location.href = "/profile-edit"
-      }
+    let strategyType = "targetted"
+    if(this.stateData?.referenceFrom === "library"){
+      strategyType = "library"
+    }else if(this.stateData?.referenceFrom === "link" && !this.stateData?.isATargetedSolution){
+      strategyType = "nonTargetted"
     }
-    else {
-      this.start();
-    }
-  }
-
-  importFromLibrary(){
-    const config = {
-      url: `${apiUrls.IMPORT_LIBRARY}${this.projectDetails._id}`,
-      payload: { hasAcceptedTAndC: this.projectDetails.hasAcceptedTAndC || false, referenceFrom: "fromLibrary" }
-    }
-    this.apiService.post(config).subscribe((res)=>{
-      if(res.result){
-        res.result.hasAcceptedTAndC = this.projectDetails.hasAcceptedTAndC
-        let data = {
-          key: res.result._id,
-          data: res.result
-        }
-        this.db.addData(data)
-        this.routerService.navigate("/project-details",{ type: "details", id: res.result._id, projectId: res.result._id },{ replaceUrl: true })
-      }
-    })
+    this.strategy = this.previewStrategyFactory.getStrategy(strategyType)
+    let data = { ...this.projectDetails, ...this.stateData }
+    this.strategy.start(data)
   }
 }

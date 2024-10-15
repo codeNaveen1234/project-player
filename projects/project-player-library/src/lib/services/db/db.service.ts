@@ -19,8 +19,12 @@ export class DbService {
 
     request.onupgradeneeded = (event: IDBVersionChangeEvent) => {
       const db = (event.target as IDBOpenDBRequest).result;
-      db.createObjectStore(this.storeName, { keyPath: 'key' });
+      if (!db.objectStoreNames.contains(this.storeName)) {
+        db.createObjectStore(this.storeName, { keyPath: 'key' });
+      }
+      if (!db.objectStoreNames.contains(this.storeDownload)) {
         db.createObjectStore(this.storeDownload,{ keyPath: 'keyid'});
+      }
     };
 
     request.onsuccess = (event: Event) => {
@@ -53,7 +57,7 @@ export class DbService {
   }
 
   updateData(data: any) {
-    let downloadData:any = {};
+    let downloadData:any = null;
     if(data.data.isDownload){
       downloadData = {
         keyid: data.key,
@@ -68,16 +72,16 @@ export class DbService {
     const transaction = this.db.transaction([this.storeName], 'readwrite');
     const store = transaction.objectStore(this.storeName);
     const request = store.put(data);
-    const transactionForDownloads = this.db.transaction([this.storeDownload], 'readwrite');
-    const storeForDownloads = transactionForDownloads.objectStore(this.storeDownload);
-    const requestForDownloads = storeForDownloads.add(downloadData);
-
     request.onsuccess = (event) => {
       console.log('Data updated successfully');
     };
     request.onerror = (event) => {
       console.error('Error updating Data: ');
     };
+    if(!downloadData) return
+    const transactionForDownloads = this.db.transaction([this.storeDownload], 'readwrite');
+    const storeForDownloads = transactionForDownloads.objectStore(this.storeDownload);
+    const requestForDownloads = storeForDownloads.put(downloadData);
 
     requestForDownloads.onsuccess = (event) => {
       console.log('Data updated successfully');
