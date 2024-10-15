@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { actions } from '../../constants/actionConstants';
-import { RoutingService } from '../../services/routing/routing.service';
 import { Router, UrlTree } from '@angular/router';
-import { DbService } from '../../services/db/db.service';
 import { ApiService } from '../../services/api/api.service';
 import { apiUrls } from '../../constants/urlConstants';
 import { DataService } from '../../services/data/data.service';
@@ -10,7 +8,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { StartImprovementPopupComponent } from '../../shared/start-improvement-popup/start-improvement-popup.component';
 import { UtilsService } from '../../services/utils/utils.service';
 import { ToastService } from '../../services/toast/toast.service';
-import { TranslateService } from '@ngx-translate/core';
 import { Location } from '@angular/common';
 import { PreviewStrategyFactory } from '../../services/strategy/preview-strategy.service';
 
@@ -28,8 +25,8 @@ export class PreviewDetailsPageComponent {
   id:any;
   stateData:any = {}
   private strategy: any
-  constructor(private routerService:RoutingService,private db:DbService,private apiService:ApiService,private dataService: DataService,
-    private dialog: MatDialog, private router: Router, private utils: UtilsService, private toastService: ToastService, private translate: TranslateService,
+  constructor(private apiService:ApiService,private dataService: DataService,
+    private dialog: MatDialog, private router: Router, private utils: UtilsService, private toastService: ToastService,
     private location: Location, private previewStrategyFactory: PreviewStrategyFactory
   ){
     const urlTree: UrlTree = this.router.parseUrl(this.router.url);
