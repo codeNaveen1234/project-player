@@ -72,9 +72,7 @@ export class DbService {
     const transaction = this.db.transaction([this.storeName], 'readwrite');
     const store = transaction.objectStore(this.storeName);
     const request = store.put(data);
-    request.onsuccess = (event) => {
-      console.log('Data updated successfully');
-    };
+    request.onsuccess = (event) => {};
     request.onerror = (event) => {
       console.error('Error updating Data: ');
     };
@@ -83,9 +81,7 @@ export class DbService {
     const storeForDownloads = transactionForDownloads.objectStore(this.storeDownload);
     const requestForDownloads = storeForDownloads.put(downloadData);
 
-    requestForDownloads.onsuccess = (event) => {
-      console.log('Data updated successfully');
-    };
+    requestForDownloads.onsuccess = (event) => {};
     requestForDownloads.onerror = (event) => {
       console.error('Error updating Data: ');
     };
@@ -96,9 +92,7 @@ export class DbService {
     const store = transaction.objectStore(this.storeName);
     const request = store.delete(key);
 
-    request.onsuccess = (event) => {
-      console.log('Item deleted successfully');
-    };
+    request.onsuccess = (event) => {};
 
     request.onerror = (event) => {
       console.error('Error deleting item: ',);
