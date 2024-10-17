@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class DbService {
   private dbName = 'projectPlayer'
-  private dbVersion = 1
+  private dbVersion = 2
   private storeName = 'projects'
   private db!: IDBDatabase
   private storeDownload = 'downloadedProjects'
