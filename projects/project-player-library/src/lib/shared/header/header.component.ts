@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'lib-header',
@@ -8,4 +9,9 @@ import { Component, Input } from '@angular/core';
 export class HeaderComponent {
   @Input()title:any
 
+  constructor(private location: Location){}
+
+  goBack(){
+    this.location.back()
+  }
 }

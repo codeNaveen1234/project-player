@@ -10,6 +10,7 @@ import { UtilsService } from '../../services/utils/utils.service';
 import { ToastService } from '../../services/toast/toast.service';
 import { Location } from '@angular/common';
 import { PreviewStrategyFactory } from '../../services/strategy/preview-strategy.service';
+import { DbService } from '../../services/db/db.service';
 
 @Component({
   selector: 'lib-preview-details-page',
@@ -27,12 +28,22 @@ export class PreviewDetailsPageComponent {
   private strategy: any
   constructor(private apiService:ApiService,private dataService: DataService,
     private dialog: MatDialog, private router: Router, private utils: UtilsService, private toastService: ToastService,
-    private location: Location, private previewStrategyFactory: PreviewStrategyFactory
+    private location: Location, private previewStrategyFactory: PreviewStrategyFactory, private db: DbService
   ){
     const urlTree: UrlTree = this.router.parseUrl(this.router.url);
     this.id = urlTree.queryParams['id']
     this.stateData = urlTree.queryParams
     this.stateData["isATargetedSolution"] = this.stateData.isATargetedSolution ? this.stateData.isATargetedSolution == "true" : null
+    let config = this.dataService.getConfig()
+    let isPreview = config.isPreview
+    if(isPreview){
+      this.db.getData(this.id).then(data=>{
+        this.projectDetails = data.data
+        this.setActionsList();
+        this.initializeTasks()
+      })
+      return
+    }
     if(this.utils.isLoggedIn()){
       if(this.stateData.referenceFrom == "library"){
         this.getTemplateByExternalId()
@@ -124,7 +135,7 @@ export class PreviewDetailsPageComponent {
   }
 
  async startProject(){
-    if(!this.utils.isLoggedIn()){
+    if(!this.utils.isLoggedIn() && !this.projectDetails.isPreview){
       this.toastService.showToast("USER_NOT_LOGGEDIN_MSG","danger")
       setTimeout(() => {
         history.replaceState(null, '', '/');

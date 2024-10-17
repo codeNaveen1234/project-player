@@ -4,7 +4,7 @@ import { DbService } from '../../services/db/db.service';;
 import { DataService } from '../../services/data/data.service';
 import { ApiService } from '../../services/api/api.service';
 import { apiUrls } from '../../constants/urlConstants';
-import { NavigationEnd, Router, UrlTree } from '@angular/router';
+import { NavigationEnd, Router, Routes, UrlTree } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
 import { DetailsPageComponent } from '../details-page/details-page.component';
 import { TaskDetailsPageComponent } from '../task-details-page/task-details-page.component';
@@ -66,9 +66,31 @@ export class MainPlayerComponent implements OnInit {
     }
   }
 
+  setRoutes(){
+    let routePath = window.location.pathname.slice(1)
+    let newRoutes: Routes = [
+      { path: routePath, component: MainPlayerComponent },
+      { path: '**', redirectTo: routePath }
+    ]
+    this.router.resetConfig(newRoutes)
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     this.dataService.setConfig(changes['config'].currentValue)
     this.projectData = changes['projectData'].currentValue
+    this.setRoutes()
+    if(changes['config'].currentValue.isPreview){
+      let projectData = { ...this.projectData, isPreview: changes['config'].currentValue.isPreview }
+      let data = {
+        key: this.projectData._id,
+        data: projectData
+      }
+      setTimeout(() => {
+        this.db.updateData(data)
+        this.routerService.navigate("/project-details",{ type:'template',id: this.projectData._id },{ replaceUrl:true })
+      },100)
+      return
+    }
     if(!this.projectData){
       let urlQueryParams = this.getQueryParams(window.location.search)
       this.projectData = urlQueryParams

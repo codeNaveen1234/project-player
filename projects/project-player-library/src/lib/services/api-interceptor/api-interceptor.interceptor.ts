@@ -18,6 +18,10 @@ export class ApiInterceptor implements HttpInterceptor {
       return this.handleOfflineError();
     }
     let config = this.dataService.getConfig()
+    if(config.isPreview){
+      this.toastService.showToast("PREVIEW_MODE_MSG","danger")
+      return this.handlePreview()
+    }
     const token = config.accessToken;
     let authReq = this.addAuthHeader(req, token);
 
@@ -72,4 +76,7 @@ export class ApiInterceptor implements HttpInterceptor {
     }));
   }
 
+  private handlePreview(): Observable<never> {
+    return throwError(() => ({}));
+  }
 }

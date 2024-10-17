@@ -8,7 +8,7 @@
     <p *ngIf="projectDetails?.duration" >{{"DURATION" | translate}}: <span>{{projectDetails.duration}}</span></p>
   </mat-card>
 
-  @if (projectDetails?.learningResources.length > 0) {
+  @if (projectDetails?.learningResources?.length > 0) {
     <mat-accordion >
       <mat-expansion-panel  style="box-shadow: #8577778e 5px 5px 4px; border-radius: 10px; margin: 12px 0;"  (opened)="panelOpenStateForResources=true" (closed)="panelOpenStateForResources = false">
         <mat-expansion-panel-header class="flex justify-between">
