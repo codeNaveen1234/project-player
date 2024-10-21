@@ -1,7 +1,6 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
 import { RoutingService } from '../../services/routing/routing.service';
-import jsPDF from 'jspdf';
 import { apiUrls } from '../../constants/urlConstants';
 import { ApiService } from '../../services/api/api.service';
 import { BackNavigationHandlerComponent } from '../../shared/back-navigation-handler/back-navigation-handler.component';
@@ -94,6 +93,18 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
 
     const img = new Image();
     img.onload = () => {
+      this.renderCanvasAndDownload(img, svgElement, canvas, ctx, type);
+    };
+    img.src = url;
+  }
+
+  renderCanvasAndDownload(
+    img: HTMLImageElement,
+    svgElement: Element,
+    canvas: HTMLCanvasElement,
+    ctx: CanvasRenderingContext2D | null,
+    type: string
+  ) {
       const viewBox = svgElement.getAttribute('viewBox');
       let width = img.width;
       let height = img.height;
@@ -107,31 +118,45 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
       const scale = dpi / 96;
       canvas.width = width * scale;
       canvas.height = height * scale;
+    if (ctx) {
       ctx?.scale(scale, scale);
       ctx?.drawImage(img, 0, 0, width, height);
       if (type === 'pdf') {
-        const pdf = new jsPDF({
-          orientation: width > height ? 'landscape' : 'portrait',
-          unit: 'pt',
-          format: [width, height],
-        });
-        const imgData = canvas.toDataURL('image/png');
-        pdf.addImage(imgData, 'PNG', 0, 0, width, height);
-        pdf.save(`${this.projectDetails.title}.pdf`);
-        URL.revokeObjectURL(url);
+        this.downloadPdf();
       } else {
+        this.downloadPng(canvas);
+      }
+    }
+  }
+
+  downloadPdf() {
+    fetch(this.projectDetails.certificate.pdfUrl)
+      .then((resp) => resp.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${this.projectDetails.title}.pdf`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.toasterService.showToast('CERTIFICATE_DOWNLOAD_SUCCESS', 'success');
+      })
+      .catch((error) => {
+        this.toasterService.showToast('CERTIFICATE_DOWNLOAD_FAILED', 'error');
+      });
+  }
+
+  downloadPng(canvas: HTMLCanvasElement) {
         canvas.toBlob((blob) => {
           if (blob) {
             const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
+            const url = URL.createObjectURL(blob);
+            link.href = url;
             link.download = `${this.projectDetails.title}.png`;
             link.click();
             URL.revokeObjectURL(url);
+            this.toasterService.showToast('CERTIFICATE_DOWNLOAD_SUCCESS', 'success');
           }
         }, 'image/png');
-      }
-      this.toasterService.showToast("CERTIFICATE_DOWNLOAD_SUCCESS", "success");
-    };
-    img.src = url;
   }
 }
