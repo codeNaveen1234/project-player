@@ -121,11 +121,7 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
     if (ctx) {
       ctx?.scale(scale, scale);
       ctx?.drawImage(img, 0, 0, width, height);
-      if (type === 'pdf') {
-        this.downloadPdf();
-      } else {
-        this.downloadPng(canvas);
-      }
+      this.downloadPng(canvas);
     }
   }
 
