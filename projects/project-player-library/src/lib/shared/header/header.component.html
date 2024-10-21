@@ -1,4 +1,6 @@
 <div class="flex items-center ml-3">
-    <mat-icon fontIcon="arrow_back" class="cursor-pointer" (click)="goBack()"></mat-icon>
+    @if(isPreview){
+        <mat-icon fontIcon="arrow_back" class="cursor-pointer mr-2" (click)="goBack()"></mat-icon>
+    }
     <div class="text-xl font-bold break-all">{{ title | translate }}</div>
 </div>

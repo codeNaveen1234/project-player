@@ -34,12 +34,14 @@ export class TaskDetailsPageComponent extends BackNavigationHandlerComponent imp
   projectId: any
   projectDetails:any
   subTaskData:any;
+  params:any = {}
 
   ngOnInit(): void {
     this.setOptionList();
     const urlTree: UrlTree = this.router.parseUrl(this.router.url);
     this.taskId = urlTree.queryParams['taskId']
     this.projectId = urlTree.queryParams['projectId']
+    this.params = { type: "details", id: this.projectId, tab: 1 }
     this.getProjectDetails()
   }
 

@@ -86,7 +86,7 @@ export class MainPlayerComponent implements OnInit {
         data: projectData
       }
       setTimeout(() => {
-        this.db.updateData(data)
+        this.db.addData(data)
         this.routerService.navigate("/project-details",{ type:'template',id: this.projectData._id },{ replaceUrl:true })
       },100)
       return
@@ -180,6 +180,9 @@ export class MainPlayerComponent implements OnInit {
   }
 
   ngOnDestroy(){
+    if(this.dataService.getConfig().isPreview){
+      this.db.clearDb()
+    }
     this.dataService.clearConfig()
     this.routerService.navigate('/',{},{skipLocationChange: true})
     if (this.routerSubscription) {

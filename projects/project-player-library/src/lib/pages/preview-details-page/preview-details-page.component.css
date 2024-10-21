@@ -5,7 +5,7 @@
 ::ng-deep mat-tab-header.mat-mdc-tab-header {
     background-color: white;
     border-radius: 0.8rem;
-    box-shadow: rgba(133, 119, 119, 0.555) 5px 5px 4px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     margin: 4px 8px 0 8px ;
 }
 

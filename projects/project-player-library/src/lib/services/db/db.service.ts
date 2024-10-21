@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class DbService {
   private dbName = 'projectPlayer'
-  private dbVersion = 1
+  private dbVersion = 2
   private storeName = 'projects'
   private db!: IDBDatabase
   private storeDownload = 'downloadedProjects'
@@ -103,6 +103,16 @@ export class DbService {
     request.onerror = (event) => {
       console.error('Error deleting item: ',);
     };
+  }
+
+  clearDb(){
+    const transaction = this.db.transaction([this.storeName], "readwrite");
+    const store = transaction.objectStore(this.storeName);
+    const request = store.clear();
+    request.onsuccess = () => {};
+    request.onerror = (event) => {
+      console.error("Failed to clear db");
+    }
   }
 
 }
