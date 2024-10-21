@@ -70,7 +70,7 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
     });
   }
 
-  download(type: string) {
+  downloadSvg() {
     if (!this.certificateContainer) {
       return;
     }
@@ -93,7 +93,7 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
 
     const img = new Image();
     img.onload = () => {
-      this.renderCanvasAndDownload(img, svgElement, canvas, ctx, type);
+      this.renderCanvasAndDownload(img, svgElement, canvas, ctx, 'png');
     };
     img.src = url;
   }

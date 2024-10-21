@@ -13,7 +13,7 @@
                     <button mat-flat-button class="!rounded-2xl primary-button" [matMenuTriggerFor]="menu"><mat-icon fontIcon="cloud_download"></mat-icon>{{"DOWNLOAD"| translate}}</button>
                     <mat-menu #menu="matMenu" >
                         <button (click)="downloadPdf()" mat-menu-item>{{"PDF"| translate}}</button>
-                        <button (click)="download('png')" mat-menu-item>{{"PNG"| translate}}</button>
+                        <button (click)="downloadSvg()" mat-menu-item>{{"PNG"| translate}}</button>
                     </mat-menu>
                 </div>
             </div>
