@@ -1,18 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataService } from '../data/data.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoutingService {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private data: DataService) { }
 
   navigate(path:any,queryParams:any, options?:any){
+    let skipLocation = null
+    if(this.data.getConfig()?.isPreview){
+      skipLocation = { skipLocationChange: true }
+    }
     if(options){
-      this.router.navigate([path],{queryParams: queryParams, ...options})
+      let routerOptions = { ...options, ...skipLocation }
+      this.router.navigate([path],{queryParams: queryParams, ...routerOptions})
     }else{
-      this.router.navigate([path],{ queryParams: queryParams })
+      this.router.navigate([path],{ queryParams: queryParams, ...skipLocation })
     }
     
   }

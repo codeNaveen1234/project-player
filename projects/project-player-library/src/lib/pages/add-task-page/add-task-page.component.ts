@@ -9,6 +9,7 @@ import { Router, UrlTree } from '@angular/router';
 import { BackNavigationHandlerComponent } from '../../shared/back-navigation-handler/back-navigation-handler.component';
 import { Location } from '@angular/common';
 import { statusType } from '../../constants/statusConstants';
+import { DataService } from '../../services/data/data.service';
 
 @Component({
   selector: 'lib-add-task-page',
@@ -29,7 +30,7 @@ export class AddTaskPageComponent extends BackNavigationHandlerComponent impleme
   endDate = ''
   
   constructor(private routingService: RoutingService, private attachmentService: AttachmentService, private db: DbService,
-    private toastService: ToastService, private utils: UtilsService, private router: Router, private location: Location) {
+    private toastService: ToastService, private utils: UtilsService, private router: Router, private location: Location, private dataService: DataService) {
       super(routingService)
       const urlTree: UrlTree = this.router.parseUrl(this.router.url);
       this.getProjectDetails(urlTree.queryParams['projectId'])
@@ -112,7 +113,11 @@ export class AddTaskPageComponent extends BackNavigationHandlerComponent impleme
       data:this.projectDetails
     }
     this.db.updateData(finalData)
-    this.goBack()
+    if(this.dataService.getConfig().isPreview){
+      this.routingService.navigate("/project-details",{ type: "details", id: this.projectDetails._id, tab: 1 })
+    }else{
+      this.location.back()
+    }
     this.toastService.showToast("NEW_TASK_ADDED_SUCCESSFULLY_MSG","success")
   }
 

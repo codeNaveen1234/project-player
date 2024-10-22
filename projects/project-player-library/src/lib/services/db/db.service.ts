@@ -99,4 +99,14 @@ export class DbService {
     };
   }
 
+  clearDb(){
+    const transaction = this.db.transaction([this.storeName], "readwrite");
+    const store = transaction.objectStore(this.storeName);
+    const request = store.clear();
+    request.onsuccess = () => {};
+    request.onerror = (event) => {
+      console.error("Failed to clear db");
+    }
+  }
+
 }
