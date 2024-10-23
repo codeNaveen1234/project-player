@@ -6,7 +6,7 @@
                     {{projectDetails?.title || "Undefined"}}
                 </div>
                 <div class="text-sm text-gray-500 break-all">
-                    {{projectDetails?.programName}}
+                    {{projectDetails?.programInformation?.programName || projectDetails?.programName}}
                 </div>
             </div>
             @if(projectDetails?.certificateTemplateId){
