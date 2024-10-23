@@ -136,6 +136,9 @@ export class DetailsPageComponent implements OnInit {
     }
     switch (event.action) {
       case "download":
+        if(!this.isOnline){
+          return this.toasterService.showToast("PROJECT_DOWNLOAD_FAILED","danger")
+        }
         this.projectDetails.isDownload = true;
         let data = {
           key: this.projectDetails._id,
