@@ -141,4 +141,34 @@ export class UtilsService {
     return response
   }
 
+  snakeToCamelCaseConverter(data:any, keyMap:any):any{
+    if (Array.isArray(data)) {
+      return data.map(item => this.snakeToCamelCaseConverter(item, keyMap));
+    } else if (data !== null && typeof data === 'object') {
+      return Object.keys(data).reduce((acc, key) => {
+        let value = data[key];
+        const newKey = keyMap[key] || this.toCamelCase(key);
+        switch (key) {
+          case 'recommended_duration':
+            acc[newKey] = `${value.number} ${value.duration}`;
+            break;
+          case 'learning_resources':
+            acc[newKey] = value.map((res: any) => ({ name: res.name,link: res.url }));
+            break;
+          case 'categories':
+            acc[newKey] = value.map((category: string) => ({ name: category }));
+            break;
+          default:
+            acc[newKey] = this.snakeToCamelCaseConverter(value, keyMap);
+        }
+        return acc;
+      }, {} as any);
+    }
+    return data;
+  }
+
+  toCamelCase(str: string){
+    return str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+  }
+
 }

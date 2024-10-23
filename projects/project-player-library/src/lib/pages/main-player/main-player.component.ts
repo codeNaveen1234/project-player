@@ -31,6 +31,12 @@ export class MainPlayerComponent implements OnInit {
   @Input() projectData:any;
   @Input() config: any
   @ViewChild('dynamicComponent', { read: ViewContainerRef }) dynamicComponent!: ViewContainerRef;
+  keyMap:any = {
+    id: '_id',
+    objective: 'description',
+    recommended_duration: 'duration',
+    is_mandatory: "isDeletable"
+  };
   private routerSubscription!: Subscription;
   constructor(private routerService: RoutingService, private db: DbService, private apiService:ApiService, private dataService: DataService, private router: Router,
     private utils: UtilsService, private toastService: ToastService, private location: Location
@@ -80,14 +86,15 @@ export class MainPlayerComponent implements OnInit {
     this.projectData = changes['projectData'].currentValue
     this.setRoutes()
     if(changes['config'].currentValue.isPreview){
-      let projectData = { ...this.projectData, isPreview: changes['config'].currentValue.isPreview }
+      let formattedData = this.utils.snakeToCamelCaseConverter(this.projectData, this.keyMap)
+      let projectData = { ...formattedData, isPreview: changes['config'].currentValue.isPreview }
       let data = {
-        key: this.projectData._id,
+        key: projectData._id,
         data: projectData
       }
       setTimeout(() => {
         this.db.addData(data)
-        this.routerService.navigate("/project-details",{ type:'template',id: this.projectData._id },{ replaceUrl:true })
+        this.routerService.navigate("/project-details",{ type:'template',id: projectData._id },{ replaceUrl:true })
       },100)
       return
     }
