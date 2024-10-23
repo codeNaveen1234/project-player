@@ -2,7 +2,7 @@ mat-card{
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 10px;
-    box-shadow: rgba(133, 119, 119, 0.555) 5px 5px 4px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     display: flex;
     flex-direction: column;
 }

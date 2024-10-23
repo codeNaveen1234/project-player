@@ -24,6 +24,10 @@ export abstract class GenericFunctions {
   }
 
   async apiCallAndNavigate(config:any, projectDetails:any){
+    if(projectDetails.isPreview){
+      this.routerService.navigate("/project-details",{ type: "details", id: projectDetails._id, projectId: projectDetails._id },{ replaceUrl: true })
+      return
+    }
     this.apiService.post(config).subscribe((res)=>{
       if(res.result){
         if(projectDetails.referenceFrom == "link"){

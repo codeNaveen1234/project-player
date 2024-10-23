@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { BackNavigationHandlerComponent } from '../../shared/back-navigation-handler/back-navigation-handler.component';
 import { NetworkServiceService } from 'network-service';
+import { DataService } from '../../services/data/data.service';
 
 @Component({
   selector: 'lib-add-files-page',
@@ -39,9 +40,10 @@ export class AddFilesPageComponent extends BackNavigationHandlerComponent {
 
   constructor(private dialog: MatDialog, private toastService: ToastService, private attachmentService: AttachmentService,
     private db: DbService, private routingService: RoutingService, private utils: UtilsService, private location: Location,
-    private router: Router,private network:NetworkServiceService) {
+    private router: Router,private network:NetworkServiceService, private dataService: DataService) {
 
     super(routingService)
+    const nav = this.router.getCurrentNavigation()
       const url: UrlTree = this.router.parseUrl(this.router.url);
       this.projectId = url.queryParams["projectId"]
       this.taskId = url.queryParams["taskId"]
@@ -213,7 +215,11 @@ export class AddFilesPageComponent extends BackNavigationHandlerComponent {
         this.toastService.showToast("FILES_ATTACHED_SUCCESSFULLY","success")
         this.isModified=false;
       }
-      this.location.back()
+      if(this.dataService.getConfig().isPreview){
+        this.routingService.navigate("/project-details",{ type: "taskDetails", taskId: this.taskId, projectId: this.projectId })
+      }else{
+        this.location.back()
+      }
     }else{
       this.showConfirmationPopup()
     }

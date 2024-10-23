@@ -50,7 +50,7 @@ export class DetailsPageComponent implements OnInit {
     this.db.getData(id).then(data=>{
       this.projectDetails = data.data
       this.submitted = data.data.status == statusType.submitted
-      this.tasksList = data.data.tasks
+      this.tasksList = data.data.tasks || []
       this.projectShare = data.data.hasAcceptedTAndC || false
       this.initializeTasks()
       this.getProjectTaskStatus()
@@ -82,6 +82,10 @@ export class DetailsPageComponent implements OnInit {
   }
 
   submitImprovement() {
+    if(this.projectDetails.isPreview){
+      this.toasterService.showToast("PREVIEW_MODE_MSG","danger")
+      return
+    }
     this.routerService.navigate("/project-details",{ type:"addFile", projectId:this.projectDetails._id })
   }
 
@@ -98,6 +102,10 @@ export class DetailsPageComponent implements OnInit {
       case 'share':
         if(!this.isOnline){
           this.toasterService.showToast("OFFLINE_MSG",'danger')
+          return
+        }
+        if(this.projectDetails.isPreview){
+          this.toasterService.showToast("PREVIEW_MODE_MSG","danger")
           return
         }
         this.projectService.showSyncSharePopup('task', event.name, this.projectDetails, event._id)
@@ -119,6 +127,13 @@ export class DetailsPageComponent implements OnInit {
   }
 
   iconListAction(event: any) {
+    if(this.projectDetails.isPreview){
+      let list = ["download","share","sync"]
+      if(list.includes(event.action)){
+        this.toasterService.showToast("PREVIEW_MODE_MSG","danger")
+        return
+      }
+    }
     switch (event.action) {
       case "download":
         if(!this.isOnline){

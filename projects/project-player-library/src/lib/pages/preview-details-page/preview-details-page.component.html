@@ -1,9 +1,9 @@
 
-    <mat-card class="max-w-full p-4 mt-0 mx-2 mb-3" style="box-shadow: rgba(133, 119, 119, 0.555) 5px 5px 4px ; border-radius: 20px !important;">
+    <mat-card class="max-w-full p-4 mt-0 mx-2 mb-3" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; border-radius: 20px !important;">
         <div class="w-full flex justify-between">
             <div class="flex flex-col">
                 <div class="text-xl break-all">
-                    {{projectDetails?.title}}
+                    {{projectDetails?.title || "Undefined"}}
                 </div>
                 <div class="text-sm text-gray-500 break-all">
                     {{projectDetails?.programName}}
