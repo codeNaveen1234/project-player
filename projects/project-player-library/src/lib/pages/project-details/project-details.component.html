@@ -8,9 +8,9 @@
     <p *ngIf="projectDetails?.duration" >{{"DURATION" | translate}}: <span>{{projectDetails.duration}}</span></p>
   </mat-card>
 
-  @if (projectDetails?.learningResources.length > 0) {
+  @if (projectDetails?.learningResources?.length > 0) {
     <mat-accordion >
-      <mat-expansion-panel  style="box-shadow: #8577778e 5px 5px 4px; border-radius: 10px; margin: 12px 0;"  (opened)="panelOpenStateForResources=true" (closed)="panelOpenStateForResources = false">
+      <mat-expansion-panel  style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; border-radius: 10px; margin: 12px 0;"  (opened)="panelOpenStateForResources=true" (closed)="panelOpenStateForResources = false">
         <mat-expansion-panel-header class="flex justify-between">
           <mat-panel-title class=" text-lg text-gray-400 font-bold">
             {{"LEARNING_RESOURCES"|translate}}
@@ -21,7 +21,7 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <ng-container *ngFor="let item of projectDetails?.learningResources">
-            <mat-card class="cursor-pointer mb-2" style="box-shadow: #8577778e 5px 5px 4px;border-radius: 10px;">
+            <mat-card class="cursor-pointer mb-2" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;border-radius: 10px;">
               <div class="flex justify-between items-center px-4 py-2" (click)="openResource(item)">
                 <p class="text-base text-gray-700 font-bold">{{item.name}}</p>
                 <span class="flex justify-center items-center "><mat-icon class="arrow-expansion"  class="primary-icon" fontIcon="play_circle"></mat-icon></span>
@@ -34,7 +34,7 @@
   }
   @if (validationTexts.length) {
     <mat-accordion >
-      <mat-expansion-panel  style="box-shadow: #8577778e 5px 5px 4px; border-radius: 10px; margin: 12px 0;"  (opened)="panelOpenStateForCertificate=true" (closed)="panelOpenStateForCertificate = false">
+      <mat-expansion-panel  style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; border-radius: 10px; margin: 12px 0;"  (opened)="panelOpenStateForCertificate=true" (closed)="panelOpenStateForCertificate = false">
         <mat-expansion-panel-header class="flex justify-between py-2">
           <mat-panel-title class=" text-lg text-gray-400 font-bold">
             {{"CERTIFICATE_CRITERIA" | translate}}

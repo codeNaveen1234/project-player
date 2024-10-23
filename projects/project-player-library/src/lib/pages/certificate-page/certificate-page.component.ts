@@ -70,7 +70,7 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
     });
   }
 
-  downloadSvg() {
+  downloadSvgToPng() {
     if (!this.certificateContainer) {
       return;
     }
@@ -151,8 +151,8 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
             link.download = `${this.projectDetails.title}.png`;
             link.click();
             URL.revokeObjectURL(url);
-            this.toasterService.showToast('CERTIFICATE_DOWNLOAD_SUCCESS', 'success');
           }
         }, 'image/png');
+        this.toasterService.showToast('CERTIFICATE_DOWNLOAD_SUCCESS', 'success');
   }
 }
