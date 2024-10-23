@@ -127,5 +127,6 @@
     "DO_NOT_SHARE": "Do not share",
     "DO_NOT_SHARE_PROJECT_DETAILS": "Do not share project details",
     "PROJECT_DATA_SHARING_INFO": "You have {{preference}} to share your project details with the administrator",
-    "NO_SOLUTION_FOUND": "No solution found"
+    "NO_SOLUTION_FOUND": "No solution found",
+    "PROJECT_DOWNLOAD_FAILED":"Download failed. Check your network connection and try again."
 }
