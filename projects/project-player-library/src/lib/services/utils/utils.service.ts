@@ -158,6 +158,9 @@ export class UtilsService {
           case 'categories':
             acc[newKey] = value.map((category: string) => ({ name: category }));
             break;
+          case 'id':
+            acc[newKey] = String(value)
+            break;
           default:
             acc[newKey] = this.snakeToCamelCaseConverter(value, keyMap);
         }
