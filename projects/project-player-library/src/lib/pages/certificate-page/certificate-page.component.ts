@@ -6,7 +6,7 @@ import { ApiService } from '../../services/api/api.service';
 import { BackNavigationHandlerComponent } from '../../shared/back-navigation-handler/back-navigation-handler.component';
 import { HttpClient } from '@angular/common/http';
 import { ToastService } from '../../services/toast/toast.service';
-
+import { Canvg } from 'canvg';
 @Component({
   selector: 'lib-certificate-page',
   templateUrl: './certificate-page.component.html',
@@ -70,7 +70,7 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
     });
   }
 
-  downloadSvgToPng() {
+  async downloadSvgToPng() {
     if (!this.certificateContainer) {
       return;
     }
@@ -86,43 +86,20 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
-    const svgBlob = new Blob([svgString], {
-      type: 'image/svg+xml;charset=utf-8',
-    });
-    const url = URL.createObjectURL(svgBlob);
-
-    const img = new Image();
-    img.onload = () => {
-      this.renderCanvasAndDownload(img, svgElement, canvas, ctx, 'png');
-    };
-    img.src = url;
-  }
-
-  renderCanvasAndDownload(
-    img: HTMLImageElement,
-    svgElement: Element,
-    canvas: HTMLCanvasElement,
-    ctx: CanvasRenderingContext2D | null,
-    type: string
-  ) {
-      const viewBox = svgElement.getAttribute('viewBox');
-      let width = img.width;
-      let height = img.height;
-
-      if (viewBox) {
-        const viewBoxValues = viewBox.split(' ').map(Number);
-        width = viewBoxValues[2];
-        height = viewBoxValues[3];
-      }
-      const dpi = 300;
-      const scale = dpi / 96;
-      canvas.width = width * scale;
-      canvas.height = height * scale;
-    if (ctx) {
-      ctx?.scale(scale, scale);
-      ctx?.drawImage(img, 0, 0, width, height);
-      this.downloadPng(canvas);
+    if (!ctx) {
+      console.error('Failed to get 2D rendering context');
+      return;
     }
+    const dpi = 300;
+    const scaleFactor = dpi / 96;
+    const width = svgElement.getBoundingClientRect().width * scaleFactor;
+    const height = svgElement.getBoundingClientRect().height * scaleFactor;
+    canvas.width = width;
+    canvas.height = height;
+    const v = Canvg.fromString(ctx, svgString);
+    ctx.scale(scaleFactor, scaleFactor);
+    await v.render();
+    this.downloadPng(canvas);
   }
 
   downloadPdf() {

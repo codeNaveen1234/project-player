@@ -23,6 +23,7 @@
     "@angular/router": "^17.3.2",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
+    "canvg": "^4.0.2",
     "concat": "^1.0.3",
     "fs-extra": "^11.2.0",
     "network-service": "^0.0.1",
