@@ -126,10 +126,6 @@ margin-bottom: 8px;
     display: flex !important;
   }
 
-  ::ng-deep .mat-mdc-unelevated-button{
-    border-radius: 1.5rem !important;
-}
-
 .task-buttons{
   box-shadow: rgba(133, 119, 119, 0.555) 3px 3px 2px;
 }
