@@ -260,6 +260,9 @@ export class DetailsPageComponent implements OnInit {
   }
 
   getProjectTaskStatus(){
+    if(this.projectDetails.isPreview){
+      return
+    }
     if(!this.tasksList && this.tasksList.length){
       return
     }
