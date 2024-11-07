@@ -61,6 +61,7 @@ export class TaskDetailsPageComponent extends BackNavigationHandlerComponent imp
     this.subTaskData = this.utils.getMetaData();
     this.subTaskData.name = data,
     delete this.subTaskData.children;
+    this.task.children ? this.task.children : this.task.children = []
     this.task.children.push(this.subTaskData);
     this.updateTaskStatus();
     this.textFormControl.reset();
