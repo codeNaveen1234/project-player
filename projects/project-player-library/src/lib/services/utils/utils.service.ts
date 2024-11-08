@@ -90,7 +90,7 @@ export class UtilsService {
   setStatusForProject(project: any){
     const projectData = { ...project };
     for (const task of projectData.tasks) {
-      const activeSubTask = task.children.filter((d:any) => !d.isDeleted)
+      const activeSubTask = task.children ? task.children.filter((d:any) => !d.isDeleted) : []
       task.status = activeSubTask.length
         ? this.calculateStatus(task.children)
         : task.status;
@@ -160,6 +160,9 @@ export class UtilsService {
             break;
           case 'id':
             acc[newKey] = String(value)
+            break;
+          case 'is_mandatory':
+            acc[newKey] = !value
             break;
           default:
             acc[newKey] = this.snakeToCamelCaseConverter(value, keyMap);

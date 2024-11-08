@@ -98,6 +98,7 @@ export class AddTaskPageComponent extends BackNavigationHandlerComponent impleme
     this.projectDetails.isEdit = true
     this.projectDetails.status = this.projectDetails.status ? this.projectDetails.status : statusType.notStarted;
     this.projectDetails.status = this.projectDetails.status == statusType.notStarted ? statusType.inProgress : this.projectDetails.status;
+    this.projectDetails.tasks = this.projectDetails.tasks || []
     this.projectDetails.tasks.push(this.taskData)
     this.attachmentsList.map(async(attachment:any)=>{
       let convertedFile = await this.attachmentService.convertTobase64(attachment.selectedFile)
