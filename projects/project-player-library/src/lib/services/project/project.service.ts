@@ -51,7 +51,7 @@ async showSyncSharePopup(type:string, name:string, project:any, taskId?:string){
         .then(response => {
       this.utils.stopLoader()
       if(response.result && response.result.downloadUrl){
-          this.sendMessage(response.result.downloadUrl);
+          this.sendMessage(response.result.downloadUrl,name);
       }else{
         this.toastService.showToast("ERROR_IN_DOWNLOADING_MSG","danger")
       }
@@ -61,8 +61,8 @@ async showSyncSharePopup(type:string, name:string, project:any, taskId?:string){
     })
   }
 
-  sendMessage(data:any) {
-    const message = { type: 'SHARE_LINK', url: data };
+  sendMessage(data:any,name:any) {
+    const message = { type: 'SHARE_LINK', url: data ,name:name};
     window.postMessage(message, '*');
   }
 }
