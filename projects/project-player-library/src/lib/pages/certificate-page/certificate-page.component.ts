@@ -119,8 +119,8 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
       });
   }
 
-  downloadPng(canvas: HTMLCanvasElement) {
-        canvas.toBlob((blob) => {
+  async downloadPng(canvas: HTMLCanvasElement) {
+        await canvas.toBlob((blob) => {
           if (blob) {
             const link = document.createElement('a');
             const url = URL.createObjectURL(blob);
