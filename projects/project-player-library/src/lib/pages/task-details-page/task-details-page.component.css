@@ -24,7 +24,6 @@
     cursor: pointer;
 }
 .add-files-button button,.subtask-input button{
-    border-radius: 20px;
     padding-top: 8px;
     padding-bottom: 8px;
     box-shadow: rgba(133, 119, 119, 0.555) 2px 5px 4px;

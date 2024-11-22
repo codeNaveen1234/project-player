@@ -20,31 +20,25 @@
                             <span class="bg-yellow-400 text-black text-xs rounded py-1 px-2">{{ "MANDATORY" | translate}}</span>
                         </div>
                     }
-                    <div class="task-menu">
-                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" (click)="$event.stopPropagation()">
-                            <mat-icon [ngStyle]="{ 'color': 'primary-icon'}" class="primary-icon">more_vert</mat-icon>
-                          </button>
-                          <mat-menu #menu="matMenu" class="menu"  xPosition="before">
-                            @for (item of actionsList; track $index) {
-                                @if (!startImprovement || (item.name !== 'EDIT' && item.name !== 'DELETE')) {
-                                    <div *ngIf="task.isDeletable || (item.name !== 'DELETE' )">
-                                        <button class="btn-menu"
-                                                (click)="actionsEmit(item)"
-                                                mat-menu-item
-                                                style="padding: 0;"
-                                                *ngIf="!submittedImprovement || (item.name !== 'DELETE' && item.name !== 'EDIT') ">
-                                            <div class="btn-menu-div">
-                                                <span>{{item.name | translate}}</span>
-                                                <span class="material-symbols-outlined">
-                                                    <mat-icon aria-hidden="false" aria-label="Example edit icon" [ngStyle]="{ 'color': item.color}" class="{{item.color}}" [fontIcon]="item.icon"></mat-icon>
-                                                </span>
-                                            </div>
-                                        </button>
-                                    </div>
+                    @if(actionsList.length){
+                        <div class="task-menu">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" (click)="$event.stopPropagation()">
+                                <mat-icon [ngStyle]="{ 'color': 'primary-icon'}" class="primary-icon">more_vert</mat-icon>
+                              </button>
+                              <mat-menu #menu="matMenu" class="menu"  xPosition="before">
+                                @for (item of actionsList; track $index) {
+                                    <button class="btn-menu" (click)="actionsEmit(item)"mat-menu-item style="padding: 0;">
+                                        <div class="btn-menu-div">
+                                            <span>{{item.name | translate}}</span>
+                                            <span class="material-symbols-outlined">
+                                                <mat-icon aria-hidden="false" aria-label="Example edit icon" [ngStyle]="{ 'color': item.color}" class="{{item.color}}" [fontIcon]="item.icon"></mat-icon>
+                                            </span>
+                                        </div>
+                                    </button>
                                 }
-                            }
-                          </mat-menu>
-                    </div>
+                              </mat-menu>
+                        </div>
+                    }
                 </div>
                 </div>
         </div>

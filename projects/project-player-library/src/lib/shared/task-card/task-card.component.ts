@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RoutingService } from '../../services/routing/routing.service';
 import { statusLabels, statusType } from '../../constants/statusConstants';
+import { actions } from '../../constants/actionConstants';
 
 @Component({
   selector: 'lib-task-card',
@@ -9,19 +10,24 @@ import { statusLabels, statusType } from '../../constants/statusConstants';
 })
 export class TaskCardComponent {
   @Input() task: any;
-  @Input() submittedImprovement: any;
-  @Input() actionsList:any;
+  @Input() isPreview: any;
   @Output() newItemEvent = new EventEmitter<any>();
-  @Input() startImprovement?:any;
-  @Input() projectId?:any;
-  @Output() startImprovementEvent = new EventEmitter<any>();
-
-
+  @Input() projectDetails:any;
   statusLabels:any = statusLabels
   statusTypes:any = statusType
-
+  actionsList: any = JSON.parse(JSON.stringify(actions.ACTION_LIST))
 
   constructor(private routerService: RoutingService) {}
+
+  ngOnInit(){
+    this.isPreview = this.projectDetails.status == statusType.submitted
+    if(this.isPreview){
+      this.actionsList = []
+    }
+    if(!this.task.isDeletable){
+      this.actionsList.pop()
+    }
+  }
 
   actionsEmit(item:any){
     const data = { action: item.action, ...this.task };
@@ -29,11 +35,8 @@ export class TaskCardComponent {
   }
 
   moveToDetailsTask(data: any) {
-    if (!this.submittedImprovement && !this.startImprovement) {
-      this.routerService.navigate(`/project-details`,{type:'taskDetails', taskId: data, projectId: this.projectId});
-    }
-    else if(!this.submittedImprovement && this.startImprovement){
-      this.startImprovementEvent.emit(data);
+    if (!this.isPreview) {
+      this.routerService.navigate(`/project-details`,{type:'taskDetails', taskId: data, projectId: this.projectDetails._id});
     }
   }
 

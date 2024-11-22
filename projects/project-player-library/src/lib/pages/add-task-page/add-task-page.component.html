@@ -36,7 +36,7 @@
     <lib-files-card [filesList]="attachmentsList" (deleteFile)="removeAttachment($event)"></lib-files-card>
 </div>
 
-<button  mat-flat-button (click)="addTask()" class="w-full my-8 !rounded-2xl" [disabled]="!taskTitle"
+<button  mat-flat-button (click)="addTask()" class="w-full my-8" [disabled]="!taskTitle"
 [ngClass]="{'primary-button':taskTitle,'disabled-button':!taskTitle}">
     {{ "ADD_TASK" | translate }}
 </button>

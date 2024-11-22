@@ -218,22 +218,15 @@ export class DetailsPageComponent implements OnInit {
     if(!this.projectDetails.isEdit){
       options[options.length-1] = actions.SYNCED_ACTION
     }
-    if(this.projectDetails.isDownload){
-      options[0] = actions.DOWNLOADED_ACTION
-    }
     if(this.submitted){
-      options.shift();
       options.pop()
-      if(this.projectDetails.certificate){
-        options.push(actions.CERTIFICATE_ACTION)
-      }
     }
     this.projectActions = options;
     this.actionsList = optionList;
   }
 
 
-  onLearningResources(id:any,fromDetailspage:boolean){
+  onLearningResources(id:any){
     this.routerService.navigate("/project-details",{ type: "resources", taskId: id, projectId: this.projectDetails._id})
 
   }

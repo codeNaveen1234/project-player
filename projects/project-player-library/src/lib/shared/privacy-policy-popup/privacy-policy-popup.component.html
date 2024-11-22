@@ -9,11 +9,11 @@
         </div>
     </div>
     <div class="flex flex-row mt-10">
-        <button  mat-flat-button (click)="closePopup(false)" class="w-full mr-3 !rounded-3xl"
+        <button  mat-flat-button (click)="closePopup(false)" class="w-full mr-3"
         [ngClass]="{'primary-button':!isChecked,'primary-button-outline':isChecked}">
             {{ popupData.button1 | translate }}
         </button>
-        <button  mat-flat-button (click)="closePopup(true)" [disabled]="!isChecked" color="primary" class="w-full !rounded-3xl"
+        <button  mat-flat-button (click)="closePopup(true)" [disabled]="!isChecked" color="primary" class="w-full"
         [ngClass]="{'primary-button':isChecked,'disabled-button':!isChecked}">
             {{ popupData.button2 | translate }}
         </button>
