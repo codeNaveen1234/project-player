@@ -4,7 +4,7 @@ import { RoutingService } from '../../services/routing/routing.service';
 import { apiUrls } from '../../constants/urlConstants';
 import { ApiService } from '../../services/api/api.service';
 import { BackNavigationHandlerComponent } from '../../shared/back-navigation-handler/back-navigation-handler.component';
-import { HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import { ToastService } from '../../services/toast/toast.service';
 import { Canvg } from 'canvg';
 @Component({
@@ -20,18 +20,20 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
   @ViewChild('certificateContainer', { static: true }) certificateContainer:
     | ElementRef
     | undefined;
+  private customHttp: HttpClient;
 
   constructor(
     private router: Router,
     private routingService: RoutingService,
     private renderer: Renderer2,
     private apiService: ApiService,
-    private http: HttpClient,
-    private toasterService: ToastService
+    private toasterService: ToastService,
+    private httpBackend: HttpBackend
   ) {
     super(routingService);
     const url: UrlTree = this.router.parseUrl(this.router.url);
     this.projectId = url.queryParams['projectId'];
+    this.customHttp = new HttpClient(httpBackend);
   }
 
   ngOnInit() {
@@ -49,7 +51,7 @@ export class CertificatePageComponent extends BackNavigationHandlerComponent {
       if (this.projectDetails.certificate) {
         if(this.projectDetails.certificate.eligible){
           const svgUrl = this.projectDetails.certificate.svgUrl;
-          this.http.get(svgUrl, { responseType: 'text' }).subscribe((res) => {
+          this.customHttp.get(svgUrl, { responseType: 'text' }).subscribe((res) => {
             this.certificateUrl = res;
             if (this.certificateContainer) {
               this.renderer.setProperty(

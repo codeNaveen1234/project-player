@@ -34,24 +34,15 @@ export class ApiInterceptor implements HttpInterceptor {
     if (!token) {
       return req;
     }
-     if (req.url.includes('storage.googleapis.com')) {
-      return req.clone({
-        setHeaders:{
-          "Access-Control-Allow-Origin": "*"
-        }
-      })
+    return req.clone({
+      setHeaders: {
+      'Authorization': `Bearer ${token}`,
+      'x-auth-token': token,
+      'x-authenticated-user-token': token,
+      'Content-Type': 'application/json',
+      'x-app-ver':'' }
     }
-      else {
-          return req.clone({
-            setHeaders: {
-            'Authorization': `Bearer ${token}`,
-            'x-auth-token': token,
-            'x-authenticated-user-token': token,
-            'Content-Type': 'application/json',
-            'x-app-ver':'' }
-          }
-        );
-      }
+    );
   }
 
     private handleError=(error: HttpErrorResponse): Observable<never> => {

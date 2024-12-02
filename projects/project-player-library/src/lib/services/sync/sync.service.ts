@@ -3,7 +3,7 @@ import { apiUrls } from '../../constants/urlConstants';
 import { statusType } from '../../constants/statusConstants';
 import { ApiService } from '../api/api.service';
 import { DbService } from '../db/db.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import { AttachmentService } from '../attachment/attachment.service';
 import { firstValueFrom } from 'rxjs';
 
@@ -11,8 +11,11 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root'
 })
 export class SyncService {
+  private customHttp: HttpClient;
 
-  constructor(private apiService: ApiService, private db: DbService, private http: HttpClient, private attachmentService: AttachmentService) {}
+  constructor(private apiService: ApiService, private db: DbService, private attachmentService: AttachmentService, private httpBackend: HttpBackend) {
+    this.customHttp = new HttpClient(httpBackend);
+  }
 
   getAttachmentsOfProject(projectDetails:any){
     let attachments:any = []
@@ -119,7 +122,7 @@ export class SyncService {
             "Access-Control-Allow-Origin":"*"
           }
         }
-        firstValueFrom(this.http.put(fileDetails.uploadUrl, convertedFile, options)).then(data=>{
+        firstValueFrom(this.customHttp.put(fileDetails.uploadUrl, convertedFile, options)).then(data=>{
           resolve(data)
         }).catch(err=>reject(err))
       })
