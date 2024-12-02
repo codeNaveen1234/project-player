@@ -38,6 +38,14 @@
       </mat-card-actions>
 </mat-card>
 
+@if(submitted){
+  <div class="mx-2 my-4">
+    <button  mat-flat-button (click)="startOrResumeReflection()" class="primary-button w-full">
+      {{ "START_REFLECTION" | translate }}
+    </button>
+  </div>
+}
+
 <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="onTabChange($event)" dynamicHeight>
     <mat-tab [label]="'IMPROVEMENT_DETAILS' | translate" >
       <div class="tab-label-container">
@@ -71,7 +79,7 @@
       </div>
     </mat-tab>
 
-    <mat-tab [label]="'MICRO_ACTIONS' | translate">
+    <mat-tab [label]="'ACTIONS' | translate">
       <div class="tab-label-container">
         <div class="task-details">
             <div class="no-tasks my-5" *ngIf="tasksList.length === 0">

@@ -33,22 +33,22 @@ export const actions = {
     },
     FILE_UPLOAD_OPTIONS : [
         {
-            label: "IMAGES",
+            label: "IMAGE",
             icon: "photo_library",
             accept: "image/jpg,image/png,image/jpeg"
           },
           {
-            label: "VIDEOS",
+            label: "VIDEO",
             icon: "videocam",
             accept: "video/mp4"
           },
           {
-            label: "FILES",
+            label: "FILE",
             icon: "picture_as_pdf",
             accept: "application/pdf"
           },
           {
-            label: "LINKS",
+            label: "LINK",
             icon: "link",
             accept: "link"
           },
@@ -63,7 +63,7 @@ export const actions = {
             value:"inProgress"
         },
         {
-            label : "COMPLETED",
+            label : "COMPLETE",
             value:"completed"
         },
     ],

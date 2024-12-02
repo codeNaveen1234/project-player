@@ -345,4 +345,6 @@ export class DetailsPageComponent implements OnInit {
   closeShareControl(){
     this.projectShare = this.projectDetails.hasAcceptedTAndC
   }
+
+  startOrResumeReflection(){}
 }

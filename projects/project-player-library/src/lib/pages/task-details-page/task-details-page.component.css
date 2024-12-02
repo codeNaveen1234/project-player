@@ -8,10 +8,6 @@
     align-items: center;
     cursor: pointer;
 }
-.task-header h4{
-    margin:  20px 0;
-    font-size: 1.3rem;
-}
 
 .task-date{
     display: flex;
@@ -63,13 +59,6 @@
     font-size: 50px;
     width: 20%;
     height: auto;
-}
-.add-files-button{
-    width: 100%;
-    margin-top: 17px;
-}
-.add-files-button button{
-    width: 100%;
 }
 .task-status{
     display: flex;
