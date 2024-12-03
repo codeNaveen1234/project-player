@@ -24,15 +24,14 @@
             </mat-card-content>
         </mat-card>
         <div *ngIf="progressValue === 100 && !submitted" class="progress-alert">
-            <h4>{{"PROGRESS_ALERT"| translate}} <span> <mat-icon fontIcon="arrow_circle_down"></mat-icon> </span>
-            </h4>
+            <h4>{{"PROGRESS_ALERT"| translate}}</h4>
 
         </div>
     </mat-card-content>
     <mat-card-actions *ngIf="!submitted" class="buttons">
         <button  mat-flat-button [disabled]="progressValue < 100" (click)="submitImprovement()" class="primary-button"
         [ngClass]="{'disabled-button':progressValue < 100}">
-          {{ "SUBMIT_IMPROVEMENT" | translate}}
+          {{ "FINISH_IMPROVEMENT" | translate}}
         </button>
 
       </mat-card-actions>
@@ -118,8 +117,8 @@
             </div>
 
               @if (tasksList.length > displayedTasks.length) {
-                <div  class=" w-full my-2">
-                  <button (click)="loadMoreTasks()" class="primary-button w-full" mat-flat-button color="primary">
+                <div  class="my-2 flex flex-row justify-center">
+                  <button (click)="loadMoreTasks()" class="primary-button !min-w-44" mat-flat-button color="primary">
                     {{"LOAD_MORE" | translate}}
                   </button>
                 </div>
