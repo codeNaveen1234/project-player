@@ -1,3 +1,9 @@
+@if(projectDetails?.programName){
+  <mat-card class="flex !flex-row justify-between !sticky top-0 z-[2] p-3 mx-2">
+    <div>{{projectDetails?.programName}}</div>
+    <mat-icon fontIcon="arrow_forward" class="cursor-pointer primary-icon" (click)="navigateToProgramDetails()"></mat-icon>
+  </mat-card>
+}
 <mat-card class="details-card ">
   <div class="flex justify-between">
     <span class="details-card-header">
@@ -12,17 +18,42 @@
       <div style="display: flex;">
           <lib-icon-list [items]="projectActions" [submittedImprovement]="submitted" (newItemEvent)="iconListAction($event)"></lib-icon-list>
       </div>
-        <mat-card class="status-bar" >
-            <mat-card-content  *ngIf="!submitted" class="status-background">
+        @if(projectDetails?.status == projectStatus.submitted){
+          @if(projectDetails?.reflection?.status == reflectionStatus.completed){
+            @if(projectDetails.hasOwnProperty('story')){
+              <mat-card class="status-bar">
+                <mat-card-content class="after-submission">
+                  <mat-icon aria-hidden="false" aria-label="Example verified icon" fontIcon="verified" style="color: green;" class="min-w-8"></mat-icon>
+                  <h3>{{"PROGRESS_COMPLETE" | translate}}</h3>
+                </mat-card-content>
+              </mat-card>
+            }@else{
+              <!-- to be updated -->
+              <div>Story Info</div>
+            }
+          }@else{
+            <mat-card class="status-bar">
+              <mat-card-content class="status-background">
+                <div class="flex flex-row mb-3">
+                  <mat-icon class="mr-4">info</mat-icon>
+                  <div>{{"REFLECTION_INFO_MSG"| translate}}</div>
+                </div>
+                <div class="flex flex-row">
+                  <div class="mr-4">99%</div>
+                  <mat-progress-bar class="primary-icon self-center" value="99"></mat-progress-bar>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          }
+        }@else{
+          <mat-card class="status-bar" >
+            <mat-card-content class="status-background">
                 <h4>{{"PROGRESS" | translate}}</h4>
                 <p>{{completedCount}}/{{tasksList.length}} {{"TASK_COMPLETED" | translate}}</p>
-                <mat-progress-bar class="progress-bar primary-icon"   mode="determinate" [value]="progressValue"></mat-progress-bar>
+                <mat-progress-bar class="progress-bar primary-icon" [value]="progressValue"></mat-progress-bar>
             </mat-card-content>
-            <mat-card-content class="after-submission"  *ngIf="submitted">
-                <mat-icon aria-hidden="false" aria-label="Example verified icon" fontIcon="verified" style="color: green;" class="min-w-8"></mat-icon>
-                <h3>{{"PROGRESS_COMPLETE" | translate}}</h3>
-            </mat-card-content>
-        </mat-card>
+          </mat-card>
+        }
         <div *ngIf="progressValue === 100 && !submitted" class="progress-alert">
             <h4>{{"PROGRESS_ALERT"| translate}}</h4>
 
@@ -38,11 +69,19 @@
 </mat-card>
 
 @if(submitted){
-  <div class="mx-2 my-4">
-    <button  mat-flat-button (click)="startOrResumeReflection()" class="primary-button w-full">
-      {{ "START_REFLECTION" | translate }}
-    </button>
-  </div>
+  @if(projectDetails?.reflection?.status !== reflectionStatus.completed){
+    <div class="mx-2 my-4">
+      <button  mat-flat-button (click)="startOrResumeReflection()" class="primary-button w-full">
+        {{ (projectDetails?.reflection?.status == reflectionStatus.started ? "RESUME_REFLECTION" : "START_REFLECTION") | translate }}
+      </button>
+    </div>
+  }@else{
+    <div class="mx-2 my-4">
+      <button  mat-flat-button (click)="viewStory()" class="primary-button w-full" [disabled]="!projectDetails?.hasOwnProperty('story')">
+        {{ "VIEW_STORY" | translate }}
+      </button>
+    </div>
+  }
 }
 
 <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="onTabChange($event)" dynamicHeight>

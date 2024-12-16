@@ -5,6 +5,7 @@ import { actions } from '../../constants/actionConstants';
 import { DbService } from '../../services/db/db.service';
 import { ToastService } from '../../services/toast/toast.service';
 import { UtilsService } from '../../services/utils/utils.service';
+import { ProjectService } from '../../services/project/project.service';
 interface TaskOption {
   value: any;
   label: string;
@@ -25,7 +26,7 @@ subTaskOptions:TaskOption[] = [];
 ngOnInit(): void {
   this.setOptionList();
 }
-constructor(private dialog:MatDialog, private utils: UtilsService,private db: DbService,private toasterService:ToastService){}
+constructor(private dialog:MatDialog, private utils: UtilsService,private db: DbService,private toasterService:ToastService, private projectService: ProjectService){}
 
 async openDialog() {
   let popupDetails= {
@@ -88,6 +89,7 @@ updateDataInDb(){
     data:this.projectDetails
   }
   this.db.updateData(finalData);
+  this.projectService.updateProject(this.projectDetails._id, this.task, this.subTask)
   this.toasterService.showToast("FILES_CHANGES_UPDATED","success")
 }
 }

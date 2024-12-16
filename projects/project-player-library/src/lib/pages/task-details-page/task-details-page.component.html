@@ -16,7 +16,7 @@
         <h3>{{"STATUS"|translate}}</h3>
         <div>
             <mat-form-field>
-                <mat-select (valueChange)="taskStatusChange()" [(value)]="task.status" name="taskStatus" [disabled]="task?.children?.length > 0">
+                <mat-select (valueChange)="taskStatusChange()" [(value)]="task.status" name="taskStatus" [disabled]="filteredSubTaskList.length > 0">
                   @for (item of taskOptions; track $index) {
                     <mat-option [value]="item.value">{{item.label | translate}}</mat-option>
                   }
@@ -43,15 +43,18 @@
     }
     <div>
         @for (item of task?.children; track $index) {
-            <div>
-                <lib-subtask-card [subTask]="item" [projectDetails]="projectDetails" [task]="task" (updateSubTaskStatusEvent)="updateTaskStatus($event)" (deleteSubTaskEvent)="deleteSubTask($event)"></lib-subtask-card>
-            </div>
+            @if(!item.isDeleted){
+                <div>
+                    <lib-subtask-card [subTask]="item" [projectDetails]="projectDetails" [task]="task"
+                    (updateSubTaskStatusEvent)="updateTaskStatus($event)" (deleteSubTaskEvent)="deleteSubTask($event)"></lib-subtask-card>
+                </div>
+            }
         }
     </div>
-    <div class="add-files-button flex flex-row justify-center mt-5" [ngClass]="{'add-files-button-sub': task?.children?.length === 0}">
+    <div class="add-files-button flex flex-row justify-center mt-5" [ngClass]="{'add-files-button-sub': filteredSubTaskList.length === 0}">
         <button mat-flat-button class="primary-button !min-w-44 mr-8" (click)="addFiles()">{{ 'ADD_FILES' | translate }}</button>
         @if(task.learningResources && task.learningResources.length){
-            <button (click)="onLearningResources(task._id,false)" class="primary-button !min-w-44" mat-flat-button>
+            <button (click)="onLearningResources(task._id)" class="primary-button !min-w-44" mat-flat-button>
                 {{"VIEW_RESOURCES" | translate}}
             </button>
         }

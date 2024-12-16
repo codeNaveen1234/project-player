@@ -5,7 +5,7 @@ import { DbService } from '../../services/db/db.service';
 import { Router, UrlTree } from '@angular/router';
 import { ToastService } from '../../services/toast/toast.service';
 import { UtilsService } from '../../services/utils/utils.service';
-import { statusType } from '../../constants/statusConstants';
+import { statusType, reflectionStatus } from '../../constants/statusConstants';
 import { ProjectService } from '../../services/project/project.service';
 import { apiUrls } from '../../constants/urlConstants';
 import { ApiService } from '../../services/api/api.service';
@@ -30,6 +30,8 @@ export class DetailsPageComponent implements OnInit {
   isOnline:any;
   showProjectShareControl = false
   projectShare = false
+  projectStatus = statusType
+  reflectionStatus = reflectionStatus
 
   constructor(private routerService: RoutingService, private db: DbService,
     private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService, private router: Router,private network:NetworkServiceService
@@ -204,6 +206,7 @@ export class DetailsPageComponent implements OnInit {
         data:this.projectDetails
       }
       this.db.updateData(finalData)
+      this.projectService.updateProject(this.projectDetails._id, this.projectDetails.tasks[taskIndex],'',["isDeleted"])
       this.initializeTasks()
       this.setActionsList()
       this.countCompletedTasks();
@@ -346,5 +349,14 @@ export class DetailsPageComponent implements OnInit {
     this.projectShare = this.projectDetails.hasAcceptedTAndC
   }
 
-  startOrResumeReflection(){}
+  startOrResumeReflection(){
+    // this.db.deleteData(this.projectDetails._id)
+    window.location.href = `/reflection?id=${this.projectDetails._id}`
+  }
+
+  navigateToProgramDetails(){
+    window.location.href = `/list/my-journey/${this.projectDetails.programId}`
+  }
+
+  viewStory(){}
 }
