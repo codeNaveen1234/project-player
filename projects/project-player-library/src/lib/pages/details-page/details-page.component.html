@@ -35,7 +35,7 @@
             <mat-card class="status-bar">
               <mat-card-content class="status-background">
                 <div class="flex flex-row mb-3">
-                  <mat-icon class="mr-4">info</mat-icon>
+                  <mat-icon class="mr-4 min-w-7">info</mat-icon>
                   <div>{{"REFLECTION_INFO_MSG"| translate}}</div>
                 </div>
                 <div class="flex flex-row">
@@ -89,7 +89,7 @@
       <div class="tab-label-container">
         <div class="p-[8px] mt-2">
           <lib-project-details [projectDetails]="projectDetails"></lib-project-details>
-          @if(!submitted && ((projectDetails?.referenceFrom == "link" && projectDetails?.isAPrivateProgram) || projectDetails?.referenceFrom == "fromLibrary")){
+          <!-- @if(!submitted && ((projectDetails?.referenceFrom == "link" && projectDetails?.isAPrivateProgram) || projectDetails?.referenceFrom == "fromLibrary")){
             <mat-accordion>
               <mat-expansion-panel  style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; border-radius: 10px; margin: 12px 0;"
               [expanded]="showProjectShareControl" (opened)="showProjectShareControl=true" (closed)="closeShareControl()">
@@ -112,7 +112,7 @@
                 </div>
               </mat-expansion-panel>
             </mat-accordion>
-          }
+          } -->
         </div>
       </div>
     </mat-tab>
