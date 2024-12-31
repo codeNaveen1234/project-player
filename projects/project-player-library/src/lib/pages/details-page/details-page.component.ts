@@ -368,6 +368,6 @@ export class DetailsPageComponent implements OnInit {
 
   viewStory(){
     this.db.deleteData(this.projectDetails._id)
-    window.location.href = `/view-story/${this.projectDetails._id}`
+    window.location.href = `/mi-details/view-story/${this.projectDetails._id}`
   }
 }
