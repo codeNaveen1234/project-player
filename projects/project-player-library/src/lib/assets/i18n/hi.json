@@ -149,5 +149,6 @@
     "STORY_GENERATING_INFO_MSG": "आपकी कहानी तैयार की जा रही है! इसमें कुछ मिनट लग सकते हैं।",
     "STORY_GENERATED_SUCCESS_MSG": "आपकी कहानी सफलतापूर्वक तैयार हो गई है और देखने के लिए तैयार है!",
     "RESUME_REFLECTION": "चिंतन फिर से शुरू करें",
-    "VIEW_STORY": "कहानी देखें"
+    "VIEW_STORY": "कहानी देखें",
+    "MANDATORY_ONE_TASK_MSG": "एक MI में कम से कम एक कार्य होना आवश्यक है।"
 }

@@ -146,8 +146,9 @@
     "IMPROVEMENT_FINISHED_SUCCESS_MSG": "You're 99% there! Reflect today to complete your journey.",
     "START_REFLECTION": "Start reflection",
     "REFLECTION_INFO_MSG": "Your are almost there! Reflect today to complete your journey.",
-    "STORY_GENERATING_INFO_MSG": "Your story is being crafted! This may take a few minutes.",
+    "STORY_GENERATING_INFO_MSG": "Your story is being crafted ! This may take a few minutes.",
     "STORY_GENERATED_SUCCESS_MSG": "Your story has been successfully generated and is now ready to view!",
     "RESUME_REFLECTION": "Resume reflection",
-    "VIEW_STORY": "View story"
+    "VIEW_STORY": "View story",
+    "MANDATORY_ONE_TASK_MSG": "An MI needs to have at least one task."
 }

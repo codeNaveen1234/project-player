@@ -199,6 +199,12 @@ export class DetailsPageComponent implements OnInit {
         return data._id == id
       })
       this.projectDetails.tasks[taskIndex].isDeleted = true
+      let filteredTaskList = this.projectDetails.tasks.filter((data:any) => {return !data.isDeleted})
+      if(!filteredTaskList.length){
+        this.projectDetails.tasks[taskIndex].isDeleted = false
+        this.toasterService.showToast("MANDATORY_ONE_TASK_MSG","danger")
+        return
+      }
       this.projectDetails.tasks[taskIndex].isEdit = true
       this.projectDetails.isEdit = true
       let finalData = {
@@ -350,13 +356,18 @@ export class DetailsPageComponent implements OnInit {
   }
 
   startOrResumeReflection(){
-    // this.db.deleteData(this.projectDetails._id)
-    window.location.href = `/reflection?id=${this.projectDetails._id}`
+    let redirectionPath = this.projectDetails?.reflection?.status == reflectionStatus.started ? 
+        `/mohini/voice-chat/?projectId=${this.projectDetails._id}` : `/reflection/${this.projectDetails._id}`
+    this.db.deleteData(this.projectDetails._id)
+    window.location.href = redirectionPath
   }
 
   navigateToProgramDetails(){
     window.location.href = `/list/my-journey/${this.projectDetails.programId}`
   }
 
-  viewStory(){}
+  viewStory(){
+    this.db.deleteData(this.projectDetails._id)
+    window.location.href = `/view-story/${this.projectDetails._id}`
+  }
 }
