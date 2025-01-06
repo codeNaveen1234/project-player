@@ -11,3 +11,8 @@ export const statusLabels = {
     inProgress: 'In progress',
     completed: 'Completed'
 }
+
+export const reflectionStatus = {
+    started: "started",
+    completed: "completed"
+}

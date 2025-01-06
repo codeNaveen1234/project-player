@@ -1,9 +1,9 @@
 export const privacyPolicyPopupData = {
-    title: "UPLOAD_EVIDENCES",
+    title: "UPLOAD_FILES",
     message1: "TERMS_AND_CONDITIONS_MSG_1",
     message2: "CONTENT_POLICY",
     message3: "TERMS_AND_CONDITIONS_MSG_2",
-    button1: "DO_NOT_UPLOAD",
+    button1: "CANCEL",
     button2: "UPLOAD"
 }
 

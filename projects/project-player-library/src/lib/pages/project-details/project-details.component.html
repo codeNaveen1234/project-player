@@ -1,10 +1,10 @@
 <mat-card class="project-details">
     <p *ngIf="projectDetails?.description" >{{"OBJECTIVE" | translate}}: <span>{{projectDetails.description}}</span></p>
-    <p *ngIf="categories" class="capitalize">
+    <!-- <p *ngIf="categories" class="capitalize">
       {{"CATEGORIES" | translate}}:
       <span>{{ categories }}</span>
-    </p>
-    <p *ngIf="recommendedFor" class="capitalize">{{"RECOMMENDED_FOR" | translate}}: <span>{{ recommendedFor }}</span></p>
+    </p> -->
+    <!-- <p *ngIf="recommendedFor" class="capitalize">{{"RECOMMENDED_FOR" | translate}}: <span>{{ recommendedFor }}</span></p> -->
     <p *ngIf="projectDetails?.duration" >{{"DURATION" | translate}}: <span>{{projectDetails.duration}}</span></p>
   </mat-card>
 

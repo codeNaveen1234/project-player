@@ -65,4 +65,23 @@ async showSyncSharePopup(type:string, name:string, project:any, taskId?:string){
     const message = { type: 'SHARE_LINK', url: data ,name:name};
     window.postMessage(message, '*');
   }
+
+  updateProject(projectId:any,taskData:any, subtaskData:any=null, keys:any=[]){
+    let formattedData = this.formatData(taskData,keys)
+    if(subtaskData){
+      let subtaskFormatted = this.formatData(subtaskData,keys)
+      formattedData["children"] = [subtaskFormatted]
+    }
+    let finalData = { tasks: [formattedData] }
+    const config = {
+      url: `${apiUrls.UPDATE_PROJECT}${projectId}`,
+      payload: finalData
+    }
+    this.apiService.post(config).subscribe(response => {})
+  }
+
+  formatData(data:any, keys:any=[]){
+    let finalKeysList = ["_id", "name", "status", "endDate", "externalId"].concat(keys)
+    return Object.fromEntries(Object.entries(data).filter(([key]) => finalKeysList.includes(key)))
+  }
 }

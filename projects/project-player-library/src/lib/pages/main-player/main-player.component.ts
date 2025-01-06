@@ -18,6 +18,7 @@ import { UtilsService } from '../../services/utils/utils.service';
 import { CertificatePageComponent } from '../certificate-page/certificate-page.component';
 import { ToastService } from '../../services/toast/toast.service';
 import { Location } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'lib-main-player',
@@ -39,7 +40,7 @@ export class MainPlayerComponent implements OnInit {
   };
   private routerSubscription!: Subscription;
   constructor(private routerService: RoutingService, private db: DbService, private apiService:ApiService, private dataService: DataService, private router: Router,
-    private utils: UtilsService, private toastService: ToastService, private location: Location
+    private utils: UtilsService, private toastService: ToastService, private location: Location, private translate: TranslateService
   ) {}
 
   private componentMapper: any = {
@@ -82,10 +83,11 @@ export class MainPlayerComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    this.setLanguage(changes['config'].currentValue.language)
     this.dataService.setConfig(changes['config'].currentValue)
     this.projectData = changes['projectData'].currentValue
     this.setRoutes()
-    if(changes['config'].currentValue.isPreview){
+    if(changes['config'].currentValue?.isPreview){
       let formattedData = this.utils.snakeToCamelCaseConverter(this.projectData, this.keyMap)
       let projectData = { ...formattedData, isPreview: changes['config'].currentValue.isPreview }
       let data = {
@@ -211,5 +213,10 @@ export class MainPlayerComponent implements OnInit {
         queryObj[key] = value 
     });
     return queryObj;
+  }
+
+  setLanguage(language: string) {
+    this.translate.setTranslation(language, require(`../../assets/i18n/${language}.json`));
+    this.translate.setDefaultLang(language);
   }
 }

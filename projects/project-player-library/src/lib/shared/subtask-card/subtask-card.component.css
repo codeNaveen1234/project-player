@@ -13,8 +13,8 @@ mat-card{
     align-items: center;
 }
 .sub-task-header div{
-    width: 90%;
     display: flex;
+    flex: 1;
 }
 
 .sub-task-header h4{

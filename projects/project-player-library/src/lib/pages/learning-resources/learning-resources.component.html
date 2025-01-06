@@ -2,7 +2,7 @@
 @for (item of learningResources; track $index) {
     <mat-card (click)="openResource(item)" class="p-2 m-3 cursor-pointer" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
         <div class="flex items-center justify-between w-full" >
-            <p>{{item.name}}</p>
+            <p class="flex-1 mr-3 break-words [word-break:break-word]">{{item.name}}</p>
             <mat-icon class="primary-icon" fontIcon="arrow_forward"></mat-icon>
         </div>
     </mat-card>

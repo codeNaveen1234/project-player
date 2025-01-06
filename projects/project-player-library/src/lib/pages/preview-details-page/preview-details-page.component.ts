@@ -22,7 +22,6 @@ export class PreviewDetailsPageComponent {
   actionsList = [];
   displayedTasks:any;
   remainingTasks = [];
-  startImprovement: boolean = true;
   id:any;
   stateData:any = {}
   private strategy: any

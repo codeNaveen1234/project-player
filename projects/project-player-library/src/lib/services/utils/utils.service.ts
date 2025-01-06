@@ -89,12 +89,12 @@ export class UtilsService {
 
   setStatusForProject(project: any){
     const projectData = { ...project };
-    for (const task of projectData.tasks) {
-      const activeSubTask = task.children ? task.children.filter((d:any) => !d.isDeleted) : []
-      task.status = activeSubTask.length
-        ? this.calculateStatus(task.children)
-        : task.status;
-    }
+    // for (const task of projectData.tasks) {
+    //   const activeSubTask = task.children ? task.children.filter((d:any) => !d.isDeleted) : []
+    //   task.status = activeSubTask.length
+    //     ? this.calculateStatus(task.children)
+    //     : task.status;
+    // }
     let projectStatus = this.calculateStatus(projectData.tasks);
     if (projectData.status) {
       if (projectData.status == statusType.inProgress && projectStatus == statusType.notStarted) {

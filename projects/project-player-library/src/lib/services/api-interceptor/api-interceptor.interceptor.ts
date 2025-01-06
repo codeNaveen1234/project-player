@@ -36,10 +36,7 @@ export class ApiInterceptor implements HttpInterceptor {
     }
     return req.clone({
       setHeaders: {
-      'Authorization': `Bearer ${token}`,
       'x-auth-token': token,
-      'x-authenticated-user-token': token,
-      'Content-Type': 'application/json',
       'x-app-ver':'' }
     }
     );

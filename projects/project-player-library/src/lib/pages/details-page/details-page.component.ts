@@ -5,7 +5,7 @@ import { DbService } from '../../services/db/db.service';
 import { Router, UrlTree } from '@angular/router';
 import { ToastService } from '../../services/toast/toast.service';
 import { UtilsService } from '../../services/utils/utils.service';
-import { statusType } from '../../constants/statusConstants';
+import { statusType, reflectionStatus } from '../../constants/statusConstants';
 import { ProjectService } from '../../services/project/project.service';
 import { apiUrls } from '../../constants/urlConstants';
 import { ApiService } from '../../services/api/api.service';
@@ -30,6 +30,8 @@ export class DetailsPageComponent implements OnInit {
   isOnline:any;
   showProjectShareControl = false
   projectShare = false
+  projectStatus = statusType
+  reflectionStatus = reflectionStatus
 
   constructor(private routerService: RoutingService, private db: DbService,
     private toasterService:ToastService, private utils: UtilsService, private projectService: ProjectService, private apiService: ApiService, private router: Router,private network:NetworkServiceService
@@ -197,6 +199,12 @@ export class DetailsPageComponent implements OnInit {
         return data._id == id
       })
       this.projectDetails.tasks[taskIndex].isDeleted = true
+      let filteredTaskList = this.projectDetails.tasks.filter((data:any) => {return !data.isDeleted})
+      if(!filteredTaskList.length){
+        this.projectDetails.tasks[taskIndex].isDeleted = false
+        this.toasterService.showToast("MANDATORY_ONE_TASK_MSG","danger")
+        return
+      }
       this.projectDetails.tasks[taskIndex].isEdit = true
       this.projectDetails.isEdit = true
       let finalData = {
@@ -204,6 +212,7 @@ export class DetailsPageComponent implements OnInit {
         data:this.projectDetails
       }
       this.db.updateData(finalData)
+      this.projectService.updateProject(this.projectDetails._id, this.projectDetails.tasks[taskIndex],'',["isDeleted"])
       this.initializeTasks()
       this.setActionsList()
       this.countCompletedTasks();
@@ -218,22 +227,15 @@ export class DetailsPageComponent implements OnInit {
     if(!this.projectDetails.isEdit){
       options[options.length-1] = actions.SYNCED_ACTION
     }
-    if(this.projectDetails.isDownload){
-      options[0] = actions.DOWNLOADED_ACTION
-    }
     if(this.submitted){
-      options.shift();
       options.pop()
-      if(this.projectDetails.certificate){
-        options.push(actions.CERTIFICATE_ACTION)
-      }
     }
     this.projectActions = options;
     this.actionsList = optionList;
   }
 
 
-  onLearningResources(id:any,fromDetailspage:boolean){
+  onLearningResources(id:any){
     this.routerService.navigate("/project-details",{ type: "resources", taskId: id, projectId: this.projectDetails._id})
 
   }
@@ -351,5 +353,21 @@ export class DetailsPageComponent implements OnInit {
 
   closeShareControl(){
     this.projectShare = this.projectDetails.hasAcceptedTAndC
+  }
+
+  startOrResumeReflection(){
+    let redirectionPath = this.projectDetails?.reflection?.status == reflectionStatus.started ? 
+        `/mohini/voice-chat/?projectId=${this.projectDetails._id}` : `/reflection/${this.projectDetails._id}`
+    this.db.deleteData(this.projectDetails._id)
+    window.location.href = redirectionPath
+  }
+
+  navigateToProgramDetails(){
+    window.location.href = `/list/my-journey/${this.projectDetails.programId}`
+  }
+
+  viewStory(){
+    this.db.deleteData(this.projectDetails._id)
+    window.location.href = `/mi-details/view-story/${this.projectDetails._id}`
   }
 }

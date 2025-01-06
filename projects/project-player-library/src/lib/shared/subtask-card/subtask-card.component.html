@@ -1,10 +1,11 @@
 <mat-card>
     <div class="sub-task-header">
-        <div (click)="editSubTask()">
-            <span class="circle"><mat-icon class="primary-icon" fontIcon="radio_button_unchecked"></mat-icon></span>
-            <h4 class="cursor-pointer break-all">{{subTask.name}}</h4>
+        <div>
+            <!-- <span class="circle"><mat-icon class="primary-icon" fontIcon="radio_button_unchecked"></mat-icon></span> -->
+            <h4 class="break-words [word-break:break-word]">{{subTask.name}}</h4>
         </div>
         @if(subTask.isDeletable){
+            <span class="pl-4 cursor-pointer mr-2"><mat-icon class="primary-icon" fontIcon="edit" (click)="editSubTask()"></mat-icon></span>
             <span class="delete-icon"><mat-icon (click)="openDialog()" fontIcon="delete"></mat-icon></span>
         }
     </div>

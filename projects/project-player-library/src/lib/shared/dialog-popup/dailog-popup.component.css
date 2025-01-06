@@ -15,7 +15,6 @@ mat-dialog-content h4 {
 }
 
 .buttons button {
-  border-radius: 20px;
   box-shadow: 4px 4px rgba(128, 128, 128, 0.349);
   display: inline;
 

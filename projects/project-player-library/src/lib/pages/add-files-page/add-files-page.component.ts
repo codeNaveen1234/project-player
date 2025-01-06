@@ -66,7 +66,7 @@ export class AddFilesPageComponent extends BackNavigationHandlerComponent {
       this.getTaskDetails()
     }else{
       this.pageDescription = "PROJECT_FILES_DESCRIPTION"
-      this.buttonLabel = "SUBMIT_IMPROVEMENT"
+      this.buttonLabel = "FINISH_IMPROVEMENT"
       this.title = this.projectDetails.title
       this.attachments = this.projectDetails.attachments ? this.projectDetails.attachments : []
     }
@@ -229,8 +229,8 @@ export class AddFilesPageComponent extends BackNavigationHandlerComponent {
     let dialogData= {
       title: "SUBMIT_IMPROVEMENT_CONFIRMATION_MSG",
       actionButtons: [
-        { label: "CANCEL", action: false},
-        { label: "SUBMIT", action: true }
+        { label: "NOT_YET", action: false},
+        { label: "YES_FINISH", action: true }
       ]
     }
     let response = await this.utils.showDialogPopup(dialogData)

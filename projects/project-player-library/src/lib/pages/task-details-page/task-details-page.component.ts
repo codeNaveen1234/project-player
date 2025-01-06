@@ -11,6 +11,7 @@ import { ToastService } from '../../services/toast/toast.service';
 import { statusType } from '../../constants/statusConstants';
 import { Router } from '@angular/router';
 import { BackNavigationHandlerComponent } from '../../shared/back-navigation-handler/back-navigation-handler.component';
+import { ProjectService } from '../../services/project/project.service';
 
 interface TaskOption {
   value: any;
@@ -23,7 +24,7 @@ interface TaskOption {
 })
 export class TaskDetailsPageComponent extends BackNavigationHandlerComponent implements OnInit {
   constructor( private dialog: MatDialog, private routingService: RoutingService,
-    private db: DbService,private utils: UtilsService,private toasterService:ToastService, private router: Router) {
+    private db: DbService,private utils: UtilsService,private toasterService:ToastService, private router: Router, private projectService: ProjectService) {
       super(routingService)
     }
   taskId: any;
@@ -35,6 +36,7 @@ export class TaskDetailsPageComponent extends BackNavigationHandlerComponent imp
   projectDetails:any
   subTaskData:any;
   params:any = {}
+  filteredSubTaskList = []
 
   ngOnInit(): void {
     this.setOptionList();
@@ -56,6 +58,7 @@ export class TaskDetailsPageComponent extends BackNavigationHandlerComponent imp
     this.task = this.projectDetails.tasks.find(
       (task:any) => task._id === this.taskId
     );
+    this.filteredSubTaskList = this.task.children.filter((data:any) => {return !data.isDeleted})
   }
   addSubTask(data: any) {
     this.subTaskData = this.utils.getMetaData();
@@ -63,7 +66,7 @@ export class TaskDetailsPageComponent extends BackNavigationHandlerComponent imp
     delete this.subTaskData.children;
     this.task.children ? this.task.children : this.task.children = []
     this.task.children.push(this.subTaskData);
-    this.updateTaskStatus();
+    this.updateTaskStatus(this.subTaskData);
     this.textFormControl.reset();
   }
   editTask() {
@@ -96,16 +99,15 @@ export class TaskDetailsPageComponent extends BackNavigationHandlerComponent imp
     const index = this.task.children.findIndex(
       (child: any) => child._id === event._id
     );
-    if (index !== -1) {
-      this.task.children.splice(index, 1);
-      this.updateTaskStatus();
-    }
+    this.task.children[index].isDeleted = true
+    this.updateTaskStatus(event,["isDeleted"]);
   }
-  updateTaskStatus(event?: any) {
-      const allNotStarted = this.task.children.every(
+  updateTaskStatus(event: any, key?:any) {
+    this.filteredSubTaskList = this.task.children.filter((data:any) => {return !data.isDeleted})
+      const allNotStarted = this.filteredSubTaskList.every(
         (child: any) => child.status === statusType.notStarted
       );
-      const allCompleted = this.task.children.every(
+      const allCompleted = this.filteredSubTaskList.every(
         (child: any) => child.status === statusType.completed
       );
       if (allNotStarted) {
@@ -115,7 +117,7 @@ export class TaskDetailsPageComponent extends BackNavigationHandlerComponent imp
       } else {
         this.task.status = statusType.inProgress;
       }
-      this.updateDataInDb();
+      this.updateDataInDb(event, key);
   }
   setOptionList(){
     let options:any = actions.TASK_STATUS;
@@ -129,7 +131,7 @@ export class TaskDetailsPageComponent extends BackNavigationHandlerComponent imp
     },0)
   }
 
-  updateDataInDb(){
+  updateDataInDb(data:any=null,keys:any=[]){
     this.task.isEdit = true
     this.projectDetails.isEdit = true
     this.projectDetails.status =  this.projectDetails.status ? this.projectDetails.status : statusType.notStarted;
@@ -140,6 +142,7 @@ export class TaskDetailsPageComponent extends BackNavigationHandlerComponent imp
       data:this.projectDetails
     }
     this.db.updateData(finalData);
+    this.projectService.updateProject(this.projectDetails._id, this.task, data, keys)
     this.getProjectDetails();
     this.toasterService.showToast("FILES_CHANGES_UPDATED","success")
   }
@@ -160,7 +163,7 @@ export class TaskDetailsPageComponent extends BackNavigationHandlerComponent imp
     this.updateDataInDb();
   }
 
-  onLearningResources(id:any,fromDetailspage:boolean){
+  onLearningResources(id:any){
     this.routingService.navigate("/project-details",{ type: "resources", taskId: id, projectId: this.projectDetails._id })
   }
 }

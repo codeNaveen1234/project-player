@@ -164,7 +164,7 @@ export class SyncPageComponent extends BackNavigationHandlerComponent {
 
 
   showToastMessage() {
-      let toastMessage = this.projectDetails.status === statusType.submitted ? "PROJECT_SUBMISSION_SUCCESSFUL_MSG" : "PROJECT_SYNC_SUCCESSFUL_MSG"
+      let toastMessage = this.projectDetails.status === statusType.submitted ? "IMPROVEMENT_FINISHED_SUCCESS_MSG" : "PROJECT_SYNC_SUCCESSFUL_MSG"
       this.toastService.showToast(toastMessage,"success")
   }
 

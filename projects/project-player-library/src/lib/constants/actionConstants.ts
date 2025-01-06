@@ -1,18 +1,6 @@
 export const actions = {
     PROJECT_ACTIONS : [
         {
-            title: "DOWNLOAD",
-            icon: "cloud_download",
-            action: "download",
-            color: "primary-icon"
-        },
-        {
-            title: "SHARE",
-            icon: "ios_share",
-            action: "share",
-            color: "primary-icon"
-        },
-        {
             title: "FILES",
             icon: "folder_open",
             action: "files",
@@ -45,22 +33,22 @@ export const actions = {
     },
     FILE_UPLOAD_OPTIONS : [
         {
-            label: "IMAGES",
+            label: "IMAGE",
             icon: "photo_library",
             accept: "image/jpg,image/png,image/jpeg"
           },
           {
-            label: "VIDEOS",
+            label: "VIDEO",
             icon: "videocam",
             accept: "video/mp4"
           },
           {
-            label: "FILES",
+            label: "FILE",
             icon: "picture_as_pdf",
             accept: "application/pdf"
           },
           {
-            label: "LINKS",
+            label: "LINK",
             icon: "link",
             accept: "link"
           },
@@ -75,7 +63,7 @@ export const actions = {
             value:"inProgress"
         },
         {
-            label : "COMPLETED",
+            label : "COMPLETE",
             value:"completed"
         },
     ],
@@ -84,12 +72,6 @@ export const actions = {
             name:"EDIT",
             icon:"edit",
             action:"edit",
-            color: "primary-icon"
-        },
-        {
-            name:"SHARE",
-            icon:"ios_share",
-            action:"share",
             color: "primary-icon"
         },
         {

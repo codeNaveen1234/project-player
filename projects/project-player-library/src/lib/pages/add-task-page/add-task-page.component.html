@@ -18,13 +18,13 @@
     </mat-form-field>
 </div>
 
-<div class="mt-7 mb-4 ml-3">{{ "ATTACH_FILES" | translate }}</div>
+<h4 class="mt-7 mb-4 ml-3">{{ "ATTACH_FILES" | translate }}</h4>
 
 <div class="flex justify-around mt-5">
     @for(options of uploadOptions; track $index){
         <mat-card class="cursor-pointer p-4 flex flex-col items-center justify-center !rounded-3xl min-w-20"
         (click)="uploadFile(options.accept)">
-            <mat-icon fontIcon="{{options.icon}}" class="text-2xl primary-icon"></mat-icon>
+            <mat-icon fontIcon="{{options.icon}}" class="text-2xl primary-icon min-h-8"></mat-icon>
             <div>{{ options.label | translate }}</div>
         </mat-card>
     }
@@ -36,7 +36,9 @@
     <lib-files-card [filesList]="attachmentsList" (deleteFile)="removeAttachment($event)"></lib-files-card>
 </div>
 
-<button  mat-flat-button (click)="addTask()" class="w-full my-8 !rounded-2xl" [disabled]="!taskTitle"
-[ngClass]="{'primary-button':taskTitle,'disabled-button':!taskTitle}">
+<div class="flex flex-row justify-center">
+    <button  mat-flat-button (click)="addTask()" class="!min-w-44 my-8" [disabled]="!taskTitle"
+    [ngClass]="{'primary-button':taskTitle,'disabled-button':!taskTitle}">
     {{ "ADD_TASK" | translate }}
-</button>
+    </button>
+</div>

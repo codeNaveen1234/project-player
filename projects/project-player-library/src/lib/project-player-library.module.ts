@@ -27,7 +27,6 @@ import { SubtaskCardComponent } from './shared/subtask-card/subtask-card.compone
 import {
   TranslateLoader,
   TranslateModule,
-  TranslateService,
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
@@ -175,12 +174,5 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
   ]
 })
 export class ProjectPlayerLibraryModule {
-  constructor(private translate: TranslateService) {
-    this.setLanguage();
-  }
-
-  setLanguage() {
-    this.translate.setTranslation('en', require('./assets/i18n/en.json'));
-    this.translate.setDefaultLang('en');
-  }
+  constructor() {}
 }
