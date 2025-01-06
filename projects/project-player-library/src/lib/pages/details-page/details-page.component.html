@@ -1,7 +1,7 @@
 @if(projectDetails?.programName){
   <mat-card class="flex !flex-row justify-between !sticky top-0 z-[2] p-3 mx-2">
     <div class="break-words [word-break:break-word]">{{projectDetails?.programName}}</div>
-    <mat-icon fontIcon="arrow_forward" class="cursor-pointer primary-icon self-center" (click)="navigateToProgramDetails()"></mat-icon>
+    <mat-icon fontIcon="arrow_forward" class="cursor-pointer primary-icon min-w-7" (click)="navigateToProgramDetails()"></mat-icon>
   </mat-card>
 }
 <mat-card class="details-card ">

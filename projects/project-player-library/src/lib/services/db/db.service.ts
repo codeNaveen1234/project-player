@@ -58,16 +58,17 @@ export class DbService {
 
   updateData(data: any) {
     let downloadData:any = null;
-    if(data.data.isDownload){
+    // if(data.data.isDownload){
       downloadData = {
         keyid: data.key,
         data: {
           title : data.data.title,
           description : data.data.description,
           lastDownloadedAt : data.data.lastDownloadedAt,
-          isDownload : data.data.isDownload
+          isDownload : data.data.isDownload,
+          isEdit: data.data.isEdit
         }
-      }
+      // }
     }
     const transaction = this.db.transaction([this.storeName], 'readwrite');
     const store = transaction.objectStore(this.storeName);
