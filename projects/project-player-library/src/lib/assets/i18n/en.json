@@ -151,5 +151,5 @@
     "RESUME_REFLECTION": "Resume reflection",
     "VIEW_STORY": "View story",
     "MANDATORY_ONE_TASK_MSG": "An MI needs to have at least one task.",
-    "FIRST_JOURNEY_BEGIN":"Your journey has begun! Take the first action today."
+    "BEGIN_JOURNEY_MSG":"Your journey has begun! Take the first action today."
 }

@@ -141,7 +141,7 @@ export class MainPlayerComponent implements OnInit {
     let pageType = type ? type : "details"
     const newProject = this.projectData.fromMitra;
     if(newProject){
-      this.toastService.showToast("FIRST_JOURNEY_BEGIN","success")
+      this.toastService.showToast("BEGIN_JOURNEY_MSG","success")
       delete this.projectData.fromMitra;
     }
     this.routerService.navigate("/project-details",{ type: pageType,id: this.projectId, ...this.projectData },{ replaceUrl:true })
