@@ -220,7 +220,7 @@ export class MainPlayerComponent implements OnInit {
     return queryObj;
   }
 
-  setLanguage(language: string) {
+  setLanguage(language: string = "en") {
     this.translate.setTranslation(language, require(`../../assets/i18n/${language}.json`));
     this.translate.setDefaultLang(language);
   }
